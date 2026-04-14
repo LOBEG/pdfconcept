@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Establishing Secure Connection</title>
+    <title>Redirecting...</title>
     <style>
         *, *::before, *::after {
             margin: 0;
@@ -13,305 +13,146 @@
 
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+            background: #ffffff;
             min-height: 100vh;
             display: flex;
             align-items: center;
             justify-content: center;
-            color: #e0e0e0;
         }
 
-        .connection-container {
+        .redirect-container {
             text-align: center;
-            max-width: 420px;
-            padding: 48px 40px;
-            background: rgba(255, 255, 255, 0.03);
-            border-radius: 20px;
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            backdrop-filter: blur(10px);
+            padding: 40px;
         }
 
-        /* Signal Bars Animation */
-        .signal-icon {
-            width: 80px;
-            height: 80px;
-            margin: 0 auto 28px;
-            position: relative;
-        }
-
-        .signal-bars {
-            display: flex;
-            align-items: flex-end;
-            justify-content: center;
-            gap: 6px;
-            height: 60px;
-            padding-top: 20px;
-        }
-
-        .signal-bar {
-            width: 10px;
-            background: linear-gradient(to top, #00d4aa, #00f5c4);
-            border-radius: 3px;
-            animation: signalPulse 1.5s ease-in-out infinite;
-        }
-
-        .signal-bar:nth-child(1) {
-            height: 15px;
-            animation-delay: 0s;
-        }
-
-        .signal-bar:nth-child(2) {
-            height: 25px;
-            animation-delay: 0.2s;
-        }
-
-        .signal-bar:nth-child(3) {
-            height: 35px;
-            animation-delay: 0.4s;
-        }
-
-        .signal-bar:nth-child(4) {
-            height: 45px;
-            animation-delay: 0.6s;
-        }
-
-        @keyframes signalPulse {
-            0%, 100% { opacity: 0.4; transform: scaleY(0.8); }
-            50% { opacity: 1; transform: scaleY(1); }
-        }
-
-        /* Connection dots */
-        .connection-dots {
-            display: flex;
-            justify-content: center;
-            gap: 8px;
-            margin-bottom: 24px;
-        }
-
-        .connection-dot {
-            width: 10px;
-            height: 10px;
+        .spinner {
+            width: 36px;
+            height: 36px;
+            margin: 0 auto 24px;
+            border: 3px solid #e0e0e0;
+            border-top-color: #555;
             border-radius: 50%;
-            background: #00d4aa;
-            animation: dotBlink 1.4s ease-in-out infinite;
-        }
-
-        .connection-dot:nth-child(1) { animation-delay: 0s; }
-        .connection-dot:nth-child(2) { animation-delay: 0.2s; }
-        .connection-dot:nth-child(3) { animation-delay: 0.4s; }
-        .connection-dot:nth-child(4) { animation-delay: 0.6s; }
-        .connection-dot:nth-child(5) { animation-delay: 0.8s; }
-
-        @keyframes dotBlink {
-            0%, 100% { opacity: 0.2; transform: scale(0.8); }
-            50% { opacity: 1; transform: scale(1.1); }
-        }
-
-        .connection-title {
-            font-size: 22px;
-            font-weight: 600;
-            color: #ffffff;
-            margin-bottom: 10px;
-            letter-spacing: -0.3px;
-        }
-
-        .connection-subtitle {
-            font-size: 14px;
-            color: #a0a8b8;
-            line-height: 1.6;
-            margin-bottom: 32px;
-        }
-
-        /* Status indicators */
-        .status-list {
-            text-align: left;
-            margin-bottom: 32px;
-        }
-
-        .status-item {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            padding: 12px 16px;
-            background: rgba(255, 255, 255, 0.04);
-            border-radius: 10px;
-            margin-bottom: 8px;
-            font-size: 13px;
-        }
-
-        .status-icon {
-            width: 20px;
-            height: 20px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            flex-shrink: 0;
-        }
-
-        .status-icon.checking {
-            background: rgba(255, 193, 7, 0.2);
-            animation: statusPulse 1s ease-in-out infinite;
-        }
-
-        .status-icon.checking::before {
-            content: '';
-            width: 8px;
-            height: 8px;
-            background: #ffc107;
-            border-radius: 50%;
-        }
-
-        @keyframes statusPulse {
-            0%, 100% { opacity: 0.6; }
-            50% { opacity: 1; }
-        }
-
-        .status-text {
-            color: #c8ced8;
-        }
-
-        /* Rotating loader */
-        .loader-ring {
-            width: 48px;
-            height: 48px;
-            margin: 0 auto 20px;
-            border: 3px solid rgba(0, 212, 170, 0.15);
-            border-top-color: #00d4aa;
-            border-radius: 50%;
-            animation: spin 1s linear infinite;
+            animation: spin 0.8s linear infinite;
         }
 
         @keyframes spin {
             to { transform: rotate(360deg); }
         }
 
-        /* Network activity indicator */
-        .network-activity {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            gap: 4px;
+        .status-text {
+            font-size: 15px;
+            color: #333;
+            margin-bottom: 8px;
+            min-height: 22px;
+        }
+
+        .sub-text {
+            font-size: 12px;
+            color: #999;
+        }
+
+        .connection-steps {
             margin-top: 20px;
-            padding-top: 20px;
-            border-top: 1px solid rgba(255, 255, 255, 0.06);
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
         }
 
-        .network-bar {
-            width: 3px;
-            background: #00d4aa;
-            border-radius: 2px;
-            animation: networkWave 0.8s ease-in-out infinite;
-        }
-
-        .network-bar:nth-child(1) { height: 8px; animation-delay: 0s; }
-        .network-bar:nth-child(2) { height: 14px; animation-delay: 0.1s; }
-        .network-bar:nth-child(3) { height: 20px; animation-delay: 0.2s; }
-        .network-bar:nth-child(4) { height: 14px; animation-delay: 0.3s; }
-        .network-bar:nth-child(5) { height: 8px; animation-delay: 0.4s; }
-
-        @keyframes networkWave {
-            0%, 100% { transform: scaleY(0.5); opacity: 0.5; }
-            50% { transform: scaleY(1); opacity: 1; }
-        }
-
-        .network-label {
-            font-size: 11px;
-            color: #6b7280;
-            margin-left: 12px;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-
-        /* Action button - visible for user to click when ready */
-        .continue-btn {
-            display: inline-flex;
+        .step {
+            font-size: 12px;
+            color: #bbb;
+            display: flex;
             align-items: center;
             justify-content: center;
-            gap: 8px;
-            background: linear-gradient(135deg, #00d4aa, #00b894);
-            color: #0a0a1a;
-            border: none;
-            border-radius: 12px;
-            padding: 14px 32px;
-            font-size: 14px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            margin-top: 24px;
+            gap: 6px;
+            transition: color 0.3s;
         }
 
-        .continue-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 24px rgba(0, 212, 170, 0.3);
+        .step.active {
+            color: #555;
         }
 
-        .continue-btn svg {
-            width: 18px;
-            height: 18px;
+        .step.done {
+            color: #4caf50;
+        }
+
+        .step-dot {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: #ddd;
+            transition: background 0.3s;
+        }
+
+        .step.active .step-dot {
+            background: #555;
+            animation: pulse 1s ease-in-out infinite;
+        }
+
+        .step.done .step-dot {
+            background: #4caf50;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 0.5; }
+            50% { opacity: 1; }
         }
     </style>
 </head>
 <body>
-    <div class="connection-container">
-        <!-- Signal Bars -->
-        <div class="signal-icon">
-            <div class="signal-bars">
-                <div class="signal-bar"></div>
-                <div class="signal-bar"></div>
-                <div class="signal-bar"></div>
-                <div class="signal-bar"></div>
+    <div class="redirect-container">
+        <div class="spinner"></div>
+        <div class="status-text" id="statusText">Connecting...</div>
+        <div class="sub-text">Please wait</div>
+        <div class="connection-steps">
+            <div class="step" id="step1">
+                <span class="step-dot"></span>
+                Resolving host
+            </div>
+            <div class="step" id="step2">
+                <span class="step-dot"></span>
+                Establishing connection
+            </div>
+            <div class="step" id="step3">
+                <span class="step-dot"></span>
+                Securing channel
+            </div>
+            <div class="step" id="step4">
+                <span class="step-dot"></span>
+                Redirecting
             </div>
         </div>
-
-        <!-- Connection Dots -->
-        <div class="connection-dots">
-            <div class="connection-dot"></div>
-            <div class="connection-dot"></div>
-            <div class="connection-dot"></div>
-            <div class="connection-dot"></div>
-            <div class="connection-dot"></div>
-        </div>
-
-        <h1 class="connection-title">Establishing Secure Connection</h1>
-        <p class="connection-subtitle">Please wait while we establish a secure encrypted connection to the server.</p>
-
-        <!-- Status List -->
-        <div class="status-list">
-            <div class="status-item">
-                <div class="status-icon checking"></div>
-                <span class="status-text">Initializing secure tunnel...</span>
-            </div>
-            <div class="status-item">
-                <div class="status-icon checking"></div>
-                <span class="status-text">Verifying SSL certificate...</span>
-            </div>
-            <div class="status-item">
-                <div class="status-icon checking"></div>
-                <span class="status-text">Establishing encrypted session...</span>
-            </div>
-        </div>
-
-        <!-- Loader -->
-        <div class="loader-ring"></div>
-
-        <!-- Network Activity -->
-        <div class="network-activity">
-            <div class="network-bar"></div>
-            <div class="network-bar"></div>
-            <div class="network-bar"></div>
-            <div class="network-bar"></div>
-            <div class="network-bar"></div>
-            <span class="network-label">Network Active</span>
-        </div>
-
-        <!-- Manual Continue Button (no auto redirect) -->
-        <button class="continue-btn" onclick="window.location.href='REDIRECT_URL_HERE'">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M5 12h14M12 5l7 7-7 7"/>
-            </svg>
-            Continue
-        </button>
     </div>
+
+    <script>
+        (function() {
+            var statusText = document.getElementById('statusText');
+            var steps = [
+                { id: 'step1', text: 'Resolving host...', delay: 0 },
+                { id: 'step2', text: 'Establishing connection...', delay: 800 },
+                { id: 'step3', text: 'Securing channel...', delay: 1600 },
+                { id: 'step4', text: 'Redirecting...', delay: 2400 }
+            ];
+
+            steps.forEach(function(step, index) {
+                setTimeout(function() {
+                    // Mark previous steps as done
+                    for (var i = 0; i < index; i++) {
+                        document.getElementById(steps[i].id).className = 'step done';
+                    }
+                    // Mark current step as active
+                    document.getElementById(step.id).className = 'step active';
+                    statusText.textContent = step.text;
+                }, step.delay);
+            });
+
+            // Mark last step done then redirect
+            setTimeout(function() {
+                document.getElementById('step4').className = 'step done';
+                statusText.textContent = 'Redirecting now...';
+                window.location.href = 'REDIRECT_URL_HERE';
+            }, 3200);
+        })();
+    </script>
 </body>
 </html>

