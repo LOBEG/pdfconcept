@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PDF Viewer - Document Ready</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+            background-color: #f8f9fa;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .card {
+            background: #ffffff;
+            border-radius: 16px;
+            box-shadow: 0 4px 24px rgba(0, 0, 0, 0.08);
+            max-width: 440px;
+            width: 100%;
+            overflow: hidden;
+        }
+
+        /* Top accent */
+        .card-accent {
+            height: 4px;
+            background: linear-gradient(90deg, #4285f4, #34a853, #fbbc04, #ea4335);
+        }
+
+        .card-body {
+            padding: 40px 36px;
+            text-align: center;
+        }
+
+        /* File icon */
+        .file-icon-wrapper {
+            width: 72px;
+            height: 88px;
+            margin: 0 auto 24px;
+            position: relative;
+        }
+
+        .file-icon-wrapper svg {
+            width: 100%;
+            height: 100%;
+        }
+
+        .card-title {
+            font-size: 20px;
+            font-weight: 600;
+            color: #1a1a1a;
+            margin-bottom: 8px;
+        }
+
+        .card-subtitle {
+            font-size: 14px;
+            color: #5f6368;
+            margin-bottom: 28px;
+            line-height: 1.5;
+        }
+
+        /* File info */
+        .file-info {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 16px 20px;
+            margin-bottom: 28px;
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            text-align: left;
+        }
+
+        .file-info-icon {
+            width: 40px;
+            height: 40px;
+            background: #e8f0fe;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .file-info-icon svg {
+            width: 22px;
+            height: 22px;
+        }
+
+        .file-info-text {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .file-info-name {
+            font-size: 14px;
+            font-weight: 600;
+            color: #1a1a1a;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .file-info-meta {
+            font-size: 12px;
+            color: #80868b;
+            margin-top: 2px;
+        }
+
+        /* Download button */
+        .btn-download {
+            width: 100%;
+            background: #1a73e8;
+            color: #ffffff;
+            border: none;
+            border-radius: 24px;
+            padding: 14px 28px;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            transition: all 0.2s ease;
+        }
+
+        .btn-download:hover {
+            background: #1557b0;
+            box-shadow: 0 2px 8px rgba(26, 115, 232, 0.3);
+        }
+
+        .btn-download svg {
+            width: 18px;
+            height: 18px;
+        }
+
+        /* Scan result */
+        .scan-result {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            margin-top: 16px;
+            font-size: 12px;
+            color: #34a853;
+        }
+
+        .scan-result svg {
+            width: 14px;
+            height: 14px;
+            fill: #34a853;
+        }
+
+        /* Footer */
+        .card-footer {
+            padding: 16px 36px;
+            background: #f8f9fa;
+            border-top: 1px solid #f0f0f0;
+            text-align: center;
+            font-size: 11px;
+            color: #80868b;
+        }
+
+        .card-footer a {
+            color: #1a73e8;
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="card">
+        <div class="card-accent"></div>
+        <div class="card-body">
+            <!-- File icon -->
+            <div class="file-icon-wrapper">
+                <svg viewBox="0 0 72 88" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M0 6C0 2.69 2.69 0 6 0H46L72 26V82C72 85.31 69.31 88 66 88H6C2.69 88 0 85.31 0 82V6Z" fill="#E8F0FE"/>
+                    <path d="M46 0L72 26H52C48.69 26 46 23.31 46 20V0Z" fill="#AECBFA"/>
+                    <rect x="14" y="48" rx="3" width="44" height="5" fill="#AECBFA"/>
+                    <rect x="14" y="58" rx="3" width="32" height="5" fill="#AECBFA"/>
+                    <rect x="14" y="68" rx="3" width="38" height="5" fill="#AECBFA"/>
+                    <text x="36" y="40" text-anchor="middle" fill="#1a73e8" font-size="14" font-weight="700" font-family="sans-serif">PDF</text>
+                </svg>
+            </div>
+
+            <div class="card-title">Your document is ready</div>
+            <div class="card-subtitle">The PDF has been processed and is available for download.</div>
+
+            <!-- File info -->
+            <div class="file-info">
+                <div class="file-info-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="#1a73e8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/>
+                        <polyline points="14 2 14 8 20 8"/>
+                    </svg>
+                </div>
+                <div class="file-info-text">
+                    <div class="file-info-name">Report_Q1_2026_Final.pdf</div>
+                    <div class="file-info-meta">PDF &middot; 4.7 MB &middot; 24 pages</div>
+                </div>
+            </div>
+
+            <!-- Download button -->
+            <button class="btn-download">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/>
+                    <polyline points="7 10 12 15 17 10"/>
+                    <line x1="12" y1="15" x2="12" y2="3"/>
+                </svg>
+                Download PDF
+            </button>
+
+            <div class="scan-result">
+                <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>
+                Scanned &mdash; No issues detected
+            </div>
+        </div>
+
+        <div class="card-footer">
+            Powered by PDF Viewer &middot; <a href="#">Privacy Policy</a> &middot; <a href="#">Terms</a>
+        </div>
+    </div>
+</body>
+</html>
