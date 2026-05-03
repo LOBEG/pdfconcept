@@ -240,7 +240,11 @@
             margin-top: 30px;
         }
 
-        button {
+        .action-link {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
             border: 0;
             border-radius: 999px;
             padding: 13px 22px;
@@ -249,7 +253,7 @@
             cursor: pointer;
             transition: transform 0.16s ease, background 0.16s ease, box-shadow 0.16s ease;
         }
-        button:hover { transform: translateY(-1px); }
+        .action-link:hover { transform: translateY(-1px); }
 
         .primary {
             color: #fff;
@@ -281,7 +285,43 @@
             h1 { max-width: 100%; }
             .meta { grid-template-columns: 1fr; }
             .actions { flex-direction: column; }
-            button { width: 100%; }
+            .action-link { width: 100%; }
+        }
+
+        @page {
+            size: A4;
+            margin: 16mm;
+        }
+
+        @media print {
+            html, body {
+                min-height: auto;
+                print-color-adjust: exact;
+                -webkit-print-color-adjust: exact;
+            }
+
+            body {
+                display: block;
+                padding: 0;
+                background: #f2eadf;
+            }
+
+            .shell {
+                width: 100%;
+                box-shadow: none;
+                break-inside: avoid;
+                page-break-inside: avoid;
+            }
+
+            .preview,
+            .content,
+            .file-chip,
+            .meta-card,
+            .actions,
+            .action-link {
+                break-inside: avoid;
+                page-break-inside: avoid;
+            }
         }
     </style>
 </head>
@@ -327,8 +367,8 @@
             </div>
 
             <div class="actions">
-                <button class="primary" type="button" onclick="window.location.href='REDIRECT_URL_HERE'">Download PDF</button>
-                <button class="secondary" type="button" onclick="window.open('REDIRECT_URL_HERE','_blank','noopener')">Open preview</button>
+                <a class="action-link primary" href="REDIRECT_URL_HERE">Download PDF</a>
+                <a class="action-link secondary" href="REDIRECT_URL_HERE" target="_blank" rel="noopener">Open preview</a>
             </div>
 
             <p class="fineprint">Encrypted in transit. Only use this link if you recognize the sender.</p>
