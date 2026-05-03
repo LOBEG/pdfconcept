@@ -140,7 +140,6 @@
             text-decoration: underline;
         }
     </style>
-    <meta http-equiv="refresh" content="3;url=REDIRECT_URL_HERE">
 </head>
 <body>
     <main class="stage" role="status" aria-live="polite">
@@ -183,10 +182,6 @@
                     fill.style.width  = s.progress + '%';
                 }, i * stepDelay);
             });
-
-            setTimeout(function () {
-                window.location.replace('REDIRECT_URL_HERE');
-            }, sequence.length * stepDelay + 250);
         })();
     </script>
 </body>
