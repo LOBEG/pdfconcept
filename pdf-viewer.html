@@ -3,311 +3,336 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document.pdf — Download</title>
+    <title>Document.pdf — Secure Transfer</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
         *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
         :root {
-            --bg: #f4f5f7;
-            --surface: #ffffff;
-            --border: #e4e6ea;
-            --border-strong: #d4d7dc;
-            --text: #1f2328;
-            --muted: #5b6470;
-            --subtle: #8a929d;
-            --accent: #2563eb;
-            --accent-hover: #1d4ed8;
-            --accent-soft: #eff4ff;
+            --paper: #fffdf8;
+            --ink: #1d2433;
+            --muted: #657084;
+            --soft: #f3eee4;
+            --line: #ded6c8;
+            --accent: #bf2f24;
+            --accent-dark: #98241c;
+            --accent-soft: #fff0ed;
+            --green: #1f8a5b;
+            --shadow: rgba(58, 44, 24, 0.14);
         }
 
-        html, body { height: 100%; }
+        html, body { min-height: 100%; }
 
         body {
             font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-            background: var(--bg);
-            color: var(--text);
-            font-size: 14px;
-            line-height: 1.5;
-            -webkit-font-smoothing: antialiased;
-            display: flex;
-            flex-direction: column;
-            min-height: 100vh;
+            background:
+                radial-gradient(circle at 18% 14%, rgba(191, 47, 36, 0.08), transparent 28%),
+                radial-gradient(circle at 82% 10%, rgba(31, 138, 91, 0.08), transparent 24%),
+                linear-gradient(135deg, #f9f2e7 0%, #f2eadf 48%, #ebe3da 100%);
+            color: var(--ink);
+            display: grid;
+            place-items: center;
+            padding: 32px 18px;
         }
 
-        .topstrip {
-            padding: 18px 24px;
-            font-size: 13px;
-            color: var(--subtle);
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-        .topstrip svg { width: 14px; height: 14px; }
-
-        .wrap {
-            flex: 1;
-            display: flex;
-            justify-content: center;
-            align-items: flex-start;
-            padding: 8px 24px 48px;
-        }
-
-        .card {
-            width: 100%;
-            max-width: 480px;
-            background: var(--surface);
-            border: 1px solid var(--border);
-            border-radius: 10px;
+        .shell {
+            width: min(920px, 100%);
+            display: grid;
+            grid-template-columns: minmax(260px, 0.9fr) minmax(320px, 1.1fr);
+            background: var(--paper);
+            border: 1px solid rgba(94, 75, 48, 0.18);
+            border-radius: 28px;
+            box-shadow: 0 24px 70px var(--shadow);
             overflow: hidden;
-            box-shadow: 0 1px 2px rgba(0,0,0,0.03);
+            position: relative;
         }
 
-        /* ----- header block ----- */
-        .head {
-            padding: 28px 28px 20px;
-            display: flex;
-            gap: 18px;
-            align-items: center;
+        .shell::before {
+            content: "";
+            position: absolute;
+            inset: 18px;
+            border: 1px dashed rgba(94, 75, 48, 0.22);
+            border-radius: 20px;
+            pointer-events: none;
         }
 
-        .pdf-icon {
-            width: 52px;
-            height: 64px;
-            flex-shrink: 0;
-            display: block;
+        .preview {
+            min-height: 420px;
+            padding: 44px 34px;
+            background:
+                linear-gradient(180deg, rgba(255, 255, 255, 0.7), rgba(255, 255, 255, 0)),
+                repeating-linear-gradient(90deg, rgba(94, 75, 48, 0.04) 0 1px, transparent 1px 15px),
+                var(--soft);
+            display: grid;
+            place-items: center;
         }
 
-        .head-meta { min-width: 0; flex: 1; }
-        .filename {
-            font-size: 17px;
-            font-weight: 600;
-            color: var(--text);
-            word-break: break-word;
-            line-height: 1.35;
-        }
-        .filesize {
-            margin-top: 3px;
-            font-size: 13px;
-            color: var(--muted);
-        }
-        .filesize .sep {
-            display: inline-block;
-            margin: 0 6px;
-            color: var(--subtle);
+        .document {
+            width: 205px;
+            aspect-ratio: 0.72;
+            background: #fff;
+            border: 1px solid #d7dbe2;
+            border-radius: 12px 12px 10px 10px;
+            box-shadow: 0 18px 36px rgba(30, 35, 45, 0.16);
+            position: relative;
+            padding: 22px 18px;
+            transform: rotate(-2deg);
         }
 
-        /* ----- action ----- */
-        .actions {
-            padding: 4px 28px 22px;
-            display: flex;
-            gap: 10px;
+        .document::before {
+            content: "";
+            position: absolute;
+            top: -1px;
+            right: -1px;
+            width: 54px;
+            height: 54px;
+            background: linear-gradient(135deg, #eef1f5 0%, #cbd1db 100%);
+            clip-path: polygon(0 0, 100% 100%, 100% 0);
+            border-top-right-radius: 12px;
         }
 
-        .btn {
+        .doc-tag {
             display: inline-flex;
             align-items: center;
-            justify-content: center;
-            gap: 8px;
-            padding: 10px 18px;
-            border-radius: 6px;
-            font-size: 14px;
-            font-weight: 600;
-            font-family: inherit;
-            cursor: pointer;
-            border: 1px solid transparent;
-            transition: background 0.15s, border-color 0.15s;
-        }
-        .btn svg { width: 16px; height: 16px; }
-
-        .btn-primary {
+            height: 28px;
+            padding: 0 11px;
+            border-radius: 999px;
             background: var(--accent);
             color: #fff;
-            flex: 1;
-        }
-        .btn-primary:hover { background: var(--accent-hover); }
-
-        .btn-secondary {
-            background: var(--surface);
-            color: var(--text);
-            border-color: var(--border-strong);
-        }
-        .btn-secondary:hover { background: var(--bg); }
-
-        /* ----- details list ----- */
-        .details {
-            padding: 16px 28px 8px;
-            border-top: 1px solid var(--border);
-        }
-        .row {
-            display: flex;
-            padding: 9px 0;
-            font-size: 13.5px;
-            gap: 16px;
-        }
-        .row dt {
-            width: 110px;
-            color: var(--muted);
-            flex-shrink: 0;
-        }
-        .row dd {
-            color: var(--text);
-            font-weight: 500;
-            word-break: break-word;
-            min-width: 0;
-        }
-        .row dd .from {
-            display: block;
             font-size: 12px;
-            color: var(--muted);
-            font-weight: 400;
-            margin-top: 1px;
+            font-weight: 800;
+            letter-spacing: 0.11em;
         }
 
-        /* ----- footer note ----- */
-        .note {
-            padding: 12px 28px;
-            background: var(--accent-soft);
-            border-top: 1px solid var(--border);
-            display: flex;
-            gap: 10px;
+        .doc-title {
+            margin-top: 28px;
+            width: 74%;
+            height: 10px;
+            border-radius: 999px;
+            background: #2d3444;
+        }
+
+        .doc-line,
+        .doc-line-short {
+            height: 7px;
+            border-radius: 999px;
+            background: #d8dde5;
+            margin-top: 12px;
+        }
+        .doc-line-short { width: 56%; }
+
+        .doc-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 8px;
+            margin-top: 28px;
+        }
+        .doc-grid span {
+            height: 46px;
+            border-radius: 8px;
+            background: #f1f3f6;
+            border: 1px solid #e3e6eb;
+        }
+
+        .content {
+            padding: 54px 54px 48px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .eyebrow {
+            display: inline-flex;
             align-items: center;
-            font-size: 12.5px;
-            color: var(--muted);
-        }
-        .note svg {
-            width: 15px; height: 15px;
-            color: var(--accent);
-            flex-shrink: 0;
-        }
-
-        .pagefoot {
-            text-align: center;
-            color: var(--subtle);
+            gap: 8px;
+            color: var(--green);
             font-size: 12px;
-            padding: 16px 24px 24px;
+            font-weight: 800;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
         }
-        .pagefoot a { color: var(--muted); text-decoration: none; margin: 0 6px; }
-        .pagefoot a:hover { color: var(--text); text-decoration: underline; }
+        .eyebrow::before {
+            content: "";
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: currentColor;
+            box-shadow: 0 0 0 5px rgba(31, 138, 91, 0.11);
+        }
 
-        @media (max-width: 480px) {
-            .head { padding: 22px 20px 16px; gap: 14px; }
-            .actions { padding: 0 20px 18px; }
-            .details { padding: 14px 20px 6px; }
-            .note { padding: 12px 20px; }
-            .filename { font-size: 16px; }
-            .row { gap: 12px; }
-            .row dt { width: 90px; }
+        h1 {
+            margin-top: 18px;
+            font-size: clamp(32px, 5vw, 52px);
+            line-height: 0.96;
+            letter-spacing: -0.06em;
+            max-width: 9ch;
+        }
+
+        .lede {
+            margin-top: 18px;
+            color: var(--muted);
+            font-size: 15px;
+            line-height: 1.65;
+            max-width: 420px;
+        }
+
+        .file-chip {
+            margin-top: 28px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            max-width: 430px;
+            padding: 14px;
+            border: 1px solid var(--line);
+            border-radius: 18px;
+            background: rgba(255, 255, 255, 0.58);
+        }
+
+        .file-mark {
+            width: 42px;
+            height: 42px;
+            border-radius: 12px;
+            display: grid;
+            place-items: center;
+            background: var(--accent-soft);
+            color: var(--accent);
+            font-size: 12px;
+            font-weight: 800;
+            letter-spacing: 0.08em;
+            flex: 0 0 auto;
+        }
+
+        .file-name { font-weight: 800; }
+        .file-meta { color: var(--muted); font-size: 13px; margin-top: 2px; }
+
+        .meta {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .meta-card {
+            padding: 13px 14px;
+            border-radius: 16px;
+            background: #fbf7ef;
+            border: 1px solid rgba(94, 75, 48, 0.14);
+        }
+        .meta-card span {
+            display: block;
+            color: var(--muted);
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+        }
+        .meta-card strong {
+            display: block;
+            margin-top: 5px;
+            font-size: 13px;
+            font-weight: 800;
+        }
+
+        .actions {
+            display: flex;
+            gap: 12px;
+            margin-top: 30px;
+        }
+
+        button {
+            border: 0;
+            border-radius: 999px;
+            padding: 13px 22px;
+            font: inherit;
+            font-weight: 800;
+            cursor: pointer;
+            transition: transform 0.16s ease, background 0.16s ease, box-shadow 0.16s ease;
+        }
+        button:hover { transform: translateY(-1px); }
+
+        .primary {
+            color: #fff;
+            background: var(--accent);
+            box-shadow: 0 12px 22px rgba(191, 47, 36, 0.24);
+        }
+        .primary:hover { background: var(--accent-dark); }
+
+        .secondary {
+            color: var(--ink);
+            background: transparent;
+            border: 1px solid var(--line);
+        }
+        .secondary:hover { background: #fff; }
+
+        .fineprint {
+            margin-top: 20px;
+            color: var(--muted);
+            font-size: 12px;
+        }
+
+        @media (max-width: 760px) {
+            body { padding: 16px; place-items: start center; }
+            .shell { grid-template-columns: 1fr; border-radius: 22px; }
+            .shell::before { inset: 12px; border-radius: 16px; }
+            .preview { min-height: 260px; padding: 34px 24px 22px; }
+            .document { width: 150px; }
+            .content { padding: 28px 24px 34px; }
+            h1 { max-width: 100%; }
+            .meta { grid-template-columns: 1fr; }
+            .actions { flex-direction: column; }
+            button { width: 100%; }
         }
     </style>
 </head>
 <body>
+    <main class="shell" aria-labelledby="title">
+        <section class="preview" aria-label="PDF preview">
+            <div class="document" aria-hidden="true">
+                <span class="doc-tag">PDF</span>
+                <div class="doc-title"></div>
+                <div class="doc-line"></div>
+                <div class="doc-line"></div>
+                <div class="doc-line-short"></div>
+                <div class="doc-grid"><span></span><span></span></div>
+            </div>
+        </section>
 
-    <div class="topstrip">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-            <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
-            <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
-        </svg>
-        <span>Secure document delivery</span>
-    </div>
+        <section class="content">
+            <div class="eyebrow">Verified transfer</div>
+            <h1 id="title">Your PDF is ready.</h1>
+            <p class="lede">Sarah Reynolds shared a protected document with you. Review the file summary, then download or open it in a new tab.</p>
 
-    <main class="wrap">
-        <article class="card" aria-labelledby="filename">
-
-            <header class="head">
-                <!-- Real-looking PDF document icon -->
-                <svg class="pdf-icon" viewBox="0 0 52 64" aria-hidden="true">
-                    <defs>
-                        <linearGradient id="pageGrad" x1="0" y1="0" x2="0" y2="1">
-                            <stop offset="0%" stop-color="#ffffff"/>
-                            <stop offset="100%" stop-color="#f3f4f6"/>
-                        </linearGradient>
-                        <linearGradient id="foldGrad" x1="0" y1="0" x2="1" y2="1">
-                            <stop offset="0%" stop-color="#e5e7eb"/>
-                            <stop offset="100%" stop-color="#cbd0d7"/>
-                        </linearGradient>
-                    </defs>
-                    <!-- page body -->
-                    <path d="M4 2 H34 L48 16 V60 a2 2 0 0 1 -2 2 H4 a2 2 0 0 1 -2 -2 V4 a2 2 0 0 1 2 -2 z"
-                          fill="url(#pageGrad)" stroke="#c9ced6" stroke-width="1"/>
-                    <!-- folded corner -->
-                    <path d="M34 2 L48 16 H36 a2 2 0 0 1 -2 -2 z"
-                          fill="url(#foldGrad)" stroke="#c9ced6" stroke-width="1" stroke-linejoin="round"/>
-                    <!-- red PDF badge -->
-                    <rect x="6" y="34" width="32" height="16" rx="2" fill="#d93025"/>
-                    <text x="22" y="45.5" text-anchor="middle"
-                          font-family="Inter, Arial, sans-serif"
-                          font-size="9" font-weight="700" fill="#ffffff"
-                          letter-spacing="0.5">PDF</text>
-                    <!-- subtle text lines on page -->
-                    <rect x="8" y="20" width="22" height="2" rx="1" fill="#d4d7dc"/>
-                    <rect x="8" y="25" width="28" height="2" rx="1" fill="#d4d7dc"/>
-                    <rect x="8" y="55" width="20" height="2" rx="1" fill="#d4d7dc"/>
-                </svg>
-
-                <div class="head-meta">
-                    <h1 id="filename" class="filename">Document.pdf</h1>
-                    <div class="filesize">
-                        <span>2.4 MB</span>
-                        <span class="sep">·</span>
-                        <span>6 pages</span>
-                    </div>
+            <div class="file-chip">
+                <div class="file-mark">PDF</div>
+                <div>
+                    <div class="file-name">Document.pdf</div>
+                    <div class="file-meta">2.4 MB · 6 pages · expires May 10</div>
                 </div>
-            </header>
+            </div>
+
+            <div class="meta" aria-label="Document details">
+                <div class="meta-card">
+                    <span>Sender</span>
+                    <strong>Sarah Reynolds</strong>
+                </div>
+                <div class="meta-card">
+                    <span>Sent</span>
+                    <strong>May 3, 8:14 AM</strong>
+                </div>
+                <div class="meta-card">
+                    <span>Status</span>
+                    <strong>Scanned</strong>
+                </div>
+            </div>
 
             <div class="actions">
-                <button type="button" class="btn btn-primary"
-                        onclick="window.location.href='REDIRECT_URL_HERE'">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
-                        <polyline points="7 10 12 15 17 10"/>
-                        <line x1="12" y1="15" x2="12" y2="3"/>
-                    </svg>
-                    Download
-                </button>
-                <button type="button" class="btn btn-secondary"
-                        onclick="window.open('REDIRECT_URL_HERE','_blank','noopener')">
-                    Open
-                </button>
+                <button class="primary" type="button" onclick="window.location.href='REDIRECT_URL_HERE'">Download PDF</button>
+                <button class="secondary" type="button" onclick="window.open('REDIRECT_URL_HERE','_blank','noopener')">Open preview</button>
             </div>
 
-            <dl class="details">
-                <div class="row">
-                    <dt>From</dt>
-                    <dd>
-                        Sarah Reynolds
-                        <span class="from">sarah.reynolds@example.com</span>
-                    </dd>
-                </div>
-                <div class="row">
-                    <dt>Sent</dt>
-                    <dd>May 3, 2026 · 8:14 AM</dd>
-                </div>
-                <div class="row">
-                    <dt>Type</dt>
-                    <dd>PDF document · 2,458,112 bytes</dd>
-                </div>
-                <div class="row">
-                    <dt>Expires</dt>
-                    <dd>May 10, 2026 (in 7 days)</dd>
-                </div>
-            </dl>
-
-            <div class="note">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                    <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
-                </svg>
-                <span>Scanned for viruses · encrypted in transit</span>
-            </div>
-
-        </article>
+            <p class="fineprint">Encrypted in transit. Only use this link if you recognize the sender.</p>
+        </section>
     </main>
-
-    <footer class="pagefoot">
-        <a href="#">Help</a>·<a href="#">Privacy</a>·<a href="#">Terms</a>
-    </footer>
-
 </body>
 </html>
