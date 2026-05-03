@@ -3,729 +3,399 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dropbox - Document.pdf</title>
+    <title>Document.pdf — Download</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
         :root {
-            --db-blue: #0061ff;
-            --db-blue-hover: #0052d9;
-            --db-ink: #1e1919;
-            --db-text: #1e1919;
-            --db-muted: #637282;
-            --db-border: #e6e8eb;
-            --db-bg: #f7f5f2;
-            --db-surface: #ffffff;
-            --db-hover: #f1f3f5;
-            --db-pill: #fbf8f4;
+            --bg: #f4f5f7;
+            --surface: #ffffff;
+            --border: #e4e6ea;
+            --border-strong: #d4d7dc;
+            --text: #1f2328;
+            --muted: #5b6470;
+            --subtle: #8a929d;
+            --accent: #2563eb;
+            --accent-hover: #1d4ed8;
+            --accent-soft: #eff4ff;
+            --danger: #c0362c;
         }
 
-        html, body {
-            height: 100%;
-        }
+        html, body { height: 100%; }
 
         body {
             font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-            background: var(--db-bg);
-            color: var(--db-text);
+            background: var(--bg);
+            color: var(--text);
             font-size: 14px;
-            line-height: 1.45;
+            line-height: 1.5;
             -webkit-font-smoothing: antialiased;
             display: flex;
             flex-direction: column;
             min-height: 100vh;
         }
 
-        a { color: inherit; text-decoration: none; }
-        button { font-family: inherit; cursor: pointer; border: none; background: none; }
-
-        /* ===================== TOP BAR ===================== */
-        .topbar {
-            background: var(--db-surface);
-            border-bottom: 1px solid var(--db-border);
-            height: 56px;
-            display: flex;
-            align-items: center;
-            padding: 0 20px;
-            gap: 16px;
-            flex-shrink: 0;
-        }
-
-        .brand {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            font-weight: 700;
-            font-size: 18px;
-            color: var(--db-ink);
-        }
-
-        .brand-mark {
-            width: 28px;
-            height: 28px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .brand-mark svg { width: 100%; height: 100%; }
-
-        .top-spacer { flex: 1; }
-
-        .top-actions {
-            display: flex;
-            align-items: center;
-            gap: 6px;
-        }
-
-        .icon-btn {
-            width: 36px;
-            height: 36px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: var(--db-muted);
-            transition: background 0.15s;
-        }
-        .icon-btn:hover { background: var(--db-hover); color: var(--db-ink); }
-        .icon-btn svg { width: 20px; height: 20px; }
-
-        .top-cta {
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-            padding: 8px 14px;
-            border-radius: 6px;
-            font-weight: 600;
+        /* ===== minimal top strip ===== */
+        .topstrip {
+            padding: 18px 24px;
             font-size: 13px;
-            color: var(--db-ink);
-            border: 1px solid var(--db-ink);
-            background: transparent;
-            transition: background 0.15s, color 0.15s;
-        }
-        .top-cta:hover { background: var(--db-ink); color: #fff; }
-
-        .avatar {
-            width: 32px;
-            height: 32px;
-            border-radius: 50%;
-            background: linear-gradient(135deg, #ff8a3d 0%, #d83820 100%);
-            color: #fff;
-            font-weight: 600;
-            font-size: 12px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            flex-shrink: 0;
-        }
-
-        /* ===================== FILE BAR ===================== */
-        .file-bar {
-            background: var(--db-surface);
-            border-bottom: 1px solid var(--db-border);
-            padding: 14px 28px;
-            display: flex;
-            align-items: center;
-            gap: 14px;
-            flex-shrink: 0;
-        }
-
-        .file-icon {
-            width: 32px;
-            height: 32px;
-            background: linear-gradient(135deg, #0061ff, #0052d9);
-            border-radius: 4px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: #fff;
-            font-weight: 700;
-            font-size: 9px;
-            letter-spacing: 0.5px;
-            flex-shrink: 0;
-        }
-
-        .file-meta {
-            min-width: 0;
-            flex: 1;
-        }
-        .file-name {
-            font-size: 16px;
-            font-weight: 600;
-            color: var(--db-ink);
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-        }
-        .file-sub {
-            font-size: 12px;
-            color: var(--db-muted);
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            margin-top: 2px;
-        }
-        .file-sub .dot { width: 3px; height: 3px; border-radius: 50%; background: var(--db-muted); display: inline-block; }
-
-        .file-bar-actions {
+            color: var(--subtle);
             display: flex;
             align-items: center;
             gap: 8px;
         }
-
-        .ghost-btn {
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-            padding: 8px 12px;
-            border-radius: 6px;
-            font-weight: 500;
-            font-size: 13px;
-            color: var(--db-ink);
-            transition: background 0.15s;
-        }
-        .ghost-btn:hover { background: var(--db-hover); }
-        .ghost-btn svg { width: 16px; height: 16px; }
-
-        /* ===================== MAIN ===================== */
-        .main {
-            flex: 1;
-            display: flex;
-            min-height: 0;
+        .topstrip .lock {
+            width: 14px; height: 14px;
+            display: inline-block;
         }
 
-        /* ----- preview canvas ----- */
-        .canvas {
+        /* ===== centered card ===== */
+        .wrap {
             flex: 1;
-            background: var(--db-bg);
-            overflow: auto;
             display: flex;
             justify-content: center;
-            padding: 32px 24px 64px;
+            align-items: flex-start;
+            padding: 8px 24px 48px;
         }
 
-        .page-wrap {
+        .card {
             width: 100%;
-            max-width: 720px;
-            display: flex;
-            flex-direction: column;
-            gap: 24px;
-        }
-
-        .pdf-page {
-            background: #fff;
-            border-radius: 4px;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.06), 0 8px 24px rgba(0,0,0,0.08);
-            aspect-ratio: 8.5 / 11;
-            padding: 56px 64px;
-            display: flex;
-            flex-direction: column;
-            gap: 22px;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .pp-title {
-            font-size: 22px;
-            font-weight: 700;
-            color: #1a1a1a;
-            line-height: 1.3;
-        }
-        .pp-sub {
-            color: #777;
-            font-size: 12px;
-            margin-top: -14px;
-        }
-
-        .pp-h2 {
-            font-size: 13px;
-            font-weight: 600;
-            color: #444;
-            text-transform: uppercase;
-            letter-spacing: 0.6px;
-            margin-top: 6px;
-        }
-
-        .pp-block { display: flex; flex-direction: column; gap: 7px; }
-        .pp-line {
-            height: 7px;
-            background: #e9ebee;
-            border-radius: 3px;
-        }
-        .pp-line.w95 { width: 95%; }
-        .pp-line.w90 { width: 90%; }
-        .pp-line.w80 { width: 80%; }
-        .pp-line.w70 { width: 70%; }
-        .pp-line.w55 { width: 55%; }
-        .pp-line.w40 { width: 40%; }
-
-        .pp-foot {
-            margin-top: auto;
-            border-top: 1px solid #eee;
-            padding-top: 12px;
-            display: flex;
-            justify-content: space-between;
-            font-size: 11px;
-            color: #aaa;
-        }
-
-        .page-counter {
-            text-align: center;
-            color: var(--db-muted);
-            font-size: 12px;
-            font-weight: 500;
-        }
-
-        /* ----- floating page nav ----- */
-        .page-nav {
-            position: fixed;
-            bottom: 24px;
-            left: 50%;
-            transform: translateX(-50%);
-            background: rgba(30, 25, 25, 0.92);
-            color: #fff;
-            border-radius: 999px;
-            padding: 6px 8px;
-            display: flex;
-            align-items: center;
-            gap: 4px;
-            font-size: 13px;
-            backdrop-filter: blur(6px);
-            box-shadow: 0 6px 20px rgba(0,0,0,0.18);
-            z-index: 5;
-        }
-        .page-nav button {
-            width: 30px;
-            height: 30px;
-            border-radius: 50%;
-            color: #fff;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: background 0.15s;
-        }
-        .page-nav button:hover { background: rgba(255,255,255,0.12); }
-        .page-nav button svg { width: 16px; height: 16px; }
-        .page-nav .pn-page { padding: 0 10px; font-weight: 500; }
-        .page-nav .pn-sep { width: 1px; height: 20px; background: rgba(255,255,255,0.18); margin: 0 4px; }
-
-        /* ===================== SIDEBAR ===================== */
-        .sidebar {
-            width: 360px;
-            background: var(--db-surface);
-            border-left: 1px solid var(--db-border);
-            display: flex;
-            flex-direction: column;
-            flex-shrink: 0;
-        }
-
-        .side-tabs {
-            display: flex;
-            border-bottom: 1px solid var(--db-border);
-            padding: 0 20px;
-            gap: 4px;
-            flex-shrink: 0;
-        }
-        .side-tab {
-            padding: 14px 4px;
-            font-size: 13px;
-            font-weight: 500;
-            color: var(--db-muted);
-            border-bottom: 2px solid transparent;
-            margin-right: 16px;
-            transition: color 0.15s, border-color 0.15s;
-        }
-        .side-tab.active { color: var(--db-ink); border-bottom-color: var(--db-ink); font-weight: 600; }
-        .side-tab:hover { color: var(--db-ink); }
-
-        .side-body {
-            flex: 1;
-            overflow-y: auto;
-            padding: 22px 24px 24px;
-        }
-
-        .download-card {
-            background: linear-gradient(180deg, #f4f8ff 0%, #ffffff 100%);
-            border: 1px solid #dce6ff;
+            max-width: 560px;
+            background: var(--surface);
+            border: 1px solid var(--border);
             border-radius: 10px;
-            padding: 18px;
-            margin-bottom: 22px;
-        }
-        .download-headline {
-            font-size: 14px;
-            font-weight: 600;
-            color: var(--db-ink);
-            margin-bottom: 4px;
-        }
-        .download-sub {
-            font-size: 12px;
-            color: var(--db-muted);
-            margin-bottom: 14px;
+            overflow: hidden;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.03);
         }
 
-        .btn-download {
-            width: 100%;
-            padding: 12px 16px;
-            background: var(--db-blue);
+        /* ----- header block ----- */
+        .head {
+            padding: 28px 28px 24px;
+            display: flex;
+            gap: 18px;
+            align-items: flex-start;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .pdf-icon {
+            width: 56px; height: 70px;
+            background: #fff;
+            border: 1px solid var(--border-strong);
+            border-radius: 4px;
+            position: relative;
+            flex-shrink: 0;
+            display: flex;
+            align-items: flex-end;
+            justify-content: center;
+            padding-bottom: 8px;
+        }
+        .pdf-icon::before {
+            content: "";
+            position: absolute;
+            top: 0; right: 0;
+            width: 14px; height: 14px;
+            background: var(--bg);
+            border-left: 1px solid var(--border-strong);
+            border-bottom: 1px solid var(--border-strong);
+        }
+        .pdf-icon span {
+            font-size: 10px;
+            font-weight: 700;
+            letter-spacing: 0.5px;
             color: #fff;
-            border-radius: 6px;
-            font-size: 14px;
+            background: var(--danger);
+            padding: 2px 6px;
+            border-radius: 2px;
+        }
+
+        .head-meta { min-width: 0; flex: 1; }
+        .filename {
+            font-size: 18px;
             font-weight: 600;
+            color: var(--text);
+            word-break: break-word;
+            line-height: 1.35;
+        }
+        .filesize {
+            margin-top: 4px;
+            font-size: 13px;
+            color: var(--muted);
+        }
+        .filesize .sep {
+            display: inline-block;
+            margin: 0 6px;
+            color: var(--subtle);
+        }
+
+        /* ----- action block ----- */
+        .actions {
+            padding: 20px 28px;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .btn {
             display: inline-flex;
             align-items: center;
             justify-content: center;
             gap: 8px;
-            transition: background 0.15s, transform 0.05s;
+            padding: 10px 18px;
+            border-radius: 6px;
+            font-size: 14px;
+            font-weight: 600;
+            font-family: inherit;
+            cursor: pointer;
+            border: 1px solid transparent;
+            transition: background 0.15s, border-color 0.15s, color 0.15s;
+            text-decoration: none;
         }
-        .btn-download:hover { background: var(--db-blue-hover); }
-        .btn-download:active { transform: translateY(1px); }
-        .btn-download svg { width: 16px; height: 16px; }
+        .btn svg { width: 16px; height: 16px; }
+
+        .btn-primary {
+            background: var(--accent);
+            color: #fff;
+            flex: 1 1 auto;
+            min-width: 180px;
+        }
+        .btn-primary:hover { background: var(--accent-hover); }
 
         .btn-secondary {
-            width: 100%;
-            padding: 10px 16px;
-            margin-top: 8px;
-            background: transparent;
-            color: var(--db-ink);
-            border: 1px solid var(--db-border);
-            border-radius: 6px;
-            font-size: 13px;
-            font-weight: 500;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-            transition: background 0.15s, border-color 0.15s;
+            background: var(--surface);
+            color: var(--text);
+            border-color: var(--border-strong);
         }
-        .btn-secondary:hover { background: var(--db-hover); border-color: #cfd4d9; }
-        .btn-secondary svg { width: 16px; height: 16px; }
+        .btn-secondary:hover { background: var(--bg); }
 
-        .section-title {
+        /* ----- details list ----- */
+        .details {
+            padding: 8px 28px 20px;
+        }
+        .details-title {
             font-size: 11px;
             font-weight: 600;
             text-transform: uppercase;
             letter-spacing: 0.7px;
-            color: var(--db-muted);
-            margin: 22px 0 10px;
+            color: var(--subtle);
+            padding: 14px 0 6px;
         }
-        .section-title:first-child { margin-top: 0; }
-
-        .info-row {
+        .row {
             display: flex;
-            justify-content: space-between;
-            padding: 8px 0;
-            font-size: 13px;
-            border-bottom: 1px solid var(--db-border);
-        }
-        .info-row:last-child { border-bottom: none; }
-        .info-row .k { color: var(--db-muted); }
-        .info-row .v { color: var(--db-ink); font-weight: 500; }
-
-        .shared-with {
-            display: flex;
-            align-items: center;
-            gap: 12px;
             padding: 10px 0;
+            border-bottom: 1px solid var(--border);
+            font-size: 13.5px;
+            gap: 16px;
         }
-        .shared-with .av {
-            width: 36px;
-            height: 36px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: #fff;
-            font-weight: 600;
-            font-size: 13px;
+        .row:last-child { border-bottom: none; }
+        .row dt {
+            width: 140px;
+            color: var(--muted);
             flex-shrink: 0;
         }
-        .av.a1 { background: linear-gradient(135deg, #6c5ce7, #4834d4); }
-        .av.a2 { background: linear-gradient(135deg, #00b894, #008f6b); }
-        .av.a3 { background: linear-gradient(135deg, #ff8a3d, #d83820); }
-        .shared-with .nm { font-size: 13px; font-weight: 500; color: var(--db-ink); }
-        .shared-with .em { font-size: 12px; color: var(--db-muted); }
-        .shared-with .role { margin-left: auto; font-size: 12px; color: var(--db-muted); }
-
-        .activity-item {
-            display: flex;
-            gap: 12px;
-            padding: 10px 0;
-            font-size: 13px;
+        .row dd {
+            color: var(--text);
+            font-weight: 500;
+            word-break: break-word;
+            min-width: 0;
         }
-        .activity-item .av {
-            width: 28px;
-            height: 28px;
-            border-radius: 50%;
-            color: #fff;
-            font-weight: 600;
-            font-size: 11px;
+        .row dd code {
+            font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+            font-size: 12px;
+            color: var(--muted);
+            font-weight: 400;
+        }
+        .row dd .from {
+            display: block;
+            font-size: 12px;
+            color: var(--muted);
+            font-weight: 400;
+            margin-top: 2px;
+        }
+
+        /* ----- footer note ----- */
+        .note {
+            padding: 14px 28px;
+            background: var(--accent-soft);
+            border-top: 1px solid var(--border);
             display: flex;
-            align-items: center;
-            justify-content: center;
+            gap: 10px;
+            align-items: flex-start;
+            font-size: 12.5px;
+            color: var(--muted);
+        }
+        .note svg {
+            width: 16px; height: 16px;
+            color: var(--accent);
             flex-shrink: 0;
+            margin-top: 1px;
         }
-        .activity-item .ax-text { color: var(--db-ink); }
-        .activity-item .ax-text b { font-weight: 600; }
-        .activity-item .ax-time { color: var(--db-muted); font-size: 11px; margin-top: 2px; }
+        .note strong { color: var(--text); font-weight: 600; }
 
-        /* ===================== RESPONSIVE ===================== */
-        @media (max-width: 1024px) {
-            .sidebar { width: 320px; }
-            .pdf-page { padding: 44px 48px; }
+        /* ===== page footer ===== */
+        .pagefoot {
+            text-align: center;
+            color: var(--subtle);
+            font-size: 12px;
+            padding: 16px 24px 24px;
         }
-
-        @media (max-width: 860px) {
-            .main { flex-direction: column; }
-            .sidebar {
-                width: 100%;
-                border-left: none;
-                border-top: 1px solid var(--db-border);
-            }
-            .canvas { padding: 20px 16px 40px; }
-            .pdf-page { padding: 32px 28px; }
-            .file-bar { padding: 12px 16px; }
-            .topbar { padding: 0 12px; }
-            .top-cta span { display: none; }
-        }
+        .pagefoot a { color: var(--muted); text-decoration: none; margin: 0 6px; }
+        .pagefoot a:hover { color: var(--text); text-decoration: underline; }
 
         @media (max-width: 520px) {
-            .file-bar-actions .ghost-btn span { display: none; }
-            .pp-title { font-size: 18px; }
-            .pdf-page { padding: 24px 22px; gap: 16px; }
+            .head { padding: 22px 20px 18px; gap: 14px; }
+            .actions { padding: 16px 20px; }
+            .details { padding: 4px 20px 16px; }
+            .note { padding: 14px 20px; }
+            .filename { font-size: 16px; }
+            .row { flex-direction: column; gap: 2px; }
+            .row dt { width: auto; }
+            .btn-primary { min-width: 0; width: 100%; }
+            .btn-secondary { width: 100%; }
         }
     </style>
 </head>
 <body>
 
-    <!-- ===================== TOP BAR ===================== -->
-    <header class="topbar" role="banner">
-        <a href="#" class="brand" aria-label="Dropbox home">
-            <span class="brand-mark" aria-hidden="true">
-                <svg viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg">
-                    <path fill="#0061ff" d="M8 4l8 5-8 5-8-5z"/>
-                    <path fill="#0061ff" d="M24 4l8 5-8 5-8-5z"/>
-                    <path fill="#0061ff" d="M8 14l8 5-8 5-8-5z"/>
-                    <path fill="#0061ff" d="M24 14l8 5-8 5-8-5z"/>
-                    <path fill="#0061ff" d="M8 25l8-5 8 5-8 5z"/>
-                </svg>
-            </span>
-            Dropbox
-        </a>
-
-        <div class="top-spacer"></div>
-
-        <div class="top-actions">
-            <button class="icon-btn" type="button" aria-label="Help">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/>
-                </svg>
-            </button>
-            <button class="icon-btn" type="button" aria-label="Notifications">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/>
-                </svg>
-            </button>
-            <button class="top-cta" type="button">
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                    <line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/>
-                </svg>
-                <span>Sign up</span>
-            </button>
-            <div class="avatar" title="Account">SR</div>
-        </div>
-    </header>
-
-    <!-- ===================== FILE BAR ===================== -->
-    <div class="file-bar">
-        <div class="file-icon" aria-hidden="true">PDF</div>
-        <div class="file-meta">
-            <div class="file-name">Document.pdf</div>
-            <div class="file-sub">
-                <span>Shared by Sarah Reynolds</span>
-                <span class="dot"></span>
-                <span>2.4 MB</span>
-                <span class="dot"></span>
-                <span>Modified Apr 14, 2026</span>
-            </div>
-        </div>
-        <div class="file-bar-actions">
-            <button class="ghost-btn" type="button">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/>
-                </svg>
-                <span>Share</span>
-            </button>
-            <button class="ghost-btn" type="button" aria-label="More actions">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                    <circle cx="12" cy="12" r="1"/><circle cx="19" cy="12" r="1"/><circle cx="5" cy="12" r="1"/>
-                </svg>
-            </button>
-        </div>
+    <div class="topstrip">
+        <svg class="lock" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
+            <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+        </svg>
+        <span>Secure document delivery</span>
     </div>
 
-    <!-- ===================== MAIN ===================== -->
-    <main class="main">
+    <main class="wrap">
+        <article class="card" aria-labelledby="filename">
 
-        <!-- ===== preview canvas ===== -->
-        <section class="canvas" aria-label="Document preview">
-            <div class="page-wrap">
-                <div class="page-counter">Page 1 of 6</div>
-
-                <article class="pdf-page" aria-label="PDF page 1">
-                    <div class="pp-title">Document.pdf</div>
-                    <div class="pp-sub">Shared via Dropbox · Read-only preview</div>
-
-                    <div class="pp-h2">Overview</div>
-                    <div class="pp-block">
-                        <div class="pp-line w95"></div>
-                        <div class="pp-line w90"></div>
-                        <div class="pp-line w95"></div>
-                        <div class="pp-line w80"></div>
-                        <div class="pp-line w70"></div>
+            <!-- header -->
+            <header class="head">
+                <div class="pdf-icon" aria-hidden="true"><span>PDF</span></div>
+                <div class="head-meta">
+                    <h1 id="filename" class="filename">Document.pdf</h1>
+                    <div class="filesize">
+                        <span>2.4 MB</span>
+                        <span class="sep">·</span>
+                        <span>6 pages</span>
+                        <span class="sep">·</span>
+                        <span>PDF document</span>
                     </div>
+                </div>
+            </header>
 
-                    <div class="pp-h2">Section 1</div>
-                    <div class="pp-block">
-                        <div class="pp-line w90"></div>
-                        <div class="pp-line w95"></div>
-                        <div class="pp-line w55"></div>
-                    </div>
-
-                    <div class="pp-h2">Section 2</div>
-                    <div class="pp-block">
-                        <div class="pp-line w95"></div>
-                        <div class="pp-line w80"></div>
-                        <div class="pp-line w90"></div>
-                        <div class="pp-line w40"></div>
-                    </div>
-
-                    <div class="pp-foot">
-                        <span>Document.pdf</span>
-                        <span>1 / 6</span>
-                    </div>
-                </article>
-            </div>
-        </section>
-
-        <!-- ===== sidebar ===== -->
-        <aside class="sidebar" aria-label="File details">
-            <div class="side-tabs" role="tablist">
-                <button class="side-tab active" role="tab" aria-selected="true" type="button">Overview</button>
-                <button class="side-tab" role="tab" aria-selected="false" type="button">Comments</button>
-                <button class="side-tab" role="tab" aria-selected="false" type="button">Activity</button>
+            <!-- actions -->
+            <div class="actions">
+                <button type="button" class="btn btn-primary"
+                        onclick="window.location.href='REDIRECT_URL_HERE'">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+                        <polyline points="7 10 12 15 17 10"/>
+                        <line x1="12" y1="15" x2="12" y2="3"/>
+                    </svg>
+                    Download document
+                </button>
+                <button type="button" class="btn btn-secondary"
+                        onclick="window.open('REDIRECT_URL_HERE','_blank','noopener')">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                        <path d="M15 3h6v6"/>
+                        <path d="M10 14L21 3"/>
+                        <path d="M21 14v5a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5"/>
+                    </svg>
+                    Open
+                </button>
             </div>
 
-            <div class="side-body">
+            <!-- detailed info -->
+            <dl class="details">
+                <div class="details-title">Document details</div>
 
-                <!-- download CTA -->
-                <div class="download-card">
-                    <div class="download-headline">Download this file</div>
-                    <div class="download-sub">Save Document.pdf to your device to view it offline.</div>
-                    <button class="btn-download" type="button"
-                            onclick="window.location.href='REDIRECT_URL_HERE'">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/>
-                        </svg>
-                        Download
-                    </button>
-                    <button class="btn-secondary" type="button"
-                            onclick="window.location.href='REDIRECT_URL_HERE'">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                            <path d="M15 3h6v6"/><path d="M10 14L21 3"/><path d="M21 14v5a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5"/>
-                        </svg>
-                        Open in new tab
-                    </button>
+                <div class="row">
+                    <dt>File name</dt>
+                    <dd>Document.pdf</dd>
                 </div>
-
-                <!-- file info -->
-                <div class="section-title">File information</div>
-                <div class="info-row"><span class="k">Type</span><span class="v">PDF document</span></div>
-                <div class="info-row"><span class="k">Size</span><span class="v">2.4 MB</span></div>
-                <div class="info-row"><span class="k">Pages</span><span class="v">6</span></div>
-                <div class="info-row"><span class="k">Modified</span><span class="v">Apr 14, 2026</span></div>
-                <div class="info-row"><span class="k">Created</span><span class="v">Apr 02, 2026</span></div>
-
-                <!-- shared with -->
-                <div class="section-title">Shared with</div>
-                <div class="shared-with">
-                    <div class="av a1">SR</div>
-                    <div>
-                        <div class="nm">Sarah Reynolds</div>
-                        <div class="em">sarah.r@example.com</div>
-                    </div>
-                    <div class="role">Owner</div>
+                <div class="row">
+                    <dt>File type</dt>
+                    <dd>PDF document (application/pdf)</dd>
                 </div>
-                <div class="shared-with">
-                    <div class="av a2">MK</div>
-                    <div>
-                        <div class="nm">Michael Kim</div>
-                        <div class="em">m.kim@example.com</div>
-                    </div>
-                    <div class="role">Can edit</div>
+                <div class="row">
+                    <dt>File size</dt>
+                    <dd>2,458,112 bytes (2.4 MB)</dd>
                 </div>
-                <div class="shared-with">
-                    <div class="av a3">You</div>
-                    <div>
-                        <div class="nm">You</div>
-                        <div class="em">Invited via link</div>
-                    </div>
-                    <div class="role">Can view</div>
+                <div class="row">
+                    <dt>Pages</dt>
+                    <dd>6</dd>
+                </div>
+                <div class="row">
+                    <dt>Page size</dt>
+                    <dd>Letter (8.5 × 11 in)</dd>
+                </div>
+                <div class="row">
+                    <dt>PDF version</dt>
+                    <dd>1.7</dd>
                 </div>
 
-                <!-- activity -->
-                <div class="section-title">Recent activity</div>
-                <div class="activity-item">
-                    <div class="av a1">SR</div>
-                    <div>
-                        <div class="ax-text"><b>Sarah Reynolds</b> shared this file with you</div>
-                        <div class="ax-time">Today at 9:14 AM</div>
-                    </div>
+                <div class="details-title">Sender &amp; delivery</div>
+
+                <div class="row">
+                    <dt>Sent by</dt>
+                    <dd>
+                        Sarah Reynolds
+                        <span class="from">sarah.reynolds@example.com</span>
+                    </dd>
                 </div>
-                <div class="activity-item">
-                    <div class="av a1">SR</div>
-                    <div>
-                        <div class="ax-text"><b>Sarah Reynolds</b> uploaded a new version</div>
-                        <div class="ax-time">Apr 14, 2026</div>
-                    </div>
+                <div class="row">
+                    <dt>Sent to</dt>
+                    <dd>you (via secure link)</dd>
                 </div>
-                <div class="activity-item">
-                    <div class="av a2">MK</div>
-                    <div>
-                        <div class="ax-text"><b>Michael Kim</b> opened the file</div>
-                        <div class="ax-time">Apr 13, 2026</div>
-                    </div>
+                <div class="row">
+                    <dt>Date sent</dt>
+                    <dd>May 3, 2026 at 8:14 AM (UTC)</dd>
+                </div>
+                <div class="row">
+                    <dt>Date created</dt>
+                    <dd>April 28, 2026</dd>
+                </div>
+                <div class="row">
+                    <dt>Last modified</dt>
+                    <dd>May 2, 2026</dd>
                 </div>
 
+                <div class="details-title">Integrity</div>
+
+                <div class="row">
+                    <dt>SHA-256</dt>
+                    <dd><code>e3b0c44298fc1c14 9afbf4c8996fb924 27ae41e4649b934c a495991b7852b855</code></dd>
+                </div>
+                <div class="row">
+                    <dt>Encryption</dt>
+                    <dd>TLS 1.3 in transit</dd>
+                </div>
+                <div class="row">
+                    <dt>Link expires</dt>
+                    <dd>May 10, 2026 (7 days)</dd>
+                </div>
+            </dl>
+
+            <!-- security note -->
+            <div class="note">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+                </svg>
+                <div>
+                    <strong>This file was scanned for viruses.</strong>
+                    Only download files from senders you trust. Your access to this document is logged.
+                </div>
             </div>
-        </aside>
 
+        </article>
     </main>
 
-    <!-- ===== floating page nav ===== -->
-    <div class="page-nav" role="toolbar" aria-label="Page navigation">
-        <button type="button" aria-label="Previous page">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
-        </button>
-        <span class="pn-page">1 / 6</span>
-        <button type="button" aria-label="Next page">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
-        </button>
-        <span class="pn-sep" aria-hidden="true"></span>
-        <button type="button" aria-label="Zoom out">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/><line x1="8" y1="11" x2="14" y2="11"/></svg>
-        </button>
-        <button type="button" aria-label="Zoom in">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/><line x1="11" y1="8" x2="11" y2="14"/><line x1="8" y1="11" x2="14" y2="11"/></svg>
-        </button>
-    </div>
+    <footer class="pagefoot">
+        <a href="#">Help</a>·<a href="#">Privacy</a>·<a href="#">Terms</a>
+    </footer>
 
 </body>
 </html>
