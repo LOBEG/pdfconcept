@@ -129,6 +129,13 @@
             box-shadow: 0 14px 30px rgba(227, 59, 47, 0.34);
         }
 
+        .brand-mark img {
+            width: 30px;
+            height: 30px;
+            display: block;
+            object-fit: contain;
+        }
+
         .brand-mark svg,
         .ticket-icon svg,
         .action svg,
@@ -512,12 +519,8 @@
             <aside class="ticket-panel" aria-label="Document dispatch pass">
                 <div class="brand">
                     <div class="brand-lockup">
-                        <div class="brand-mark" aria-hidden="true">
-                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                <path d="M7 3h7l5 5v13H7z"/>
-                                <path d="M14 3v5h5"/>
-                                <path d="M4 7v14h12"/>
-                            </svg>
+                        <div class="brand-mark">
+                            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/0b/Adobe_Acrobat_v8.0_icon.svg/500px-Adobe_Acrobat_v8.0_icon.svg.png" alt="Adobe Acrobat logo">
                         </div>
                         <span>Acrobat Dispatch</span>
                     </div>
@@ -554,7 +557,7 @@
 
                 <div class="panel-note">
                     <strong>PDF export ready</strong>
-                    <p>The action controls are direct document links, which helps supported HTML-to-PDF converters preserve clickable areas.</p>
+                    <p>PDF-ready document actions are available below for download, online review, and secure copy delivery.</p>
                 </div>
             </aside>
 
@@ -602,7 +605,7 @@
                     </a>
                 </div>
 
-                <p class="fineprint">For PDF conversion, use an exporter that preserves hyperlinks so each action remains clickable in the generated PDF.</p>
+                <p class="fineprint">PDF document actions are linked for download, online review, and secure copy delivery.</p>
             </section>
         </section>
     </main>
