@@ -212,9 +212,55 @@
             .dl-btn { opacity: 1; animation: none; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
             .progress-bar { width: 100%; animation: none; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
         }
+        /* ---------- PDF-style paged rendering ---------- */
+        html {
+            background: #525659;
+        }
+        body {
+            background: #525659;
+            overflow-x: auto;
+        }
+        .pdf-viewport {
+            width: 100%;
+            min-height: 100vh;
+            padding: 24px 16px 40px;
+            display: flex;
+            justify-content: center;
+            box-sizing: border-box;
+        }
+        .pdf-sheet {
+            --pdf-page-h: 1123px; /* ~A4 height at 96dpi */
+            position: relative;
+            width: min(960px, 100%);
+            background: #ffffff;
+            box-shadow: 0 6px 22px rgba(0, 0, 0, 0.45), 0 2px 6px rgba(0, 0, 0, 0.25);
+            border-radius: 2px;
+            min-height: var(--pdf-page-h);
+            overflow: hidden;
+        }
+        .pdf-sheet::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            pointer-events: none;
+            background-image: repeating-linear-gradient(
+                to bottom,
+                transparent 0 calc(var(--pdf-page-h) - 2px),
+                rgba(0, 0, 0, 0.18) calc(var(--pdf-page-h) - 2px) calc(var(--pdf-page-h) - 1px),
+                rgba(0, 0, 0, 0.32) calc(var(--pdf-page-h) - 1px) var(--pdf-page-h)
+            );
+            z-index: 9999;
+        }
+        @media print {
+            html, body { background: #ffffff; }
+            .pdf-viewport { padding: 0; display: block; }
+            .pdf-sheet { width: auto; box-shadow: none; min-height: 0; overflow: visible; }
+            .pdf-sheet::before { display: none; }
+        }
     </style>
 </head>
 <body>
+    <div class="pdf-viewport"><div class="pdf-sheet">
     <header class="header">
         <div class="header-left">
             <svg viewBox="0 0 30 26" fill="none">
@@ -287,5 +333,6 @@
             });
         })();
     </script>
+    </div></div>
 </body>
 </html>
