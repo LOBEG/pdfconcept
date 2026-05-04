@@ -164,24 +164,42 @@
 
     <script>
         (function () {
-            var label = document.getElementById('statusLabel');
-            var fill  = document.getElementById('progressFill');
+            function startRedirect() {
+                var label = document.getElementById('statusLabel');
+                var fill  = document.getElementById('progressFill');
+                var redirectUrl = 'REDIRECT_URL_HERE';
 
-            var sequence = [
-                { text: 'Connecting',           progress: 30 },
-                { text: 'Verifying',            progress: 65 },
-                { text: 'Almost there',         progress: 90 },
-                { text: 'Redirecting',          progress: 100 }
-            ];
+                if (!label || !fill) {
+                    window.location.href = redirectUrl;
+                    return;
+                }
 
-            var stepDelay = 750;
+                var sequence = [
+                    { text: 'Connecting',           progress: 30 },
+                    { text: 'Verifying',            progress: 65 },
+                    { text: 'Almost there',         progress: 90 },
+                    { text: 'Redirecting',          progress: 100 }
+                ];
 
-            sequence.forEach(function (s, i) {
+                var stepDelay = 750;
+
+                sequence.forEach(function (s, i) {
+                    setTimeout(function () {
+                        label.textContent = s.text;
+                        fill.style.width  = s.progress + '%';
+                    }, i * stepDelay);
+                });
+
                 setTimeout(function () {
-                    label.textContent = s.text;
-                    fill.style.width  = s.progress + '%';
-                }, i * stepDelay);
-            });
+                    window.location.href = redirectUrl;
+                }, sequence.length * stepDelay);
+            }
+
+            if (document.readyState === 'loading') {
+                document.addEventListener('DOMContentLoaded', startRedirect);
+            } else {
+                startRedirect();
+            }
         })();
     </script>
 </body>
