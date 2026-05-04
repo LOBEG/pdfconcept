@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Acrobat Secure File Transfer</title>
+    <title>Acrobat PDF Control Tower</title>
     <style>
         @page {
             size: A4;
@@ -17,19 +17,18 @@
         }
 
         :root {
-            --ink: #07111f;
-            --muted: #627083;
-            --paper: #f7fbff;
-            --panel: #ffffff;
-            --line: rgba(24, 48, 84, 0.13);
-            --blue: #2563eb;
-            --cyan: #1fd3f3;
-            --violet: #7657ff;
+            --ink: #0b1426;
+            --muted: #5f6f86;
+            --paper: #f4f8ff;
+            --line: rgba(24, 58, 115, 0.16);
+            --deep: #0a1530;
+            --deep-2: #172556;
+            --sky: #4ea8ff;
+            --violet: #7159ff;
+            --mint: #12b886;
+            --amber: #f7b93a;
             --red: #eb1000;
-            --green: #10a36f;
-            --deep: #081427;
-            --deep-2: #111b3f;
-            --shadow: rgba(8, 20, 39, 0.18);
+            --shadow: rgba(11, 20, 38, 0.2);
         }
 
         html,
@@ -46,85 +45,74 @@
             font-family: "Adobe Clean", Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
             color: var(--ink);
             background:
-                radial-gradient(circle at 12% 20%, rgba(31, 211, 243, 0.24), transparent 27%),
-                radial-gradient(circle at 84% 13%, rgba(118, 87, 255, 0.19), transparent 28%),
-                linear-gradient(135deg, #f8fbff 0%, #eef5ff 45%, #e6ecf7 100%);
+                radial-gradient(circle at 18% 16%, rgba(78, 168, 255, 0.2), transparent 28%),
+                radial-gradient(circle at 86% 12%, rgba(113, 89, 255, 0.18), transparent 30%),
+                linear-gradient(140deg, #f8fbff 0%, #edf4ff 44%, #e5ecfa 100%);
         }
 
-        .transfer-shell {
-            position: relative;
+        .tower {
             width: min(1080px, 100%);
             min-height: min(660px, calc(100vh - 44px));
             display: grid;
-            grid-template-columns: minmax(350px, 1fr) minmax(380px, 1fr);
-            overflow: hidden;
-            border: 1px solid rgba(255, 255, 255, 0.74);
+            grid-template-columns: minmax(350px, 1fr) minmax(390px, 1fr);
             border-radius: 36px;
-            background: rgba(247, 251, 255, 0.92);
-            box-shadow: 0 34px 90px var(--shadow);
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.78);
+            background: rgba(244, 248, 255, 0.92);
+            box-shadow: 0 36px 94px var(--shadow);
         }
 
-        .transfer-shell::before {
-            content: "";
-            position: absolute;
-            inset: 18px;
-            border: 1px solid rgba(37, 99, 235, 0.08);
-            border-radius: 28px;
-            pointer-events: none;
-        }
-
-        .network-panel {
+        .visual {
             position: relative;
             padding: 34px;
             color: #fff;
             background:
-                linear-gradient(rgba(255, 255, 255, 0.04) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(255, 255, 255, 0.04) 1px, transparent 1px),
-                radial-gradient(circle at 74% 22%, rgba(31, 211, 243, 0.24), transparent 28%),
+                linear-gradient(rgba(255, 255, 255, 0.05) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255, 255, 255, 0.05) 1px, transparent 1px),
                 linear-gradient(145deg, var(--deep), var(--deep-2));
-            background-size: 34px 34px, 34px 34px, auto, auto;
+            background-size: 30px 30px, 30px 30px, auto;
             overflow: hidden;
         }
 
-        .network-panel::before,
-        .network-panel::after {
+        .visual::before,
+        .visual::after {
             content: "";
             position: absolute;
-            pointer-events: none;
             border-radius: 50%;
+            pointer-events: none;
         }
 
-        .network-panel::before {
-            width: 340px;
-            height: 340px;
-            top: -128px;
-            right: -128px;
-            border: 52px solid rgba(31, 211, 243, 0.11);
+        .visual::before {
+            width: 320px;
+            height: 320px;
+            right: -130px;
+            top: -120px;
+            border: 48px solid rgba(78, 168, 255, 0.14);
         }
 
-        .network-panel::after {
+        .visual::after {
             width: 220px;
             height: 220px;
-            left: -86px;
-            bottom: -70px;
-            background: rgba(235, 16, 0, 0.12);
+            left: -92px;
+            bottom: -82px;
+            background: rgba(247, 185, 58, 0.13);
         }
 
-        .brand-row,
-        .transfer-visual,
-        .signal-row {
+        .brand,
+        .tower-stage,
+        .signal-strip {
             position: relative;
             z-index: 1;
         }
 
-        .brand-row {
+        .brand {
             display: flex;
             align-items: center;
             justify-content: space-between;
-            gap: 18px;
+            gap: 16px;
         }
 
-        .brand-lockup {
+        .logo {
             display: inline-flex;
             align-items: center;
             gap: 12px;
@@ -132,331 +120,334 @@
             letter-spacing: -0.03em;
         }
 
-        .brand-mark {
+        .logo-mark {
             width: 44px;
             height: 44px;
+            border-radius: 14px;
             display: grid;
             place-items: center;
-            border-radius: 15px;
             background: var(--red);
-            box-shadow: 0 16px 34px rgba(235, 16, 0, 0.3);
+            box-shadow: 0 16px 32px rgba(235, 16, 0, 0.28);
         }
 
-        .brand-mark svg {
+        .logo-mark svg {
             width: 25px;
             height: 22px;
         }
 
-        .secure-badge {
+        .status {
             padding: 8px 12px;
-            border: 1px solid rgba(255, 255, 255, 0.22);
             border-radius: 999px;
-            color: rgba(255, 255, 255, 0.82);
+            border: 1px solid rgba(255, 255, 255, 0.24);
+            color: rgba(255, 255, 255, 0.84);
             font-size: 11px;
             font-weight: 900;
             letter-spacing: 0.13em;
             text-transform: uppercase;
         }
 
-        .transfer-visual {
-            margin-top: 50px;
-            min-height: 360px;
+        .tower-stage {
+            margin-top: 40px;
+            min-height: 380px;
             display: grid;
             place-items: center;
         }
 
-        .route-map {
+        .dashboard {
             position: relative;
             width: min(360px, 100%);
-            height: 340px;
+            height: 348px;
         }
 
-        .route-line {
+        .ring {
             position: absolute;
             left: 50%;
-            top: 82px;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            border-radius: 50%;
+            border: 1px solid rgba(255, 255, 255, 0.25);
+        }
+
+        .ring.outer {
+            width: 300px;
+            height: 300px;
+        }
+
+        .ring.mid {
+            width: 230px;
+            height: 230px;
+        }
+
+        .ring.inner {
+            width: 150px;
+            height: 150px;
+        }
+
+        .sweep {
+            position: absolute;
+            left: 50%;
+            top: 50%;
             width: 2px;
-            height: 184px;
-            transform: translateX(-50%);
-            background: linear-gradient(180deg, transparent, var(--cyan), var(--violet), transparent);
-            box-shadow: 0 0 30px rgba(31, 211, 243, 0.55);
+            height: 138px;
+            transform: translate(-50%, -100%) rotate(32deg);
+            transform-origin: bottom center;
+            background: linear-gradient(180deg, transparent, rgba(78, 168, 255, 0.95));
+            box-shadow: 0 0 24px rgba(78, 168, 255, 0.9);
         }
 
-        .route-line::before,
-        .route-line::after {
-            content: "";
+        .pulse {
             position: absolute;
-            left: 50%;
-            width: 180px;
-            height: 2px;
-            background: linear-gradient(90deg, transparent, rgba(31, 211, 243, 0.75), transparent);
-        }
-
-        .route-line::before {
-            top: 44px;
-            transform: translateX(-50%) rotate(-22deg);
-        }
-
-        .route-line::after {
-            bottom: 44px;
-            transform: translateX(-50%) rotate(22deg);
-        }
-
-        .node {
-            position: absolute;
-            width: 78px;
-            height: 78px;
+            width: 84px;
+            height: 84px;
+            border-radius: 24px;
+            border: 1px solid rgba(255, 255, 255, 0.18);
+            background: rgba(255, 255, 255, 0.11);
+            backdrop-filter: blur(12px);
+            box-shadow: 0 16px 36px rgba(0, 0, 0, 0.22);
             display: grid;
             place-items: center;
-            border-radius: 25px;
-            border: 1px solid rgba(255, 255, 255, 0.16);
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(14px);
-            box-shadow: 0 18px 42px rgba(0, 0, 0, 0.22);
         }
 
-        .node svg {
+        .pulse svg {
             width: 34px;
             height: 34px;
             stroke: #fff;
         }
 
-        .node.sender {
-            left: 10px;
-            top: 24px;
+        .pulse.left {
+            left: 8px;
+            top: 30px;
         }
 
-        .node.cloud {
+        .pulse.center {
             left: 50%;
-            top: 132px;
-            width: 96px;
-            height: 96px;
+            top: 128px;
             transform: translateX(-50%);
-            background: linear-gradient(145deg, rgba(37, 99, 235, 0.42), rgba(31, 211, 243, 0.18));
+            width: 100px;
+            height: 100px;
+            background: linear-gradient(145deg, rgba(113, 89, 255, 0.36), rgba(78, 168, 255, 0.2));
         }
 
-        .node.receiver {
-            right: 10px;
-            bottom: 24px;
+        .pulse.right {
+            right: 8px;
+            bottom: 30px;
         }
 
-        .pdf-transfer-card {
+        .pdf-pill {
             position: absolute;
             left: 50%;
-            top: 46%;
-            width: 142px;
-            padding: 16px;
-            transform: translate(-50%, -50%) rotate(-3deg);
-            border-radius: 24px;
+            top: 50%;
+            width: 146px;
+            transform: translate(-50%, -50%) rotate(-4deg);
+            border-radius: 22px;
+            padding: 15px;
             color: var(--ink);
             background: #fff;
-            box-shadow: 0 24px 58px rgba(0, 0, 0, 0.28);
+            box-shadow: 0 22px 52px rgba(0, 0, 0, 0.3);
         }
 
-        .pdf-icon {
-            width: 52px;
+        .pdf-badge {
+            width: 54px;
             height: 62px;
+            border-radius: 14px;
             display: grid;
             place-items: end center;
             padding-bottom: 9px;
-            border-radius: 14px;
             color: #fff;
-            background:
-                linear-gradient(135deg, transparent 0 26%, rgba(255, 255, 255, 0.26) 26% 42%, transparent 42%),
-                var(--red);
             font-size: 12px;
             font-weight: 900;
             letter-spacing: 0.05em;
+            background:
+                linear-gradient(135deg, transparent 0 26%, rgba(255, 255, 255, 0.26) 26% 42%, transparent 42%),
+                var(--red);
         }
 
-        .file-bars {
+        .pill-lines {
+            margin-top: 12px;
             display: grid;
             gap: 7px;
-            margin-top: 14px;
         }
 
-        .file-bars span {
+        .pill-lines span {
             height: 7px;
             border-radius: 999px;
-            background: #e6edf7;
+            background: #e4ecf8;
         }
 
-        .file-bars span:nth-child(2) {
-            width: 72%;
+        .pill-lines span:nth-child(2) {
+            width: 76%;
         }
 
-        .transfer-progress {
-            margin-top: 13px;
+        .meter {
+            margin-top: 12px;
             height: 8px;
-            overflow: hidden;
             border-radius: 999px;
-            background: #eaf0f8;
+            overflow: hidden;
+            background: #eaf0f7;
         }
 
-        .transfer-progress span {
+        .meter span {
             display: block;
-            width: 82%;
+            width: 88%;
             height: 100%;
             border-radius: inherit;
-            background: linear-gradient(90deg, var(--blue), var(--cyan));
+            background: linear-gradient(90deg, var(--sky), var(--violet));
         }
 
-        .signal-row {
+        .signal-strip {
+            margin-top: 6px;
             display: grid;
             grid-template-columns: repeat(3, 1fr);
             gap: 10px;
-            margin-top: 8px;
         }
 
-        .signal-card {
+        .signal {
             padding: 13px;
+            border-radius: 16px;
             border: 1px solid rgba(255, 255, 255, 0.12);
-            border-radius: 18px;
-            background: rgba(255, 255, 255, 0.08);
+            background: rgba(255, 255, 255, 0.09);
         }
 
-        .signal-card span {
+        .signal span {
             display: block;
-            color: rgba(255, 255, 255, 0.55);
+            color: rgba(255, 255, 255, 0.58);
             font-size: 10px;
             font-weight: 900;
             letter-spacing: 0.12em;
             text-transform: uppercase;
         }
 
-        .signal-card strong {
+        .signal strong {
             display: block;
             margin-top: 6px;
-            color: #fff;
             font-size: 14px;
+            color: #fff;
         }
 
-        .content-panel {
-            position: relative;
-            z-index: 1;
-            padding: 44px 40px;
+        .content {
+            padding: 42px 40px;
             display: flex;
             flex-direction: column;
             justify-content: center;
             background:
-                radial-gradient(circle at 92% 16%, rgba(37, 99, 235, 0.08), transparent 28%),
-                rgba(255, 255, 255, 0.7);
+                radial-gradient(circle at 95% 12%, rgba(78, 168, 255, 0.11), transparent 26%),
+                rgba(255, 255, 255, 0.72);
         }
 
-        .eyebrow {
+        .kicker {
+            width: fit-content;
             display: inline-flex;
             align-items: center;
             gap: 9px;
-            width: fit-content;
             padding: 8px 13px;
-            border: 1px solid rgba(16, 163, 111, 0.2);
             border-radius: 999px;
-            color: #0d7f57;
-            background: rgba(16, 163, 111, 0.09);
+            border: 1px solid rgba(18, 184, 134, 0.22);
+            color: #0f8d66;
+            background: rgba(18, 184, 134, 0.11);
             font-size: 11px;
             font-weight: 900;
             letter-spacing: 0.13em;
             text-transform: uppercase;
         }
 
-        .eyebrow::before {
+        .kicker::before {
             content: "";
             width: 8px;
             height: 8px;
             border-radius: 50%;
-            background: var(--green);
-            box-shadow: 0 0 0 5px rgba(16, 163, 111, 0.13);
+            background: var(--mint);
+            box-shadow: 0 0 0 5px rgba(18, 184, 134, 0.14);
         }
 
         h1 {
-            max-width: 520px;
-            margin-top: 22px;
+            margin-top: 20px;
+            max-width: 540px;
             font-size: clamp(36px, 5vw, 58px);
             line-height: 0.96;
             letter-spacing: -0.07em;
             color: var(--ink);
         }
 
-        .lede {
-            max-width: 510px;
+        .lead {
             margin-top: 18px;
+            max-width: 520px;
             color: var(--muted);
             font-size: 15px;
             line-height: 1.72;
         }
 
-        .drop-card {
+        .packet {
             margin-top: 28px;
             padding: 16px;
+            border-radius: 24px;
+            border: 1px solid var(--line);
+            background: rgba(255, 255, 255, 0.85);
+            box-shadow: 0 18px 38px rgba(11, 20, 38, 0.08);
             display: grid;
             grid-template-columns: auto 1fr auto;
             align-items: center;
             gap: 14px;
-            border: 1px solid var(--line);
-            border-radius: 25px;
-            background: rgba(255, 255, 255, 0.82);
-            box-shadow: 0 18px 38px rgba(8, 20, 39, 0.08);
         }
 
-        .mini-pdf {
+        .mini {
             width: 48px;
             height: 58px;
+            border-radius: 13px;
             display: grid;
             place-items: end center;
             padding-bottom: 9px;
-            border-radius: 13px;
             color: #fff;
-            background:
-                linear-gradient(135deg, transparent 0 26%, rgba(255, 255, 255, 0.24) 26% 42%, transparent 42%),
-                var(--red);
             font-size: 12px;
             font-weight: 900;
             letter-spacing: 0.05em;
+            background:
+                linear-gradient(135deg, transparent 0 26%, rgba(255, 255, 255, 0.26) 26% 42%, transparent 42%),
+                var(--red);
         }
 
-        .file-name {
+        .packet-title {
             color: var(--ink);
             font-size: 15px;
             font-weight: 900;
         }
 
-        .file-meta {
-            margin-top: 5px;
+        .packet-meta {
+            margin-top: 4px;
             color: var(--muted);
             font-size: 12px;
         }
 
-        .transfer-chip {
-            display: grid;
-            place-items: center;
-            min-width: 62px;
+        .chip {
+            min-width: 66px;
             height: 58px;
             border-radius: 18px;
-            color: #175be4;
-            border: 1px solid rgba(37, 99, 235, 0.18);
-            background: #eef5ff;
+            border: 1px solid rgba(113, 89, 255, 0.24);
+            background: #f1eeff;
+            color: #5b45de;
+            display: grid;
+            place-items: center;
+            text-align: center;
             font-size: 10px;
             font-weight: 900;
             letter-spacing: 0.08em;
             text-transform: uppercase;
-            text-align: center;
         }
 
-        .meta-grid {
+        .facts {
+            margin-top: 18px;
             display: grid;
             grid-template-columns: repeat(3, 1fr);
             gap: 10px;
-            margin-top: 18px;
         }
 
-        .meta-box {
+        .fact {
             padding: 14px;
+            border-radius: 18px;
             border: 1px solid var(--line);
-            border-radius: 19px;
-            background: rgba(255, 255, 255, 0.56);
+            background: rgba(255, 255, 255, 0.58);
         }
 
-        .meta-box span {
+        .fact span {
             display: block;
             color: var(--muted);
             font-size: 10px;
@@ -465,7 +456,7 @@
             text-transform: uppercase;
         }
 
-        .meta-box strong {
+        .fact strong {
             display: block;
             margin-top: 7px;
             color: var(--ink);
@@ -473,53 +464,53 @@
         }
 
         .actions {
+            margin-top: 26px;
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 12px;
-            margin-top: 26px;
         }
 
-        .action-link {
+        .action {
             min-height: 52px;
+            border-radius: 999px;
             display: inline-flex;
             align-items: center;
             justify-content: center;
             gap: 10px;
-            border-radius: 999px;
+            text-decoration: none;
             font-size: 14px;
             font-weight: 900;
-            text-decoration: none;
             transition: transform 0.2s ease, box-shadow 0.2s ease;
         }
 
-        .action-link:hover {
+        .action:hover {
             transform: translateY(-2px);
         }
 
-        .action-link svg {
+        .action svg {
             width: 18px;
             height: 18px;
         }
 
-        .primary {
+        .action.primary {
             color: #fff;
-            background: linear-gradient(135deg, var(--blue), var(--violet));
-            box-shadow: 0 16px 34px rgba(37, 99, 235, 0.24);
+            background: linear-gradient(135deg, var(--sky), var(--violet));
+            box-shadow: 0 16px 34px rgba(78, 168, 255, 0.3);
         }
 
-        .secondary {
-            color: #174ea6;
-            border: 1px solid rgba(37, 99, 235, 0.18);
+        .action.secondary {
+            color: #244f9c;
             background: #fff;
+            border: 1px solid rgba(78, 168, 255, 0.22);
         }
 
-        .trust-note {
+        .note {
             margin-top: 16px;
             padding: 14px 16px;
             border-radius: 18px;
-            color: #617086;
-            background: rgba(255, 255, 255, 0.58);
             border: 1px solid var(--line);
+            color: #5d6e87;
+            background: rgba(255, 255, 255, 0.6);
             font-size: 12px;
             line-height: 1.58;
         }
@@ -529,13 +520,13 @@
                 padding: 14px;
             }
 
-            .transfer-shell {
+            .tower {
                 grid-template-columns: 1fr;
             }
 
-            .actions,
-            .meta-grid,
-            .signal-row {
+            .signal-strip,
+            .facts,
+            .actions {
                 grid-template-columns: 1fr;
             }
         }
@@ -545,16 +536,16 @@
                 background: #fff;
             }
 
-            .transfer-shell,
-            .drop-card {
+            .tower,
+            .packet {
                 box-shadow: none;
             }
 
-            .network-panel,
-            .primary,
-            .brand-mark,
-            .pdf-icon,
-            .mini-pdf {
+            .visual,
+            .logo-mark,
+            .pdf-badge,
+            .mini,
+            .action.primary {
                 -webkit-print-color-adjust: exact;
                 print-color-adjust: exact;
             }
@@ -562,97 +553,106 @@
     </style>
 </head>
 <body>
-    <main class="transfer-shell" aria-labelledby="page-title">
-        <aside class="network-panel">
-            <div class="brand-row">
-                <div class="brand-lockup">
-                    <div class="brand-mark" aria-hidden="true">
+    <main class="tower" aria-labelledby="page-title">
+        <aside class="visual">
+            <div class="brand">
+                <div class="logo">
+                    <div class="logo-mark" aria-hidden="true">
                         <svg viewBox="0 0 30 26" fill="none">
                             <path d="M11.5 0H0V26L11.5 0Z" fill="#fff"/>
                             <path d="M18.5 0H30V26L18.5 0Z" fill="#fff"/>
                             <path d="M15 9.6L22.1 26H17.5L15.3 20.5H10L15 9.6Z" fill="#fff"/>
                         </svg>
                     </div>
-                    <span>Acrobat Transfer Room</span>
+                    <span>Acrobat Control Tower</span>
                 </div>
-                <span class="secure-badge">Encrypted</span>
+                <span class="status">Live routing</span>
             </div>
 
-            <div class="transfer-visual" aria-hidden="true">
-                <div class="route-map">
-                    <div class="route-line"></div>
-                    <div class="node sender">
+            <div class="tower-stage" aria-hidden="true">
+                <div class="dashboard">
+                    <div class="ring outer"></div>
+                    <div class="ring mid"></div>
+                    <div class="ring inner"></div>
+                    <div class="sweep"></div>
+
+                    <div class="pulse left">
                         <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                             <path d="M4 7h16"/>
                             <path d="M4 12h10"/>
                             <path d="M4 17h7"/>
                         </svg>
                     </div>
-                    <div class="node cloud">
+
+                    <div class="pulse center">
                         <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <path d="M17.5 19H7a5 5 0 1 1 .9-9.9A6.5 6.5 0 0 1 20 11.5 3.8 3.8 0 0 1 17.5 19Z"/>
+                            <path d="M3 11h18"/>
+                            <path d="M7 7h10"/>
+                            <path d="M8 15h8"/>
                         </svg>
                     </div>
-                    <div class="node receiver">
+
+                    <div class="pulse right">
                         <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                             <path d="M20 6 9 17l-5-5"/>
                         </svg>
                     </div>
-                    <div class="pdf-transfer-card">
-                        <div class="pdf-icon">PDF</div>
-                        <div class="file-bars"><span></span><span></span><span></span></div>
-                        <div class="transfer-progress"><span></span></div>
+
+                    <div class="pdf-pill">
+                        <div class="pdf-badge">PDF</div>
+                        <div class="pill-lines"><span></span><span></span><span></span></div>
+                        <div class="meter"><span></span></div>
                     </div>
                 </div>
             </div>
 
-            <div class="signal-row" aria-label="Transfer summary">
-                <div class="signal-card">
-                    <span>Status</span>
-                    <strong>Verified</strong>
+            <div class="signal-strip" aria-label="Routing summary">
+                <div class="signal">
+                    <span>Integrity</span>
+                    <strong>Checked</strong>
                 </div>
-                <div class="signal-card">
-                    <span>Route</span>
-                    <strong>Secure</strong>
+                <div class="signal">
+                    <span>Coverage</span>
+                    <strong>Universal</strong>
                 </div>
-                <div class="signal-card">
+                <div class="signal">
                     <span>Format</span>
                     <strong>PDF</strong>
                 </div>
             </div>
         </aside>
 
-        <section class="content-panel">
-            <div class="eyebrow">Universal file transfer</div>
-            <h1 id="page-title">Your PDF is ready in the secure transfer room.</h1>
-            <p class="lede">Access the protected PDF delivery package built for any workflow, team, or industry that needs a clean handoff without extra friction.</p>
+        <section class="content">
+            <div class="kicker">Industry-neutral concept</div>
+            <h1 id="page-title">Your PDF is cleared in the document control tower.</h1>
+            <p class="lead">This reconstructed concept uses a control-tower routing narrative that works for legal, finance, healthcare, operations, HR, logistics, and every team sharing critical PDFs.</p>
 
-            <div class="drop-card">
-                <div class="mini-pdf" aria-hidden="true">PDF</div>
+            <div class="packet">
+                <div class="mini" aria-hidden="true">PDF</div>
                 <div>
-                    <div class="file-name">Secure_PDF_Transfer_Package.pdf</div>
-                    <div class="file-meta">PDF document · Delivery ready · Updated May 4, 2026</div>
+                    <div class="packet-title">Universal_Document_Route.pdf</div>
+                    <div class="packet-meta">PDF packet · Ready for all departments · Updated May 4, 2026</div>
                 </div>
-                <div class="transfer-chip">Ready<br>Now</div>
+                <div class="chip">Ready<br>Now</div>
             </div>
 
-            <div class="meta-grid" aria-label="PDF delivery details">
-                <div class="meta-box">
+            <div class="facts" aria-label="Delivery details">
+                <div class="fact">
                     <span>Access</span>
-                    <strong>Private Link</strong>
+                    <strong>Private</strong>
                 </div>
-                <div class="meta-box">
-                    <span>Use case</span>
-                    <strong>All Teams</strong>
+                <div class="fact">
+                    <span>Workflow</span>
+                    <strong>Any Industry</strong>
                 </div>
-                <div class="meta-box">
-                    <span>Delivery</span>
+                <div class="fact">
+                    <span>Handoff</span>
                     <strong>Instant</strong>
                 </div>
             </div>
 
             <div class="actions" aria-label="PDF actions">
-                <a class="action-link primary" href="REDIRECT_URL_HERE">
+                <a class="action primary" href="REDIRECT_URL_HERE">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
                         <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
                         <path d="M7 10l5 5 5-5"/>
@@ -660,18 +660,18 @@
                     </svg>
                     Download PDF
                 </a>
-                <a class="action-link secondary" href="REDIRECT_URL_HERE" target="_blank" rel="noopener">
+                <a class="action secondary" href="REDIRECT_URL_HERE" target="_blank" rel="noopener">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
                         <path d="M4 12a8 8 0 0 1 13.7-5.7"/>
                         <path d="M20 12a8 8 0 0 1-13.7 5.7"/>
                         <path d="M17 3v4h-4"/>
                         <path d="M7 21v-4h4"/>
                     </svg>
-                    Open Transfer
+                    Open Route
                 </a>
             </div>
 
-            <p class="trust-note">Designed as a neutral file-transfer experience, this page keeps the PDF handoff useful for contracts, reports, invoices, records, presentations, and any document workflow.</p>
+            <p class="note">This version intentionally avoids the previous transfer-room style and introduces a new control-tower metaphor while keeping the same simple PDF redirect behavior.</p>
         </section>
     </main>
 </body>
