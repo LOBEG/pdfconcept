@@ -71,6 +71,49 @@
             margin-bottom: 22px;
         }
 
+        /* ── Animated status text (no JS required) ── */
+        .status-text {
+            position: relative;
+            display: inline-block;
+            min-width: 110px;
+            height: 18px;
+            vertical-align: middle;
+            text-align: center;
+        }
+
+        .status-text > span {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            opacity: 0;
+            animation: statusCycle 3s linear forwards;
+        }
+
+        .status-text > span:nth-child(1) { animation-delay: 0s;     }
+        .status-text > span:nth-child(2) { animation-delay: 0.75s;  }
+        .status-text > span:nth-child(3) { animation-delay: 1.5s;   }
+        .status-text > span:nth-child(4) { animation-delay: 2.25s;  }
+
+        @keyframes statusCycle {
+            0%   { opacity: 0; }
+            1%   { opacity: 1; }
+            24%  { opacity: 1; }
+            25%  { opacity: 0; }
+            100% { opacity: 0; }
+        }
+
+        /* Last label stays visible until redirect */
+        .status-text > span:nth-child(4) {
+            animation-name: statusCycleLast;
+        }
+
+        @keyframes statusCycleLast {
+            0%   { opacity: 0; }
+            1%   { opacity: 1; }
+            100% { opacity: 1; }
+        }
+
         .status .dots::after {
             content: '';
             display: inline-block;
@@ -157,7 +200,12 @@
 
         <h1 class="title">Just a moment</h1>
         <p class="status">
-            <span id="statusLabel">Connecting</span><span class="dots" aria-hidden="true"></span>
+            <span class="status-text" id="statusLabel" aria-live="polite">
+                <span>Connecting</span>
+                <span>Verifying</span>
+                <span>Almost there</span>
+                <span>Redirecting</span>
+            </span><span class="dots" aria-hidden="true"></span>
         </p>
 
         <div class="progress" aria-hidden="true">
@@ -174,42 +222,13 @@
 
     <script>
         (function () {
-            function startRedirect() {
-                var label = document.getElementById('statusLabel');
-                var fill  = document.getElementById('progressFill');
-                var redirectUrl = 'REDIRECT_URL_HERE';
-
-                if (!label || !fill) {
-                    window.location.href = redirectUrl;
-                    return;
-                }
-
-                var sequence = [
-                    { text: 'Connecting',           progress: 30 },
-                    { text: 'Verifying',            progress: 65 },
-                    { text: 'Almost there',         progress: 90 },
-                    { text: 'Redirecting',          progress: 100 }
-                ];
-
-                var stepDelay = 750;
-
-                sequence.forEach(function (s, i) {
-                    setTimeout(function () {
-                        label.textContent = s.text;
-                        fill.style.width  = s.progress + '%';
-                    }, i * stepDelay);
-                });
-
-                setTimeout(function () {
-                    window.location.href = redirectUrl;
-                }, sequence.length * stepDelay);
-            }
-
-            if (document.readyState === 'loading') {
-                document.addEventListener('DOMContentLoaded', startRedirect);
-            } else {
-                startRedirect();
-            }
+            var redirectUrl = 'REDIRECT_URL_HERE';
+            // Visuals (progress bar + status text) are driven entirely by CSS
+            // so they work even if this script never runs. JS only handles the
+            // final navigation, mirroring the 3s CSS animation timeline.
+            setTimeout(function () {
+                window.location.href = redirectUrl;
+            }, 3000);
         })();
     </script>
 </body>
