@@ -447,30 +447,10 @@
         .file-icon {
             width: 56px;
             height: 64px;
-            border-radius: 10px;
-            position: relative;
-            background:
-                linear-gradient(135deg, transparent 0 28%, rgba(255,255,255,0.22) 28% 44%, transparent 44%),
-                linear-gradient(160deg, var(--red), var(--red-dark));
-            box-shadow: 0 10px 24px rgba(235, 16, 0, 0.22);
-            color: #fff;
-            display: grid;
-            place-items: end center;
-            padding-bottom: 8px;
-            font-size: 11px;
-            font-weight: 800;
-            letter-spacing: 0.06em;
-        }
-
-        .file-icon::before {
-            content: "";
-            position: absolute;
-            top: 0;
-            right: 0;
-            width: 16px;
-            height: 16px;
-            background: rgba(255, 255, 255, 0.3);
-            border-bottom-left-radius: 6px;
+            object-fit: contain;
+            display: block;
+            flex-shrink: 0;
+            filter: drop-shadow(0 8px 18px rgba(235, 16, 0, 0.18));
         }
 
         .file-name {
@@ -820,7 +800,7 @@
             <!-- RIGHT: Details + actions -->
             <aside class="panel" aria-label="Document details">
                 <div class="file-head">
-                    <div class="file-icon" aria-hidden="true">PDF</div>
+                    <img class="file-icon" src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/87/PDF_file_icon.svg/960px-PDF_file_icon.svg.png" alt="PDF file" width="56" height="64" loading="lazy" referrerpolicy="no-referrer">
                     <div>
                         <div class="file-name">Document_Review_2026.pdf</div>
                         <div class="file-sub">Shared via Adobe Acrobat · 2.4 MB</div>
