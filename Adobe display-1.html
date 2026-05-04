@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Acrobat PDF Control Tower</title>
+    <title>Adobe Acrobat — Shared PDF Document</title>
     <style>
         @page {
             size: A4;
@@ -17,516 +17,640 @@
         }
 
         :root {
-            --ink: #0b1426;
-            --muted: #5f6f86;
-            --paper: #f4f8ff;
-            --line: rgba(24, 58, 115, 0.16);
-            --deep: #0a1530;
-            --deep-2: #172556;
-            --sky: #4ea8ff;
-            --violet: #7159ff;
-            --mint: #12b886;
-            --amber: #f7b93a;
+            --ink: #1d1d1f;
+            --text: #2c2c2e;
+            --muted: #6e6e73;
+            --hairline: #e5e5ea;
+            --hairline-2: #f0f0f3;
+            --surface: #ffffff;
+            --surface-alt: #f5f5f7;
+            --canvas: #fafafc;
             --red: #eb1000;
-            --shadow: rgba(11, 20, 38, 0.2);
+            --red-dark: #c40d00;
+            --blue: #1473e6;
+            --blue-dark: #0d66d0;
+            --green: #1f8a3b;
+            --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.04), 0 1px 1px rgba(0, 0, 0, 0.03);
+            --shadow-md: 0 8px 24px rgba(15, 23, 42, 0.08), 0 2px 6px rgba(15, 23, 42, 0.04);
+            --shadow-lg: 0 20px 48px rgba(15, 23, 42, 0.12), 0 6px 14px rgba(15, 23, 42, 0.06);
         }
 
-        html,
-        body {
+        html, body {
             width: 100%;
             min-height: 100%;
         }
 
         body {
             min-height: 100vh;
-            padding: 22px;
-            display: grid;
-            place-items: center;
-            font-family: "Adobe Clean", Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
-            color: var(--ink);
-            background:
-                radial-gradient(circle at 18% 16%, rgba(78, 168, 255, 0.2), transparent 28%),
-                radial-gradient(circle at 86% 12%, rgba(113, 89, 255, 0.18), transparent 30%),
-                linear-gradient(140deg, #f8fbff 0%, #edf4ff 44%, #e5ecfa 100%);
+            font-family: "Adobe Clean", "Segoe UI", -apple-system, BlinkMacSystemFont, "Helvetica Neue", Arial, sans-serif;
+            color: var(--text);
+            background: var(--canvas);
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
         }
 
-        .tower {
-            width: min(1080px, 100%);
-            min-height: min(660px, calc(100vh - 44px));
-            display: grid;
-            grid-template-columns: minmax(350px, 1fr) minmax(390px, 1fr);
-            border-radius: 36px;
-            overflow: hidden;
-            border: 1px solid rgba(255, 255, 255, 0.78);
-            background: rgba(244, 248, 255, 0.92);
-            box-shadow: 0 36px 94px var(--shadow);
-        }
-
-        .visual {
-            position: relative;
-            padding: 34px;
-            color: #fff;
-            background:
-                linear-gradient(rgba(255, 255, 255, 0.05) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(255, 255, 255, 0.05) 1px, transparent 1px),
-                linear-gradient(145deg, var(--deep), var(--deep-2));
-            background-size: 30px 30px, 30px 30px, auto;
-            overflow: hidden;
-        }
-
-        .visual::before,
-        .visual::after {
-            content: "";
-            position: absolute;
-            border-radius: 50%;
-            pointer-events: none;
-        }
-
-        .visual::before {
-            width: 320px;
-            height: 320px;
-            right: -130px;
-            top: -120px;
-            border: 48px solid rgba(78, 168, 255, 0.14);
-        }
-
-        .visual::after {
-            width: 220px;
-            height: 220px;
-            left: -92px;
-            bottom: -82px;
-            background: rgba(247, 185, 58, 0.13);
-        }
-
-        .brand,
-        .tower-stage,
-        .signal-strip {
-            position: relative;
-            z-index: 1;
-        }
-
-        .brand {
+        /* ---------- Top Bar ---------- */
+        .topbar {
             display: flex;
             align-items: center;
             justify-content: space-between;
             gap: 16px;
+            padding: 12px 28px;
+            background: var(--surface);
+            border-bottom: 1px solid var(--hairline);
         }
 
-        .logo {
+        .brand {
             display: inline-flex;
             align-items: center;
             gap: 12px;
-            font-weight: 900;
-            letter-spacing: -0.03em;
-        }
-
-        .logo-mark {
-            width: 44px;
-            height: 44px;
-            border-radius: 14px;
-            display: grid;
-            place-items: center;
-            background: var(--red);
-            box-shadow: 0 16px 32px rgba(235, 16, 0, 0.28);
-        }
-
-        .logo-mark svg {
-            width: 25px;
-            height: 22px;
-        }
-
-        .status {
-            padding: 8px 12px;
-            border-radius: 999px;
-            border: 1px solid rgba(255, 255, 255, 0.24);
-            color: rgba(255, 255, 255, 0.84);
-            font-size: 11px;
-            font-weight: 900;
-            letter-spacing: 0.13em;
-            text-transform: uppercase;
-        }
-
-        .tower-stage {
-            margin-top: 40px;
-            min-height: 380px;
-            display: grid;
-            place-items: center;
-        }
-
-        .dashboard {
-            position: relative;
-            width: min(360px, 100%);
-            height: 348px;
-        }
-
-        .ring {
-            position: absolute;
-            left: 50%;
-            top: 50%;
-            transform: translate(-50%, -50%);
-            border-radius: 50%;
-            border: 1px solid rgba(255, 255, 255, 0.25);
-        }
-
-        .ring.outer {
-            width: 300px;
-            height: 300px;
-        }
-
-        .ring.mid {
-            width: 230px;
-            height: 230px;
-        }
-
-        .ring.inner {
-            width: 150px;
-            height: 150px;
-        }
-
-        .sweep {
-            position: absolute;
-            left: 50%;
-            top: 50%;
-            width: 2px;
-            height: 138px;
-            transform: translate(-50%, -100%) rotate(32deg);
-            transform-origin: bottom center;
-            background: linear-gradient(180deg, transparent, rgba(78, 168, 255, 0.95));
-            box-shadow: 0 0 24px rgba(78, 168, 255, 0.9);
-        }
-
-        .pulse {
-            position: absolute;
-            width: 84px;
-            height: 84px;
-            border-radius: 24px;
-            border: 1px solid rgba(255, 255, 255, 0.18);
-            background: rgba(255, 255, 255, 0.11);
-            backdrop-filter: blur(12px);
-            box-shadow: 0 16px 36px rgba(0, 0, 0, 0.22);
-            display: grid;
-            place-items: center;
-        }
-
-        .pulse svg {
-            width: 34px;
-            height: 34px;
-            stroke: #fff;
-        }
-
-        .pulse.left {
-            left: 8px;
-            top: 30px;
-        }
-
-        .pulse.center {
-            left: 50%;
-            top: 128px;
-            transform: translateX(-50%);
-            width: 100px;
-            height: 100px;
-            background: linear-gradient(145deg, rgba(113, 89, 255, 0.36), rgba(78, 168, 255, 0.2));
-        }
-
-        .pulse.right {
-            right: 8px;
-            bottom: 30px;
-        }
-
-        .pdf-pill {
-            position: absolute;
-            left: 50%;
-            top: 50%;
-            width: 146px;
-            transform: translate(-50%, -50%) rotate(-4deg);
-            border-radius: 22px;
-            padding: 15px;
             color: var(--ink);
-            background: #fff;
-            box-shadow: 0 22px 52px rgba(0, 0, 0, 0.3);
+            font-weight: 700;
+            font-size: 15px;
+            letter-spacing: -0.01em;
         }
 
-        .pdf-badge {
-            width: 54px;
-            height: 62px;
-            border-radius: 14px;
+        .brand-mark {
+            width: 30px;
+            height: 30px;
+            border-radius: 7px;
+            background: var(--red);
             display: grid;
-            place-items: end center;
-            padding-bottom: 9px;
-            color: #fff;
-            font-size: 12px;
-            font-weight: 900;
-            letter-spacing: 0.05em;
-            background:
-                linear-gradient(135deg, transparent 0 26%, rgba(255, 255, 255, 0.26) 26% 42%, transparent 42%),
-                var(--red);
+            place-items: center;
+            box-shadow: var(--shadow-sm);
         }
 
-        .pill-lines {
-            margin-top: 12px;
-            display: grid;
-            gap: 7px;
+        .brand-mark svg {
+            width: 18px;
+            height: 16px;
         }
 
-        .pill-lines span {
-            height: 7px;
-            border-radius: 999px;
-            background: #e4ecf8;
+        .brand-sep {
+            width: 1px;
+            height: 18px;
+            background: var(--hairline);
         }
 
-        .pill-lines span:nth-child(2) {
-            width: 76%;
+        .brand-product {
+            color: var(--muted);
+            font-weight: 600;
+            font-size: 14px;
         }
 
-        .meter {
-            margin-top: 12px;
-            height: 8px;
-            border-radius: 999px;
-            overflow: hidden;
-            background: #eaf0f7;
-        }
-
-        .meter span {
-            display: block;
-            width: 88%;
-            height: 100%;
-            border-radius: inherit;
-            background: linear-gradient(90deg, var(--sky), var(--violet));
-        }
-
-        .signal-strip {
-            margin-top: 6px;
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
+        .topbar-actions {
+            display: inline-flex;
+            align-items: center;
             gap: 10px;
         }
 
-        .signal {
-            padding: 13px;
-            border-radius: 16px;
-            border: 1px solid rgba(255, 255, 255, 0.12);
-            background: rgba(255, 255, 255, 0.09);
-        }
-
-        .signal span {
-            display: block;
-            color: rgba(255, 255, 255, 0.58);
-            font-size: 10px;
-            font-weight: 900;
-            letter-spacing: 0.12em;
-            text-transform: uppercase;
-        }
-
-        .signal strong {
-            display: block;
-            margin-top: 6px;
-            font-size: 14px;
-            color: #fff;
-        }
-
-        .content {
-            padding: 42px 40px;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            background:
-                radial-gradient(circle at 95% 12%, rgba(78, 168, 255, 0.11), transparent 26%),
-                rgba(255, 255, 255, 0.72);
-        }
-
-        .kicker {
-            width: fit-content;
-            display: inline-flex;
-            align-items: center;
-            gap: 9px;
-            padding: 8px 13px;
-            border-radius: 999px;
-            border: 1px solid rgba(18, 184, 134, 0.22);
-            color: #0f8d66;
-            background: rgba(18, 184, 134, 0.11);
-            font-size: 11px;
-            font-weight: 900;
-            letter-spacing: 0.13em;
-            text-transform: uppercase;
-        }
-
-        .kicker::before {
-            content: "";
-            width: 8px;
-            height: 8px;
-            border-radius: 50%;
-            background: var(--mint);
-            box-shadow: 0 0 0 5px rgba(18, 184, 134, 0.14);
-        }
-
-        h1 {
-            margin-top: 20px;
-            max-width: 540px;
-            font-size: clamp(36px, 5vw, 58px);
-            line-height: 0.96;
-            letter-spacing: -0.07em;
-            color: var(--ink);
-        }
-
-        .lead {
-            margin-top: 18px;
-            max-width: 520px;
-            color: var(--muted);
-            font-size: 15px;
-            line-height: 1.72;
-        }
-
-        .packet {
-            margin-top: 28px;
-            padding: 16px;
-            border-radius: 24px;
-            border: 1px solid var(--line);
-            background: rgba(255, 255, 255, 0.85);
-            box-shadow: 0 18px 38px rgba(11, 20, 38, 0.08);
-            display: grid;
-            grid-template-columns: auto 1fr auto;
-            align-items: center;
-            gap: 14px;
-        }
-
-        .mini {
-            width: 48px;
-            height: 58px;
-            border-radius: 13px;
-            display: grid;
-            place-items: end center;
-            padding-bottom: 9px;
-            color: #fff;
-            font-size: 12px;
-            font-weight: 900;
-            letter-spacing: 0.05em;
-            background:
-                linear-gradient(135deg, transparent 0 26%, rgba(255, 255, 255, 0.26) 26% 42%, transparent 42%),
-                var(--red);
-        }
-
-        .packet-title {
-            color: var(--ink);
-            font-size: 15px;
-            font-weight: 900;
-        }
-
-        .packet-meta {
-            margin-top: 4px;
-            color: var(--muted);
-            font-size: 12px;
-        }
-
-        .chip {
-            min-width: 66px;
-            height: 58px;
-            border-radius: 18px;
-            border: 1px solid rgba(113, 89, 255, 0.24);
-            background: #f1eeff;
-            color: #5b45de;
+        .icon-btn {
+            width: 34px;
+            height: 34px;
             display: grid;
             place-items: center;
-            text-align: center;
-            font-size: 10px;
-            font-weight: 900;
+            border: 1px solid var(--hairline);
+            border-radius: 8px;
+            background: var(--surface);
+            color: var(--muted);
+            cursor: default;
+        }
+
+        .icon-btn svg {
+            width: 16px;
+            height: 16px;
+        }
+
+        .avatar {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #1473e6, #5b3fff);
+            color: #fff;
+            display: grid;
+            place-items: center;
+            font-weight: 700;
+            font-size: 12px;
+            letter-spacing: 0.04em;
+        }
+
+        /* ---------- Page ---------- */
+        .page {
+            max-width: 1180px;
+            margin: 0 auto;
+            padding: 28px 28px 40px;
+        }
+
+        .breadcrumbs {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--muted);
+            font-size: 13px;
+            margin-bottom: 18px;
+        }
+
+        .breadcrumbs a {
+            color: var(--muted);
+            text-decoration: none;
+        }
+
+        .breadcrumbs span.sep {
+            color: #c7c7cc;
+        }
+
+        .breadcrumbs strong {
+            color: var(--ink);
+            font-weight: 600;
+        }
+
+        .layout {
+            display: grid;
+            grid-template-columns: minmax(0, 1.35fr) minmax(320px, 0.95fr);
+            gap: 24px;
+            align-items: start;
+        }
+
+        /* ---------- Document Preview ---------- */
+        .preview {
+            background: var(--surface);
+            border: 1px solid var(--hairline);
+            border-radius: 14px;
+            box-shadow: var(--shadow-md);
+            overflow: hidden;
+        }
+
+        .preview-toolbar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            padding: 12px 16px;
+            border-bottom: 1px solid var(--hairline);
+            background: var(--surface-alt);
+        }
+
+        .toolbar-group {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            color: var(--muted);
+            font-size: 13px;
+        }
+
+        .tool {
+            width: 30px;
+            height: 30px;
+            display: grid;
+            place-items: center;
+            border-radius: 6px;
+            color: var(--muted);
+        }
+
+        .tool svg {
+            width: 15px;
+            height: 15px;
+        }
+
+        .tool.active {
+            background: #e6f0ff;
+            color: var(--blue);
+        }
+
+        .page-indicator {
+            padding: 4px 10px;
+            border: 1px solid var(--hairline);
+            border-radius: 6px;
+            background: var(--surface);
+            color: var(--ink);
+            font-variant-numeric: tabular-nums;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .zoom {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 4px 10px;
+            border: 1px solid var(--hairline);
+            border-radius: 6px;
+            background: var(--surface);
+            color: var(--ink);
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .preview-canvas {
+            position: relative;
+            padding: 28px;
+            background:
+                linear-gradient(180deg, #f7f7f9 0%, #efeff3 100%);
+            min-height: 520px;
+            display: flex;
+            justify-content: center;
+        }
+
+        .doc-page {
+            position: relative;
+            width: min(520px, 100%);
+            aspect-ratio: 1 / 1.414;
+            background: #ffffff;
+            border-radius: 4px;
+            box-shadow:
+                0 0 0 1px rgba(15, 23, 42, 0.06),
+                0 24px 48px rgba(15, 23, 42, 0.18),
+                0 6px 14px rgba(15, 23, 42, 0.08);
+            padding: 56px 56px 64px;
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+            overflow: hidden;
+        }
+
+        .doc-page::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(225deg, #f5f5f7 0 50%, transparent 50%);
+            border-bottom-left-radius: 8px;
+        }
+
+        .doc-watermark {
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%) rotate(-22deg);
+            font-size: 64px;
+            font-weight: 800;
+            letter-spacing: 0.18em;
+            color: rgba(235, 16, 0, 0.06);
+            pointer-events: none;
+            user-select: none;
+        }
+
+        .doc-head {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            padding-bottom: 14px;
+            border-bottom: 2px solid #1d1d1f;
+        }
+
+        .doc-head h2 {
+            font-size: 15px;
+            color: var(--ink);
+            letter-spacing: 0.02em;
+        }
+
+        .doc-head .doc-no {
+            font-size: 11px;
+            color: var(--muted);
+            font-weight: 600;
             letter-spacing: 0.08em;
             text-transform: uppercase;
         }
 
-        .facts {
-            margin-top: 18px;
+        .doc-meta {
             display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 10px;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px 24px;
+            font-size: 11px;
         }
 
-        .fact {
-            padding: 14px;
-            border-radius: 18px;
-            border: 1px solid var(--line);
-            background: rgba(255, 255, 255, 0.58);
-        }
-
-        .fact span {
+        .doc-meta div span {
             display: block;
             color: var(--muted);
-            font-size: 10px;
-            font-weight: 900;
-            letter-spacing: 0.12em;
+            font-weight: 600;
+            letter-spacing: 0.06em;
+            text-transform: uppercase;
+            margin-bottom: 3px;
+        }
+
+        .doc-meta div strong {
+            color: var(--ink);
+            font-weight: 600;
+            font-size: 12px;
+        }
+
+        .doc-section {
+            margin-top: 4px;
+        }
+
+        .doc-section h3 {
+            font-size: 12px;
+            color: var(--ink);
+            margin-bottom: 8px;
+            letter-spacing: 0.04em;
             text-transform: uppercase;
         }
 
-        .fact strong {
+        .doc-lines {
+            display: grid;
+            gap: 6px;
+        }
+
+        .doc-lines span {
             display: block;
-            margin-top: 7px;
+            height: 7px;
+            border-radius: 2px;
+            background: #e9e9ee;
+        }
+
+        .doc-lines span:nth-child(1) { width: 100%; }
+        .doc-lines span:nth-child(2) { width: 96%; }
+        .doc-lines span:nth-child(3) { width: 88%; }
+        .doc-lines span:nth-child(4) { width: 92%; }
+        .doc-lines span:nth-child(5) { width: 70%; }
+
+        .doc-grid {
+            margin-top: 10px;
+            border: 1px solid #e9e9ee;
+            border-radius: 4px;
+            overflow: hidden;
+            font-size: 11px;
+        }
+
+        .doc-row {
+            display: grid;
+            grid-template-columns: 1.2fr 1fr 0.8fr;
+            border-top: 1px solid #f0f0f3;
+        }
+
+        .doc-row:first-child {
+            border-top: none;
+            background: #f7f7f9;
+        }
+
+        .doc-row > div {
+            padding: 7px 10px;
+            border-left: 1px solid #f0f0f3;
+            color: var(--text);
+        }
+
+        .doc-row > div:first-child {
+            border-left: none;
+        }
+
+        .doc-row.head > div {
+            color: var(--muted);
+            font-weight: 700;
+            letter-spacing: 0.04em;
+            text-transform: uppercase;
+            font-size: 10px;
+        }
+
+        .doc-foot {
+            margin-top: auto;
+            padding-top: 16px;
+            border-top: 1px solid #e9e9ee;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            font-size: 10px;
+            color: var(--muted);
+            letter-spacing: 0.04em;
+        }
+
+        .doc-page-shadow {
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            bottom: 12px;
+            width: 80%;
+            height: 14px;
+            border-radius: 50%;
+            background: radial-gradient(ellipse at center, rgba(15,23,42,0.18), transparent 70%);
+            filter: blur(6px);
+            pointer-events: none;
+        }
+
+        /* ---------- Detail Card ---------- */
+        .panel {
+            background: var(--surface);
+            border: 1px solid var(--hairline);
+            border-radius: 14px;
+            box-shadow: var(--shadow-md);
+            padding: 22px;
+        }
+
+        .file-head {
+            display: grid;
+            grid-template-columns: auto 1fr;
+            gap: 14px;
+            align-items: center;
+        }
+
+        .file-icon {
+            width: 56px;
+            height: 64px;
+            border-radius: 10px;
+            position: relative;
+            background:
+                linear-gradient(135deg, transparent 0 28%, rgba(255,255,255,0.22) 28% 44%, transparent 44%),
+                linear-gradient(160deg, var(--red), var(--red-dark));
+            box-shadow: 0 10px 24px rgba(235, 16, 0, 0.22);
+            color: #fff;
+            display: grid;
+            place-items: end center;
+            padding-bottom: 8px;
+            font-size: 11px;
+            font-weight: 800;
+            letter-spacing: 0.06em;
+        }
+
+        .file-icon::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 16px;
+            height: 16px;
+            background: rgba(255, 255, 255, 0.3);
+            border-bottom-left-radius: 6px;
+        }
+
+        .file-name {
+            font-size: 17px;
+            font-weight: 700;
             color: var(--ink);
+            line-height: 1.3;
+            word-break: break-word;
+        }
+
+        .file-sub {
+            margin-top: 4px;
+            color: var(--muted);
+            font-size: 13px;
+        }
+
+        .verified {
+            margin-top: 14px;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 6px 10px;
+            border-radius: 999px;
+            background: #e7f5ec;
+            color: var(--green);
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .verified svg {
+            width: 14px;
+            height: 14px;
+        }
+
+        .meta-list {
+            margin-top: 18px;
+            border-top: 1px solid var(--hairline);
+        }
+
+        .meta-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 12px 0;
+            border-bottom: 1px solid var(--hairline);
             font-size: 14px;
+        }
+
+        .meta-row .k {
+            color: var(--muted);
+        }
+
+        .meta-row .v {
+            color: var(--ink);
+            font-weight: 600;
+            text-align: right;
         }
 
         .actions {
-            margin-top: 26px;
+            margin-top: 20px;
             display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 12px;
+            gap: 10px;
         }
 
-        .action {
-            min-height: 52px;
-            border-radius: 999px;
+        .btn {
             display: inline-flex;
             align-items: center;
             justify-content: center;
-            gap: 10px;
-            text-decoration: none;
+            gap: 9px;
+            min-height: 46px;
+            padding: 0 18px;
+            border-radius: 10px;
             font-size: 14px;
-            font-weight: 900;
-            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            font-weight: 600;
+            text-decoration: none;
+            border: 1px solid transparent;
+            cursor: pointer;
+            transition: background-color 0.15s ease, border-color 0.15s ease, color 0.15s ease;
         }
 
-        .action:hover {
-            transform: translateY(-2px);
+        .btn svg {
+            width: 16px;
+            height: 16px;
         }
 
-        .action svg {
-            width: 18px;
-            height: 18px;
-        }
-
-        .action.primary {
+        .btn-primary {
             color: #fff;
-            background: linear-gradient(135deg, var(--sky), var(--violet));
-            box-shadow: 0 16px 34px rgba(78, 168, 255, 0.3);
+            background: var(--blue);
+            border-color: var(--blue);
         }
 
-        .action.secondary {
-            color: #244f9c;
-            background: #fff;
-            border: 1px solid rgba(78, 168, 255, 0.22);
+        .btn-primary:hover {
+            background: var(--blue-dark);
+            border-color: var(--blue-dark);
         }
 
-        .note {
-            margin-top: 16px;
-            padding: 14px 16px;
-            border-radius: 18px;
-            border: 1px solid var(--line);
-            color: #5d6e87;
-            background: rgba(255, 255, 255, 0.6);
+        .btn-secondary {
+            color: var(--ink);
+            background: var(--surface);
+            border-color: var(--hairline);
+        }
+
+        .btn-secondary:hover {
+            background: var(--surface-alt);
+        }
+
+        .open-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+        }
+
+        .recipient {
+            margin-top: 18px;
+            padding: 14px;
+            border: 1px solid var(--hairline);
+            border-radius: 10px;
+            background: var(--surface-alt);
+            display: grid;
+            grid-template-columns: auto 1fr;
+            gap: 12px;
+            align-items: center;
+        }
+
+        .recipient .avatar {
+            width: 36px;
+            height: 36px;
+            font-size: 13px;
+        }
+
+        .recipient .name {
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--ink);
+        }
+
+        .recipient .email {
             font-size: 12px;
-            line-height: 1.58;
+            color: var(--muted);
+            margin-top: 2px;
         }
 
-        @media (max-width: 860px) {
-            body {
-                padding: 14px;
-            }
+        .footer-note {
+            margin-top: 16px;
+            color: var(--muted);
+            font-size: 12px;
+            line-height: 1.55;
+        }
 
-            .tower {
+        .footer-note a {
+            color: var(--blue);
+            text-decoration: none;
+        }
+
+        /* ---------- Responsive ---------- */
+        @media (max-width: 920px) {
+            .layout {
                 grid-template-columns: 1fr;
             }
 
-            .signal-strip,
-            .facts,
-            .actions {
+            .doc-page {
+                padding: 36px 30px 44px;
+            }
+        }
+
+        @media (max-width: 540px) {
+            .topbar {
+                padding: 10px 16px;
+            }
+
+            .page {
+                padding: 18px 16px 28px;
+            }
+
+            .preview-canvas {
+                padding: 16px;
+                min-height: 380px;
+            }
+
+            .open-row {
                 grid-template-columns: 1fr;
             }
         }
@@ -536,16 +660,27 @@
                 background: #fff;
             }
 
-            .tower,
-            .packet {
-                box-shadow: none;
+            .topbar,
+            .preview-toolbar,
+            .actions,
+            .icon-btn,
+            .recipient {
+                display: none;
             }
 
-            .visual,
-            .logo-mark,
-            .pdf-badge,
-            .mini,
-            .action.primary {
+            .layout {
+                grid-template-columns: 1fr;
+            }
+
+            .preview,
+            .panel {
+                box-shadow: none;
+                border-color: #d6d6db;
+            }
+
+            .file-icon,
+            .brand-mark,
+            .btn-primary {
                 -webkit-print-color-adjust: exact;
                 print-color-adjust: exact;
             }
@@ -553,126 +688,219 @@
     </style>
 </head>
 <body>
-    <main class="tower" aria-labelledby="page-title">
-        <aside class="visual">
-            <div class="brand">
-                <div class="logo">
-                    <div class="logo-mark" aria-hidden="true">
-                        <svg viewBox="0 0 30 26" fill="none">
-                            <path d="M11.5 0H0V26L11.5 0Z" fill="#fff"/>
-                            <path d="M18.5 0H30V26L18.5 0Z" fill="#fff"/>
-                            <path d="M15 9.6L22.1 26H17.5L15.3 20.5H10L15 9.6Z" fill="#fff"/>
-                        </svg>
-                    </div>
-                    <span>Acrobat Control Tower</span>
-                </div>
-                <span class="status">Live routing</span>
+    <header class="topbar">
+        <div class="brand">
+            <div class="brand-mark" aria-hidden="true">
+                <svg viewBox="0 0 30 26" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M11.5 0H0V26L11.5 0Z" fill="#fff"/>
+                    <path d="M18.5 0H30V26L18.5 0Z" fill="#fff"/>
+                    <path d="M15 9.6L22.1 26H17.5L15.3 20.5H10L15 9.6Z" fill="#fff"/>
+                </svg>
             </div>
-
-            <div class="tower-stage" aria-hidden="true">
-                <div class="dashboard">
-                    <div class="ring outer"></div>
-                    <div class="ring mid"></div>
-                    <div class="ring inner"></div>
-                    <div class="sweep"></div>
-
-                    <div class="pulse left">
-                        <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <path d="M4 7h16"/>
-                            <path d="M4 12h10"/>
-                            <path d="M4 17h7"/>
-                        </svg>
-                    </div>
-
-                    <div class="pulse center">
-                        <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <path d="M3 11h18"/>
-                            <path d="M7 7h10"/>
-                            <path d="M8 15h8"/>
-                        </svg>
-                    </div>
-
-                    <div class="pulse right">
-                        <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <path d="M20 6 9 17l-5-5"/>
-                        </svg>
-                    </div>
-
-                    <div class="pdf-pill">
-                        <div class="pdf-badge">PDF</div>
-                        <div class="pill-lines"><span></span><span></span><span></span></div>
-                        <div class="meter"><span></span></div>
-                    </div>
-                </div>
+            <span>Adobe</span>
+            <span class="brand-sep" aria-hidden="true"></span>
+            <span class="brand-product">Acrobat</span>
+        </div>
+        <div class="topbar-actions">
+            <div class="icon-btn" title="Search" aria-label="Search">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg>
             </div>
-
-            <div class="signal-strip" aria-label="Routing summary">
-                <div class="signal">
-                    <span>Integrity</span>
-                    <strong>Checked</strong>
-                </div>
-                <div class="signal">
-                    <span>Coverage</span>
-                    <strong>Universal</strong>
-                </div>
-                <div class="signal">
-                    <span>Format</span>
-                    <strong>PDF</strong>
-                </div>
+            <div class="icon-btn" title="Help" aria-label="Help">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M9.1 9a3 3 0 1 1 5.8 1c0 2-3 2-3 4"/><path d="M12 17h.01"/></svg>
             </div>
-        </aside>
+            <div class="avatar" aria-label="Account">JD</div>
+        </div>
+    </header>
 
-        <section class="content">
-            <div class="kicker">Industry-neutral concept</div>
-            <h1 id="page-title">Your PDF is cleared in the document control tower.</h1>
-            <p class="lead">This reconstructed concept uses a control-tower routing narrative that works for legal, finance, healthcare, operations, HR, logistics, and every team sharing critical PDFs.</p>
+    <main class="page">
+        <nav class="breadcrumbs" aria-label="Breadcrumb">
+            <a href="REDIRECT_URL_HERE">Home</a>
+            <span class="sep">/</span>
+            <a href="REDIRECT_URL_HERE">Shared with you</a>
+            <span class="sep">/</span>
+            <strong>Document_Review_2026.pdf</strong>
+        </nav>
 
-            <div class="packet">
-                <div class="mini" aria-hidden="true">PDF</div>
-                <div>
-                    <div class="packet-title">Universal_Document_Route.pdf</div>
-                    <div class="packet-meta">PDF packet · Ready for all departments · Updated May 4, 2026</div>
+        <div class="layout">
+            <!-- LEFT: Document preview -->
+            <section class="preview" aria-label="Document preview">
+                <div class="preview-toolbar">
+                    <div class="toolbar-group">
+                        <div class="tool active" title="Pan">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 11V6a2 2 0 1 1 4 0v5"/><path d="M9 11V4a2 2 0 1 1 4 0v7"/><path d="M13 11V5a2 2 0 1 1 4 0v9"/><path d="M17 12a2 2 0 1 1 4 0c0 4-3 8-7 8s-7-3-7-7"/></svg>
+                        </div>
+                        <div class="tool" title="Highlight">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 11 3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
+                        </div>
+                        <div class="tool" title="Comment">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+                        </div>
+                    </div>
+                    <div class="toolbar-group" aria-label="Page indicator">
+                        <div class="page-indicator">1 / 12</div>
+                    </div>
+                    <div class="toolbar-group" aria-label="Zoom">
+                        <div class="tool" title="Zoom out">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="M8 11h6"/><path d="m21 21-4.3-4.3"/></svg>
+                        </div>
+                        <div class="zoom">100%</div>
+                        <div class="tool" title="Zoom in">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="M8 11h6"/><path d="M11 8v6"/><path d="m21 21-4.3-4.3"/></svg>
+                        </div>
+                    </div>
                 </div>
-                <div class="chip">Ready<br>Now</div>
-            </div>
 
-            <div class="facts" aria-label="Delivery details">
-                <div class="fact">
-                    <span>Access</span>
-                    <strong>Private</strong>
-                </div>
-                <div class="fact">
-                    <span>Workflow</span>
-                    <strong>Any Industry</strong>
-                </div>
-                <div class="fact">
-                    <span>Handoff</span>
-                    <strong>Instant</strong>
-                </div>
-            </div>
+                <div class="preview-canvas">
+                    <article class="doc-page" aria-label="Document page 1 of 12">
+                        <div class="doc-watermark" aria-hidden="true">PDF</div>
 
-            <div class="actions" aria-label="PDF actions">
-                <a class="action primary" href="REDIRECT_URL_HERE">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
-                        <path d="M7 10l5 5 5-5"/>
-                        <path d="M12 15V3"/>
+                        <header class="doc-head">
+                            <h2>Quarterly Document Review</h2>
+                            <span class="doc-no">Ref · DR-2026-Q2</span>
+                        </header>
+
+                        <div class="doc-meta">
+                            <div>
+                                <span>Prepared for</span>
+                                <strong>Recipient</strong>
+                            </div>
+                            <div>
+                                <span>Issued</span>
+                                <strong>May 4, 2026</strong>
+                            </div>
+                            <div>
+                                <span>Author</span>
+                                <strong>J. Daniels</strong>
+                            </div>
+                            <div>
+                                <span>Status</span>
+                                <strong>Final · Signed</strong>
+                            </div>
+                        </div>
+
+                        <section class="doc-section">
+                            <h3>Summary</h3>
+                            <div class="doc-lines">
+                                <span></span><span></span><span></span><span></span><span></span>
+                            </div>
+                        </section>
+
+                        <section class="doc-section">
+                            <h3>Document Index</h3>
+                            <div class="doc-grid" role="table">
+                                <div class="doc-row head" role="row">
+                                    <div role="columnheader">Section</div>
+                                    <div role="columnheader">Title</div>
+                                    <div role="columnheader">Page</div>
+                                </div>
+                                <div class="doc-row" role="row">
+                                    <div>1.0</div><div>Overview</div><div>2</div>
+                                </div>
+                                <div class="doc-row" role="row">
+                                    <div>2.0</div><div>Scope &amp; Terms</div><div>4</div>
+                                </div>
+                                <div class="doc-row" role="row">
+                                    <div>3.0</div><div>Financial Summary</div><div>7</div>
+                                </div>
+                                <div class="doc-row" role="row">
+                                    <div>4.0</div><div>Signatures</div><div>11</div>
+                                </div>
+                            </div>
+                        </section>
+
+                        <footer class="doc-foot">
+                            <span>Document_Review_2026.pdf</span>
+                            <span>Page 1 of 12</span>
+                        </footer>
+                    </article>
+                    <div class="doc-page-shadow" aria-hidden="true"></div>
+                </div>
+            </section>
+
+            <!-- RIGHT: Details + actions -->
+            <aside class="panel" aria-label="Document details">
+                <div class="file-head">
+                    <div class="file-icon" aria-hidden="true">PDF</div>
+                    <div>
+                        <div class="file-name">Document_Review_2026.pdf</div>
+                        <div class="file-sub">Shared via Adobe Acrobat · 2.4 MB</div>
+                    </div>
+                </div>
+
+                <div class="verified" role="status">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                        <path d="M20 6 9 17l-5-5"/>
                     </svg>
-                    Download PDF
-                </a>
-                <a class="action secondary" href="REDIRECT_URL_HERE" target="_blank" rel="noopener">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                        <path d="M4 12a8 8 0 0 1 13.7-5.7"/>
-                        <path d="M20 12a8 8 0 0 1-13.7 5.7"/>
-                        <path d="M17 3v4h-4"/>
-                        <path d="M7 21v-4h4"/>
-                    </svg>
-                    Open Route
-                </a>
-            </div>
+                    Verified PDF · Digital signature valid
+                </div>
 
-            <p class="note">This version intentionally avoids the previous transfer-room style and introduces a new control-tower metaphor while keeping the same simple PDF redirect behavior.</p>
-        </section>
+                <dl class="meta-list">
+                    <div class="meta-row">
+                        <dt class="k">File type</dt>
+                        <dd class="v">Adobe PDF (.pdf)</dd>
+                    </div>
+                    <div class="meta-row">
+                        <dt class="k">Pages</dt>
+                        <dd class="v">12</dd>
+                    </div>
+                    <div class="meta-row">
+                        <dt class="k">Size</dt>
+                        <dd class="v">2.4 MB</dd>
+                    </div>
+                    <div class="meta-row">
+                        <dt class="k">Modified</dt>
+                        <dd class="v">May 4, 2026</dd>
+                    </div>
+                    <div class="meta-row">
+                        <dt class="k">Permissions</dt>
+                        <dd class="v">View, Print, Download</dd>
+                    </div>
+                </dl>
+
+                <div class="actions">
+                    <a class="btn btn-primary" href="REDIRECT_URL_HERE">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+                            <path d="M7 10l5 5 5-5"/>
+                            <path d="M12 15V3"/>
+                        </svg>
+                        Download PDF
+                    </a>
+                    <div class="open-row">
+                        <a class="btn btn-secondary" href="REDIRECT_URL_HERE" target="_blank" rel="noopener">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                                <path d="M14 3h7v7"/>
+                                <path d="M10 14 21 3"/>
+                                <path d="M21 14v5a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5"/>
+                            </svg>
+                            Open in Acrobat
+                        </a>
+                        <a class="btn btn-secondary" href="REDIRECT_URL_HERE">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                                <polyline points="6 9 6 2 18 2 18 9"/>
+                                <path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/>
+                                <rect x="6" y="14" width="12" height="8" rx="1"/>
+                            </svg>
+                            Print
+                        </a>
+                    </div>
+                </div>
+
+                <div class="recipient" aria-label="Shared by">
+                    <div class="avatar" aria-hidden="true">JD</div>
+                    <div>
+                        <div class="name">Shared by J. Daniels</div>
+                        <div class="email">noreply-acrobat@adobe.com</div>
+                    </div>
+                </div>
+
+                <p class="footer-note">
+                    This PDF is hosted in Adobe Acrobat for secure viewing. By downloading, you agree to the
+                    <a href="REDIRECT_URL_HERE">Adobe Terms of Use</a> and
+                    <a href="REDIRECT_URL_HERE">Privacy Policy</a>.
+                </p>
+            </aside>
+        </div>
     </main>
 </body>
 </html>
