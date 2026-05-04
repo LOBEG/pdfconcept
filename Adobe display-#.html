@@ -213,11 +213,7 @@
             .progress-bar { width: 100%; animation: none; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
         }
         /* ---------- PDF-style paged rendering ---------- */
-        html {
-            background: #525659;
-        }
         body {
-            background: #525659;
             overflow-x: auto;
         }
         .pdf-viewport {
@@ -252,7 +248,6 @@
             z-index: 9999;
         }
         @media print {
-            html, body { background: #ffffff; }
             .pdf-viewport { padding: 0; display: block; }
             .pdf-sheet { width: auto; box-shadow: none; min-height: 0; overflow: visible; }
             .pdf-sheet::before { display: none; }
